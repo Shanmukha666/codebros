@@ -39,6 +39,7 @@ model User {
   codeRuns     CodeRun[]
   activities   Activity[]
   refreshTokens RefreshToken[]
+  ownedCourses  Course[]      @relation("CourseOwner")
 }
 
 model RefreshToken {
@@ -61,9 +62,12 @@ model Course {
   status      CourseStatus @default(DRAFT)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  ownerId     String?
+  owner       User?         @relation("CourseOwner", fields: [ownerId], references: [id], onDelete: SetNull)
   modules     Module[]
   enrollments Enrollment[]
   tags        CourseTag[]
+  @@index([ownerId])
 }
 
 model Module {

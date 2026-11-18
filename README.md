@@ -50,8 +50,9 @@ will then be available at:
 `https://shanmukha666.github.io/codebros/`
 
 GitHub Pages cannot run the Fastify API or Prisma database. Deploy the backend
-through Vercel as described below, then set the deployed API URL in browser
-storage under `codebros_api_url` when using the Pages frontend.
+through Vercel as described below, then configure the trusted deployed API URL
+with `window.CODEBROS_API_URL` before loading `shared/codebros.js`. The frontend
+does not accept API URLs from browser storage.
 
 ## Vercel deployment
 
@@ -64,8 +65,12 @@ Keep secrets in Vercel environment settings, never in source code or chat. Real 
 
 Seeded demo accounts:
 
-- Student: `demo@codebros.dev` / `CodeBrosDemo!2026`
-- Admin: `admin@codebros.dev` / `CodeBrosDemo!2026`
+- Set `DEMO_STUDENT_PASSWORD` and `DEMO_ADMIN_PASSWORD` before running the seed.
+- Student email: `demo@codebros.dev`
+- Admin email: `admin@codebros.dev`
+- Production seeding is blocked unless `ALLOW_DEMO_SEED=true` is set explicitly.
+
+The password recovery, email verification, 2FA, SSO, connected-account, and recruiter-visibility controls in the static screens are mockups. They do not claim to perform those operations. Profile name and email editing are available through `PATCH /api/me`.
 
 ## Implemented API surfaces
 
@@ -90,7 +95,7 @@ All 16 static screens load `shared/nocturne.css` and `shared/codebros.js`.
 - Practice IDE sends source to the featured challenge endpoint and displays persisted run feedback.
 - Lesson completion actions can persist a lesson when opened with `?lessonId=<id>`.
 - Quiz screen discovers a published quiz automatically when no `quizId` is supplied.
-- Progress and profile screens load authenticated live summaries.
+- Progress and profile screens load authenticated live summaries; profile name and email edits use `PATCH /api/me`.
 - Admin dashboard and student management load live protected data for admin users.
 - Admin course builder can create draft or immediately published courses through the protected API.
 - Mobile navigation collapses the fixed desktop sidebar into a compact top navigation.
@@ -121,7 +126,7 @@ npm run db:seed
 
 ## Product and visual direction
 
-The product brief is in [CodeBros_Product_Requirements_and_100_Point_Blueprint.docx](./CodeBros_Product_Requirements_and_100_Point_Blueprint.docx).
+The product brief is maintained outside the deployable application source.
 
 The recommended visual system is **Nocturne Citrus**:
 

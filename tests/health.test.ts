@@ -1,7 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import assert from 'node:assert/strict';
+import test from 'node:test';
 
-describe('CodeBros API contract', () => {
-  it('documents the health response shape', () => {
-    expect({ ok: true, service: 'codebros-api' }).toMatchObject({ ok: true, service: 'codebros-api' });
-  });
+test('documents the health response shape', () => {
+  assert.deepEqual({ ok: true, service: 'codebros-api' }, { ok: true, service: 'codebros-api' });
 });

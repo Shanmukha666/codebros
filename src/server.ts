@@ -1,17 +1,19 @@
 import Fastify from 'fastify';
+import { randomBytes } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import { z } from 'zod';
-import { authenticate, hashPassword, hashToken, issueTokens, verifyPassword, verifyRefreshToken } from './auth.js';
+import { authenticate, hashPassword, hashToken, issueTokens, verifyPasswordWithTiming, verifyRefreshToken } from './auth.js';
 import { config } from './config.js';
 import { prisma } from './db.js';
 import { sendError } from './errors.js';
-import { runDeterministicChallenge } from './runner.js';
+import { canAccessPublishedCourse, canManageCourse } from './access.js';
+import { passwordSchema } from './validation.js';
 
-const app = Fastify({ logger: true, requestIdHeader: 'x-request-id' });
+const app = Fastify({ logger: true, requestIdHeader: 'x-request-id', trustProxy: config.NODE_ENV === 'production' });
 
 await app.register(helmet);
 await app.register(cookie);
@@ -27,10 +29,11 @@ await app.register(cors, {
 });
 await app.register(rateLimit, { max: 100, timeWindow: '1 minute' });
 
-const registerSchema = z.object({ name: z.string().trim().min(2).max(80), email: z.string().email().max(160), password: z.string().min(8).max(128) });
+const registerSchema = z.object({ name: z.string().trim().min(2).max(80), email: z.string().email().max(160), password: passwordSchema });
 const loginSchema = z.object({ email: z.string().email(), password: z.string().min(1) });
+const profileSchema = z.object({ name: z.string().trim().min(2).max(80), email: z.string().email().max(160) });
 const runSchema = z.object({ source: z.string().max(50000), language: z.string().min(1).max(40) });
-const quizSchema = z.object({ answers: z.record(z.string()) });
+const quizSchema = z.object({ answers: z.record(z.string(), z.string()) });
 const courseSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(3).max(120),
@@ -39,6 +42,24 @@ const courseSchema = z.object({
   accent: z.string().trim().min(2).max(30),
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).default('DRAFT')
 });
+
+function setAuthCookies(reply: any, refreshToken: string) {
+  const csrfToken = randomBytes(32).toString('hex');
+  const production = config.NODE_ENV === 'production';
+  const cookieOptions = { httpOnly: true, sameSite: production ? 'none' as const : 'lax' as const, secure: production, path: '/api/auth' };
+  reply.setCookie('refresh_token', refreshToken, cookieOptions);
+  reply.setCookie('csrf_token', csrfToken, { ...cookieOptions, httpOnly: false, path: '/' });
+}
+
+function requireCsrf(request: any, reply: any) {
+  const cookieToken = request.cookies.csrf_token;
+  const headerToken = request.headers['x-csrf-token'];
+  if (!cookieToken || typeof headerToken !== 'string' || cookieToken !== headerToken) {
+    sendError(reply, 403, 'CSRF_INVALID', 'A valid CSRF token is required.');
+    return false;
+  }
+  return true;
+}
 
 function parseJsonValue<T>(value: unknown, fallback: T): T {
   if (typeof value !== 'string') return value as T;
@@ -57,7 +78,7 @@ app.get('/api/health', async () => {
   return { ok: database === 'up', service: 'codebros-api', database, timestamp: new Date().toISOString() };
 });
 
-app.post('/api/auth/register', async (request, reply) => {
+app.post('/api/auth/register', { config: { rateLimit: { max: 5, timeWindow: '1 minute' } } }, async (request, reply) => {
   const parsed = registerSchema.safeParse(request.body);
   if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Please check the account details.', parsed.error.flatten());
   const email = parsed.data.email.toLowerCase();
@@ -66,21 +87,23 @@ app.post('/api/auth/register', async (request, reply) => {
   const { password, ...profile } = parsed.data;
   const user = await prisma.user.create({ data: { ...profile, email, passwordHash: await hashPassword(password) } });
   const tokens = await issueTokens({ id: user.id, email: user.email, name: user.name, role: user.role as 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' });
-  reply.setCookie('refresh_token', tokens.refreshToken, { httpOnly: true, sameSite: 'lax', secure: config.NODE_ENV === 'production', path: '/api/auth' });
+  setAuthCookies(reply, tokens.refreshToken);
   return reply.code(201).send({ user: { id: user.id, name: user.name, email: user.email, role: user.role }, accessToken: tokens.accessToken });
 });
 
-app.post('/api/auth/login', async (request, reply) => {
+app.post('/api/auth/login', { config: { rateLimit: { max: 10, timeWindow: '1 minute' } } }, async (request, reply) => {
   const parsed = loginSchema.safeParse(request.body);
   if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Email and password are required.');
   const user = await prisma.user.findUnique({ where: { email: parsed.data.email.toLowerCase() } });
-  if (!user || !(await verifyPassword(user.passwordHash, parsed.data.password))) return sendError(reply, 401, 'AUTH_INVALID', 'Email or password is incorrect.');
+  const passwordValid = await verifyPasswordWithTiming(user?.passwordHash ?? null, parsed.data.password);
+  if (!user || !passwordValid) return sendError(reply, 401, 'AUTH_INVALID', 'Email or password is incorrect.');
   const tokens = await issueTokens({ id: user.id, email: user.email, name: user.name, role: user.role as 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' });
-  reply.setCookie('refresh_token', tokens.refreshToken, { httpOnly: true, sameSite: 'lax', secure: config.NODE_ENV === 'production', path: '/api/auth' });
+  setAuthCookies(reply, tokens.refreshToken);
   return { user: { id: user.id, name: user.name, email: user.email, role: user.role }, accessToken: tokens.accessToken };
 });
 
 app.post('/api/auth/refresh', async (request, reply) => {
+  if (!requireCsrf(request, reply)) return;
   const refreshToken = request.cookies.refresh_token;
   if (!refreshToken) return sendError(reply, 401, 'AUTH_REQUIRED', 'A refresh session is required.');
   try {
@@ -88,7 +111,7 @@ app.post('/api/auth/refresh', async (request, reply) => {
     if (!user) return sendError(reply, 401, 'AUTH_INVALID', 'The refresh session is invalid or expired.');
     await prisma.refreshToken.delete({ where: { tokenHash: hashToken(refreshToken) } });
     const tokens = await issueTokens({ id: user.id, email: user.email, name: user.name, role: user.role as 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' });
-    reply.setCookie('refresh_token', tokens.refreshToken, { httpOnly: true, sameSite: 'lax', secure: config.NODE_ENV === 'production', path: '/api/auth' });
+    setAuthCookies(reply, tokens.refreshToken);
     return { accessToken: tokens.accessToken };
   } catch {
     return sendError(reply, 401, 'AUTH_INVALID', 'The refresh session is invalid or expired.');
@@ -96,9 +119,11 @@ app.post('/api/auth/refresh', async (request, reply) => {
 });
 
 app.post('/api/auth/logout', async (request, reply) => {
+  if (!requireCsrf(request, reply)) return;
   const refreshToken = request.cookies.refresh_token;
   if (refreshToken) await prisma.refreshToken.deleteMany({ where: { tokenHash: hashToken(refreshToken) } });
   reply.clearCookie('refresh_token', { path: '/api/auth' });
+  reply.clearCookie('csrf_token', { path: '/' });
   return { ok: true };
 });
 
@@ -108,11 +133,34 @@ app.get('/api/me', async (request, reply) => {
   return { user };
 });
 
+app.patch('/api/me', async (request, reply) => {
+  const user = await authenticate(request, reply);
+  if (!user) return;
+  const parsed = profileSchema.safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Profile details are invalid.', parsed.error.flatten());
+  const email = parsed.data.email.toLowerCase();
+  const existing = await prisma.user.findFirst({ where: { email, NOT: { id: user.id } } });
+  if (existing) return sendError(reply, 409, 'EMAIL_IN_USE', 'An account with this email already exists.');
+  const updated = await prisma.user.update({ where: { id: user.id }, data: { name: parsed.data.name, email } });
+  return { user: { id: updated.id, name: updated.name, email: updated.email, role: updated.role } };
+});
+
 app.get('/api/courses', async (request) => {
   const query = z.object({ search: z.string().optional(), level: z.string().optional(), page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(12) }).parse(request.query);
-  const where = { status: 'PUBLISHED' as const, ...(query.level ? { level: query.level } : {}), ...(query.search ? { OR: [{ title: { contains: query.search, mode: 'insensitive' as const } }, { description: { contains: query.search, mode: 'insensitive' as const } }] } : {}) };
+  const where = { status: 'PUBLISHED' as const, ...(query.level ? { level: query.level } : {}), ...(query.search ? { OR: [{ title: { contains: query.search } }, { description: { contains: query.search } }] } : {}) };
   const [items, total] = await prisma.$transaction([
-    prisma.course.findMany({ where, include: { tags: { include: { tag: true } }, modules: { include: { lessons: true }, orderBy: { position: 'asc' } }, _count: { select: { enrollments: true } } }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: { createdAt: 'desc' } }),
+    prisma.course.findMany({
+      where,
+      select: {
+        id: true, slug: true, title: true, description: true, level: true, accent: true, status: true, createdAt: true,
+        tags: { select: { tag: { select: { id: true, name: true } } } },
+        modules: { select: { id: true, title: true, position: true, lessons: { select: { id: true, title: true, slug: true, position: true, summary: true } }, }, orderBy: { position: 'asc' } },
+        _count: { select: { enrollments: true } }
+      },
+      skip: (query.page - 1) * query.limit,
+      take: query.limit,
+      orderBy: { createdAt: 'desc' }
+    }),
     prisma.course.count({ where })
   ]);
   return { items, page: query.page, limit: query.limit, total };
@@ -122,7 +170,7 @@ app.get('/api/challenges/featured', async (_request, reply) => {
   const challenge = await prisma.challenge.findFirst({
     where: { lesson: { module: { course: { status: 'PUBLISHED' } } } },
     orderBy: { lesson: { module: { course: { createdAt: 'asc' } } } },
-    include: { lesson: { include: { module: { include: { course: true } } } } }
+    select: { id: true, title: true, instructions: true, language: true, starterCode: true, lessonId: true }
   });
   if (!challenge) return sendError(reply, 404, 'CHALLENGE_NOT_FOUND', 'No practice challenge is published yet.');
   return { challenge };
@@ -132,7 +180,7 @@ app.get('/api/courses/:courseId/lessons/:lessonId', async (request, reply) => {
   const user = await authenticate(request, reply); if (!user) return;
   const { courseId, lessonId } = z.object({ courseId: z.string(), lessonId: z.string() }).parse(request.params);
   const enrollment = await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId } }, include: { course: true } });
-  if (!enrollment || enrollment.course.status !== 'PUBLISHED') return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course to access its lessons.');
+  if (!canAccessPublishedCourse(Boolean(enrollment), enrollment?.course.status ?? '')) return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course to access its lessons.');
   const lesson = await prisma.lesson.findFirst({
     where: { id: lessonId, module: { courseId, course: { status: 'PUBLISHED' } } },
     include: { challenge: true, quiz: { include: { questions: { orderBy: { position: 'asc' } } } } }
@@ -185,7 +233,7 @@ app.post('/api/lessons/:lessonId/complete', async (request, reply) => {
   const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { module: { include: { course: true } } } });
   if (!lesson) return sendError(reply, 404, 'LESSON_NOT_FOUND', 'That lesson does not exist.');
   const enrollment = await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: lesson.module.courseId } } });
-  if (!enrollment || lesson.module.course.status !== 'PUBLISHED') return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before completing its lessons.');
+  if (!canAccessPublishedCourse(Boolean(enrollment), lesson.module.course.status)) return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before completing its lessons.');
   const completion = await prisma.lessonCompletion.upsert({ where: { userId_lessonId: { userId: user.id, lessonId } }, create: { userId: user.id, lessonId }, update: {} });
   await prisma.activity.create({ data: { userId: user.id, type: 'LESSON_COMPLETED', metadata: jsonForDatabase({ lessonId }) } });
   return { completion };
@@ -196,10 +244,11 @@ app.post('/api/quizzes/:quizId/attempts', async (request, reply) => {
   const { quizId } = z.object({ quizId: z.string() }).parse(request.params);
   const parsed = quizSchema.safeParse(request.body);
   if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Answers must be supplied as a question-to-answer map.');
-  const quiz = await prisma.quiz.findUnique({ where: { id: quizId }, include: { questions: true } });
+  const quiz = await prisma.quiz.findUnique({ where: { id: quizId }, include: { questions: true, lesson: { include: { module: true } } } });
   if (!quiz) return sendError(reply, 404, 'QUIZ_NOT_FOUND', 'That quiz does not exist.');
-  const quizContext = await prisma.quiz.findUnique({ where: { id: quizId }, include: { lesson: { include: { module: { include: { course: true } } } } } });
-  if (!quizContext || quizContext.lesson.module.course.status !== 'PUBLISHED' || !(await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: quizContext.lesson.module.courseId } } }))) {
+  const course = await prisma.course.findUnique({ where: { id: quiz.lesson.module.courseId } });
+  const enrollment = course ? await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: course.id } } }) : null;
+  if (!course || !canAccessPublishedCourse(Boolean(enrollment), course.status)) {
     return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before submitting a quiz.');
   }
   const score = quiz.questions.reduce((total, question) => total + (parsed.data.answers[question.id] === question.answer ? 1 : 0), 0);
@@ -208,10 +257,25 @@ app.post('/api/quizzes/:quizId/attempts', async (request, reply) => {
 });
 
 app.get('/api/quizzes/:quizId', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
   const { quizId } = z.object({ quizId: z.string() }).parse(request.params);
-  const quiz = await prisma.quiz.findUnique({ where: { id: quizId }, include: { questions: { orderBy: { position: 'asc' } } } });
+  const quiz = await prisma.quiz.findUnique({
+    where: { id: quizId },
+    include: {
+      lesson: { include: { module: { include: { course: true } } } },
+      questions: { orderBy: { position: 'asc' } }
+    }
+  });
   if (!quiz) return sendError(reply, 404, 'QUIZ_NOT_FOUND', 'That quiz does not exist.');
-  return { quiz: { ...quiz, questions: quiz.questions.map(({ answer: _answer, ...question }) => ({ ...question, options: parseJsonValue<string[]>(question.options, []) })) } };
+  const enrollment = await prisma.enrollment.findUnique({
+    where: { userId_courseId: { userId: user.id, courseId: quiz.lesson.module.courseId } }
+  });
+  if (!canAccessPublishedCourse(Boolean(enrollment), quiz.lesson.module.course.status)) {
+    return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course to access this quiz.');
+  }
+  const { lesson: _lesson, ...quizData } = quiz;
+  const sanitizedQuiz = { ...quizData, questions: quizData.questions.map(({ answer: _answer, ...question }) => ({ ...question, options: parseJsonValue<string[]>(question.options, []) })) };
+  return { quiz: sanitizedQuiz };
 });
 
 app.get('/api/quizzes/featured', async (_request, reply) => {
@@ -230,15 +294,14 @@ app.post('/api/challenges/:challengeId/runs', async (request, reply) => {
   if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'A language and source string are required.');
   const challenge = await prisma.challenge.findUnique({ where: { id: challengeId } });
   if (!challenge) return sendError(reply, 404, 'CHALLENGE_NOT_FOUND', 'That challenge does not exist.');
-  const challengeContext = await prisma.challenge.findUnique({ where: { id: challengeId }, include: { lesson: { include: { module: { include: { course: true } } } } } });
-  if (!challengeContext || challengeContext.lesson.module.course.status !== 'PUBLISHED' || !(await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: challengeContext.lesson.module.courseId } } }))) {
+  const challengeContext = await prisma.challenge.findUnique({ where: { id: challengeId }, include: { lesson: { include: { module: true } } } });
+  const course = challengeContext ? await prisma.course.findUnique({ where: { id: challengeContext.lesson.module.courseId } }) : null;
+  const enrollment = course ? await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: course.id } } }) : null;
+  if (!course || !canAccessPublishedCourse(Boolean(enrollment), course.status)) {
     return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before running its challenges.');
   }
   if (parsed.data.language !== challenge.language) return sendError(reply, 400, 'LANGUAGE_MISMATCH', 'Use the language configured for this challenge.');
-  const tests = parseJsonValue<{ label: string; expected: string }[]>(challenge.tests, []);
-  const result = runDeterministicChallenge(parsed.data.source, tests);
-  const codeRun = await prisma.codeRun.create({ data: { userId: user.id, challengeId, language: parsed.data.language, source: parsed.data.source, ...result } });
-  return reply.code(201).send({ codeRun, feedback: result.output });
+  return sendError(reply, 503, 'RUNNER_UNAVAILABLE', 'Secure challenge execution is not available yet. Results are not recorded.');
 });
 
 app.get('/api/admin/overview', async (request, reply) => {
@@ -252,7 +315,7 @@ app.get('/api/admin/students', async (request, reply) => {
   const user = await authenticate(request, reply); if (!user) return;
   if (user.role !== 'ADMIN') return sendError(reply, 403, 'FORBIDDEN', 'Admin access is required.');
   const query = z.object({ search: z.string().optional(), page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(20) }).parse(request.query);
-  const where = { role: 'STUDENT' as const, ...(query.search ? { OR: [{ name: { contains: query.search, mode: 'insensitive' as const } }, { email: { contains: query.search, mode: 'insensitive' as const } }] } : {}) };
+  const where = { role: 'STUDENT' as const, ...(query.search ? { OR: [{ name: { contains: query.search } }, { email: { contains: query.search } }] } : {}) };
   const [items, total] = await prisma.$transaction([
     prisma.user.findMany({ where, select: { id: true, name: true, email: true, createdAt: true, _count: { select: { enrollments: true, completions: true, codeRuns: true } } }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: { createdAt: 'desc' } }),
     prisma.user.count({ where })
@@ -267,7 +330,7 @@ app.post('/api/admin/courses', async (request, reply) => {
   if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Course details are invalid.', parsed.error.flatten());
   const existing = await prisma.course.findUnique({ where: { slug: parsed.data.slug } });
   if (existing) return sendError(reply, 409, 'SLUG_IN_USE', 'Choose a unique course slug.');
-  const course = await prisma.course.create({ data: parsed.data });
+  const course = await prisma.course.create({ data: { ...parsed.data, ownerId: user.role === 'INSTRUCTOR' ? user.id : null } });
   return reply.code(201).send({ course });
 });
 
@@ -279,6 +342,7 @@ app.patch('/api/admin/courses/:courseId', async (request, reply) => {
   if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Course updates are invalid.', parsed.error.flatten());
   const existing = await prisma.course.findUnique({ where: { id: courseId } });
   if (!existing) return sendError(reply, 404, 'COURSE_NOT_FOUND', 'That course does not exist.');
+  if (!canManageCourse(user.role, user.id, existing.ownerId)) return sendError(reply, 403, 'FORBIDDEN', 'Instructors may only update courses they own.');
   const course = await prisma.course.update({ where: { id: courseId }, data: parsed.data });
   return { course };
 });
@@ -286,6 +350,14 @@ app.patch('/api/admin/courses/:courseId', async (request, reply) => {
 app.setErrorHandler((error, request, reply) => {
   request.log.error(error);
   if (error instanceof z.ZodError) return sendError(reply, 400, 'VALIDATION_ERROR', 'The request could not be validated.', error.flatten());
+  const errorRecord = typeof error === 'object' && error !== null ? error as { statusCode?: unknown; message?: unknown } : {};
+  const statusCode = typeof errorRecord.statusCode === 'number' && errorRecord.statusCode >= 400 && errorRecord.statusCode < 600 ? errorRecord.statusCode : 500;
+  if (statusCode === 404) return sendError(reply, 404, 'NOT_FOUND', 'The requested resource was not found.');
+  if (statusCode === 429) return sendError(reply, 429, 'RATE_LIMITED', 'Too many requests. Please try again shortly.');
+  if (statusCode >= 400 && statusCode < 500) {
+    const message = typeof errorRecord.message === 'string' ? errorRecord.message : 'The request could not be processed.';
+    return sendError(reply, statusCode, 'REQUEST_ERROR', message);
+  }
   return sendError(reply, 500, 'INTERNAL_ERROR', 'Something went wrong while processing the request.');
 });
 

@@ -6,9 +6,21 @@ const isSqlite = (process.env.DATABASE_URL || '').startsWith('file:');
 const json = (value: unknown): any => isSqlite ? JSON.stringify(value) : value;
 
 async function main() {
-  const passwordHash = await argon2.hash('CodeBrosDemo!2026');
-  const student = await prisma.user.upsert({ where: { email: 'demo@codebros.dev' }, update: {}, create: { email: 'demo@codebros.dev', name: 'Demo Student', passwordHash, role: 'STUDENT' } });
-  await prisma.user.upsert({ where: { email: 'admin@codebros.dev' }, update: {}, create: { email: 'admin@codebros.dev', name: 'CodeBros Admin', passwordHash, role: 'ADMIN' } });
+  if (process.env.NODE_ENV === 'production' && process.env.ALLOW_DEMO_SEED !== 'true') {
+    throw new Error('Demo seed is disabled in production. Set ALLOW_DEMO_SEED=true only for an explicitly authorized demo database.');
+  }
+  const demoPassword = process.env.DEMO_STUDENT_PASSWORD;
+  const adminPassword = process.env.DEMO_ADMIN_PASSWORD;
+  if (!demoPassword) {
+    throw new Error('DEMO_STUDENT_PASSWORD is required to seed demo accounts.');
+  }
+  if (!adminPassword) {
+    throw new Error('DEMO_ADMIN_PASSWORD is required to seed demo accounts.');
+  }
+  const passwordHash = await argon2.hash(demoPassword);
+  const adminPasswordHash = await argon2.hash(adminPassword);
+  const student = await prisma.user.upsert({ where: { email: 'demo@codebros.dev' }, update: { passwordHash }, create: { email: 'demo@codebros.dev', name: 'Demo Student', passwordHash, role: 'STUDENT' } });
+  await prisma.user.upsert({ where: { email: 'admin@codebros.dev' }, update: { passwordHash: adminPasswordHash, role: 'ADMIN' }, create: { email: 'admin@codebros.dev', name: 'CodeBros Admin', passwordHash: adminPasswordHash, role: 'ADMIN' } });
   const course = await prisma.course.upsert({ where: { slug: 'javascript-foundations' }, update: {}, create: { slug: 'javascript-foundations', title: 'JavaScript Foundations', description: 'Build your first reliable mental model for variables, loops, and functions.', level: 'Beginner', accent: 'citrus', status: 'PUBLISHED' } });
   const module = await prisma.module.upsert({ where: { courseId_position: { courseId: course.id, position: 1 } }, update: {}, create: { courseId: course.id, title: 'Think in steps', position: 1 } });
   const lesson = await prisma.lesson.upsert({ where: { moduleId_position: { moduleId: module.id, position: 1 } }, update: {}, create: { moduleId: module.id, title: 'Loops that explain themselves', slug: 'loops-that-explain-themselves', position: 1, summary: 'Use loops to transform a list without losing your reasoning.', content: 'A loop is a repeatable decision. Start with the input, name the transformation, and make the output observable.' } });
@@ -33,7 +45,7 @@ async function main() {
     const companionLesson = await prisma.lesson.upsert({ where: { moduleId_position: { moduleId: companionModule.id, position: 1 } }, update: {}, create: { moduleId: companionModule.id, title: `Your first ${item.language} pattern`, slug: `${item.slug}-first-pattern`, position: 1, summary: `Learn one useful ${item.language} pattern and prove it with a small challenge.`, content: 'Start with the input, name the transformation, and make the output observable.' } });
     await prisma.challenge.upsert({ where: { lessonId: companionLesson.id }, update: {}, create: { lessonId: companionLesson.id, title: `${item.language} pattern lab`, instructions: 'Write a small solution that includes the expected values in its output.', language: item.language, starterCode: '// your solution here', tests: json([{ label: 'contains 3', expected: '3' }]) } });
   }
-  console.log('Seeded CodeBros demo data. Demo login: demo@codebros.dev / CodeBrosDemo!2026');
+  console.log('Seeded CodeBros demo data using the configured demo credentials.');
 }
 
 main().catch((error) => { console.error(error); process.exit(1); }).finally(() => prisma.$disconnect());

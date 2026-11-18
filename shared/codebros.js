@@ -1,13 +1,12 @@
 (function () {
   "use strict";
 
-  const API_BASE = localStorage.getItem("codebros_api_url") ||
-    window.CODEBROS_API_URL ||
+  const API_BASE = window.CODEBROS_API_URL ||
     (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
       ? "http://localhost:4000/api"
       : "/api");
   const folder = window.location.pathname.split(/[\\/]/).slice(-2, -1)[0] || "";
-  const tokenKey = "codebros_access_token";
+  let accessToken = null;
 
   const routes = {
     signIn: "../codebros_sign_in/code.html",
@@ -39,17 +38,27 @@
     }[character]));
   }
 
+  function csrfToken() {
+    const cookie = document.cookie.split("; ").find((item) => item.startsWith("csrf_token="));
+    return cookie ? decodeURIComponent(cookie.slice("csrf_token=".length)) : "";
+  }
+
   async function request(path, options) {
     const config = Object.assign({ credentials: "include", headers: {} }, options || {});
     config.headers = Object.assign({ "Content-Type": "application/json" }, config.headers);
-    const token = localStorage.getItem(tokenKey);
+    if (path === "/auth/logout") config.headers["X-CSRF-Token"] = csrfToken();
+    const token = accessToken;
     if (token) config.headers.Authorization = "Bearer " + token;
     let response = await fetch(API_BASE + path, config);
-    if (response.status === 401 && token) {
-      const refresh = await fetch(API_BASE + "/auth/refresh", { method: "POST", credentials: "include" });
+    if (response.status === 401 && path !== "/auth/refresh") {
+      const refresh = await fetch(API_BASE + "/auth/refresh", {
+        method: "POST",
+        credentials: "include",
+        headers: { "X-CSRF-Token": csrfToken() }
+      });
       if (refresh.ok) {
         const refreshed = await refresh.json();
-        localStorage.setItem(tokenKey, refreshed.accessToken);
+        accessToken = refreshed.accessToken;
         config.headers.Authorization = "Bearer " + refreshed.accessToken;
         response = await fetch(API_BASE + path, config);
       }
@@ -104,34 +113,12 @@
         try {
           const values = formValues(login);
           const result = await request("/auth/login", { method: "POST", body: JSON.stringify({ email: values.email, password: values.password }) });
-          localStorage.setItem(tokenKey, result.accessToken);
+          accessToken = result.accessToken;
           toast("Signed in. Opening your studio...");
           window.setTimeout(() => redirect("dashboard"), 500);
         } catch (error) {
           toast(error.message, "error");
           if (button) button.disabled = false;
-        }
-
-        function wireLogout() {
-          const logout = Array.from(document.querySelectorAll("a, button")).find((element) => /log\s*out/i.test(element.textContent || ""));
-          if (!logout) return;
-          logout.addEventListener("click", async (event) => {
-            event.preventDefault();
-            try { await request("/auth/logout", { method: "POST" }); } catch (_) { /* local cleanup still matters */ }
-            localStorage.removeItem(tokenKey);
-            redirect("signIn");
-          });
-        }
-
-        function wireLogout() {
-          const logout = Array.from(document.querySelectorAll("a, button")).find((element) => /log\s*out/i.test(element.textContent || ""));
-          if (!logout) return;
-          logout.addEventListener("click", async (event) => {
-            event.preventDefault();
-            try { await request("/auth/logout", { method: "POST" }); } catch (_) { /* local cleanup still matters */ }
-            localStorage.removeItem(tokenKey);
-            redirect("signIn");
-          });
         }
       });
     }
@@ -147,7 +134,7 @@
         }
         try {
           const result = await request("/auth/register", { method: "POST", body: JSON.stringify({ name: values.name || values.fullName || "New Student", email: values.email, password: values.password }) });
-          localStorage.setItem(tokenKey, result.accessToken);
+          accessToken = result.accessToken;
           toast("Account created. Welcome to CodeBros.");
           window.setTimeout(() => redirect("dashboard"), 500);
         } catch (error) {
@@ -157,10 +144,26 @@
     }
   }
 
+  function wireLogout() {
+    const logout = Array.from(document.querySelectorAll("a, button")).find((element) => /log\s*out/i.test(element.textContent || ""));
+    if (!logout) return;
+    logout.addEventListener("click", async (event) => {
+      event.preventDefault();
+      try { await request("/auth/logout", { method: "POST" }); } catch (_) { /* local cleanup still matters */ }
+      accessToken = null;
+      redirect("signIn");
+    });
+  }
+
   function addLivePanel(title, text) {
     const panel = document.createElement("section");
     panel.className = "cb-live-panel";
-    panel.innerHTML = "<strong>" + title + "</strong><p style='margin:6px 0 0'>" + text + "</p>";
+    const heading = document.createElement("strong");
+    heading.textContent = String(title);
+    const copy = document.createElement("p");
+    copy.style.margin = "6px 0 0";
+    copy.textContent = String(text);
+    panel.append(heading, copy);
     const main = document.querySelector("main");
     if (main) main.prepend(panel);
   }
@@ -191,75 +194,44 @@
         document.querySelector("main")?.prepend(panel);
       }
 
-      function wireCourseBuilderLegacy() {
-        if (folder !== "admin_course_builder") return;
-        const panel = document.createElement("section");
-        panel.className = "cb-live-panel";
-        panel.innerHTML = "<strong>Publish a course</strong><form class='cb-course-form' style='display:grid;gap:10px;margin-top:12px'>" +
-          "<input name='title' required placeholder='Course title' aria-label='Course title'>" +
-          "<input name='slug' required pattern='[a-z0-9]+(?:-[a-z0-9]+)*' placeholder='course-slug' aria-label='Course slug'>" +
-          "<textarea name='description' required minlength='20' placeholder='What will students build?' aria-label='Course description'></textarea>" +
-          "<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><select name='level' aria-label='Course level'><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><input name='accent' required value='citrus' placeholder='Accent token' aria-label='Course accent'></div>" +
-          "<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' name='publish'> Publish immediately</label>" +
-          "<button type='submit' style='background:var(--cb-mineral);color:white;padding:10px 14px;border:0;border-radius:10px'>Create course</button></form>";
-        document.querySelector("main")?.prepend(panel);
-        panel.querySelector("form")?.addEventListener("submit", async (event) => {
-          event.preventDefault();
-          const values = Object.fromEntries(new FormData(event.currentTarget).entries());
-          try {
-            const result = await request("/admin/courses", {
-              method: "POST",
-              body: JSON.stringify({
-                title: values.title, slug: values.slug, description: values.description,
-                level: values.level, accent: values.accent,
-                status: values.publish ? "PUBLISHED" : "DRAFT"
-              })
-            });
-            toast(result.course.title + " created.");
-            event.currentTarget.reset();
-          } catch (error) {
-            toast(error.message, "error");
-          }
-        });
-      }
-
-      function wireCourseBuilder() {
-        if (folder !== "admin_course_builder") return;
-        const panel = document.createElement("section");
-        panel.className = "cb-live-panel";
-        panel.innerHTML = "<strong>Publish a course</strong><form class='cb-course-form' style='display:grid;gap:10px;margin-top:12px'>" +
-          "<input name='title' required placeholder='Course title' aria-label='Course title'>" +
-          "<input name='slug' required pattern='[a-z0-9]+(?:-[a-z0-9]+)*' placeholder='course-slug' aria-label='Course slug'>" +
-          "<textarea name='description' required minlength='20' placeholder='What will students build?' aria-label='Course description'></textarea>" +
-          "<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><select name='level' aria-label='Course level'><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><input name='accent' required value='citrus' placeholder='Accent token' aria-label='Course accent'></div>" +
-          "<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' name='publish'> Publish immediately</label>" +
-          "<button type='submit' style='background:var(--cb-mineral);color:white;padding:10px 14px;border:0;border-radius:10px'>Create course</button></form>";
-        document.querySelector("main")?.prepend(panel);
-        panel.querySelector("form")?.addEventListener("submit", async (event) => {
-          event.preventDefault();
-          const values = Object.fromEntries(new FormData(event.currentTarget).entries());
-          try {
-            const result = await request("/admin/courses", {
-              method: "POST",
-              body: JSON.stringify({
-                title: values.title,
-                slug: values.slug,
-                description: values.description,
-                level: values.level,
-                accent: values.accent,
-                status: values.publish ? "PUBLISHED" : "DRAFT"
-              })
-            });
-            toast(result.course.title + " created.");
-            event.currentTarget.reset();
-          } catch (error) {
-            toast(error.message, "error");
-          }
-        });
-      }
     } catch (error) {
       addLivePanel("Admin API connection needed", error.message);
     }
+  }
+
+  function wireCourseBuilder() {
+    if (folder !== "admin_course_builder") return;
+    const panel = document.createElement("section");
+    panel.className = "cb-live-panel";
+    panel.innerHTML = "<strong>Publish a course</strong><form class='cb-course-form' style='display:grid;gap:10px;margin-top:12px'>" +
+      "<input name='title' required placeholder='Course title' aria-label='Course title'>" +
+      "<input name='slug' required pattern='[a-z0-9]+(?:-[a-z0-9]+)*' placeholder='course-slug' aria-label='Course slug'>" +
+      "<textarea name='description' required minlength='20' placeholder='What will students build?' aria-label='Course description'></textarea>" +
+      "<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><select name='level' aria-label='Course level'><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><input name='accent' required value='citrus' placeholder='Accent token' aria-label='Course accent'></div>" +
+      "<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' name='publish'> Publish immediately</label>" +
+      "<button type='submit' style='background:var(--cb-mineral);color:white;padding:10px 14px;border:0;border-radius:10px'>Create course</button></form>";
+    document.querySelector("main")?.prepend(panel);
+    panel.querySelector("form")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+      try {
+        const result = await request("/admin/courses", {
+          method: "POST",
+          body: JSON.stringify({
+            title: values.title,
+            slug: values.slug,
+            description: values.description,
+            level: values.level,
+            accent: values.accent,
+            status: values.publish ? "PUBLISHED" : "DRAFT"
+          })
+        });
+        toast(result.course.title + " created.");
+        event.currentTarget.reset();
+      } catch (error) {
+        toast(error.message, "error");
+      }
+    });
   }
 
   async function wireCatalog() {
@@ -336,25 +308,6 @@
         window.history.replaceState({}, "", "?quizId=" + encodeURIComponent(quizId));
       }
 
-      async function wireProgress() {
-        if (folder !== "student_progress_analytics") return;
-        try {
-          const data = await request("/progress");
-          addLivePanel("Live progress", "You have activity across " + data.courses.length + " course(s) and " + data.recentActivity.length + " recent learning event(s).");
-        } catch (error) {
-          addLivePanel("Progress API connection needed", error.message);
-        }
-      }
-
-      async function wireProfile() {
-        if (folder !== "student_profile_account_settings") return;
-        try {
-          const data = await request("/me");
-          addLivePanel("Live profile", data.user.name + " · " + data.user.email + " · " + data.user.role.toLowerCase());
-        } catch (error) {
-          addLivePanel("Profile API connection needed", error.message);
-        }
-      }
       const data = await request("/quizzes/" + quizId);
       const group = document.querySelector("#optionsGroup");
       const question = data.quiz.questions[0];
@@ -376,25 +329,51 @@
       addLivePanel("Quiz unavailable", error.message);
     }
 
-    async function wireProgress() {
-      if (folder !== "student_progress_analytics") return;
-      try {
-        const data = await request("/progress");
-        const courseCount = data.courses.length;
-        addLivePanel("Live progress", "You have activity across " + courseCount + " course(s) and " + data.recentActivity.length + " recent learning event(s).");
-      } catch (error) {
-        addLivePanel("Progress API connection needed", error.message);
-      }
-    }
+  }
 
-    async function wireProfile() {
-      if (folder !== "student_profile_account_settings") return;
-      try {
-        const data = await request("/me");
-        addLivePanel("Live profile", data.user.name + " · " + data.user.email + " · " + data.user.role.toLowerCase());
-      } catch (error) {
-        addLivePanel("Profile API connection needed", error.message);
+  async function wireProgress() {
+    if (folder !== "student_progress_analytics") return;
+    try {
+      const data = await request("/progress");
+      addLivePanel("Live progress", "You have activity across " + data.courses.length + " course(s) and " + data.recentActivity.length + " recent learning event(s).");
+    } catch (error) {
+      addLivePanel("Progress API connection needed", error.message);
+    }
+  }
+
+  async function wireProfile() {
+    if (folder !== "student_profile_account_settings") return;
+    try {
+      const data = await request("/me");
+      addLivePanel("Live profile", data.user.name + " · " + data.user.email + " · " + data.user.role.toLowerCase());
+      const form = document.querySelector("main form");
+      const inputs = form ? Array.from(form.querySelectorAll("input")) : [];
+      if (form && inputs.length >= 3) {
+        inputs[0].value = data.user.name.split(" ")[0] || data.user.name;
+        inputs[1].value = data.user.name.split(" ").slice(1).join(" ");
+        inputs[2].value = data.user.email;
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          try {
+            const result = await request("/me", {
+              method: "PATCH",
+              body: JSON.stringify({ name: [inputs[0].value, inputs[1].value].filter(Boolean).join(" "), email: inputs[2].value })
+            });
+            toast("Profile updated.");
+            addLivePanel("Profile saved", result.user.name + " · " + result.user.email);
+          } catch (error) {
+            toast(error.message, "error");
+          }
+        });
       }
+    } catch (error) {
+      addLivePanel("Profile API connection needed", error.message);
+    }
+  }
+
+  function wireRecoveryMockup() {
+    if (folder === "codebros_password_2fa_recovery" || folder === "codebros_password_reset_success") {
+      addLivePanel("Mockup screen", "Password recovery, 2FA, SSO, and token revocation are not connected to backend services yet.");
     }
   }
 
@@ -462,6 +441,7 @@
     wireQuiz();
     wireProgress();
     wireProfile();
+    wireRecoveryMockup();
     wirePractice();
     wireLessonCompletion();
     wireImageFallbacks();

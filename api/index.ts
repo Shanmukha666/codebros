@@ -12,12 +12,13 @@ export default async function handler(request: IncomingMessage, response: Server
     headers: Record<string, string | string[] | undefined>;
     rawPayload: Buffer;
   };
-  const inject = app.inject as unknown as (options: { method: string; url: string; headers: IncomingHttpHeaders; payload?: Buffer }) => Promise<InjectedResponse>;
+  const inject = app.inject as unknown as (options: { method: string; url: string; headers: IncomingHttpHeaders; payload?: Buffer; remoteAddress?: string }) => Promise<InjectedResponse>;
   const result = await inject({
     method: request.method || 'GET',
     url,
     headers: request.headers as IncomingHttpHeaders,
-    payload
+    payload,
+    remoteAddress: request.socket?.remoteAddress
   });
 
   response.statusCode = result.statusCode;

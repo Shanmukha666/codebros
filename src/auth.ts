@@ -8,6 +8,9 @@ import { sendError } from './errors.js';
 
 const accessSecret = new TextEncoder().encode(config.ACCESS_TOKEN_SECRET);
 const refreshSecret = new TextEncoder().encode(config.REFRESH_TOKEN_SECRET);
+const tokenIssuer = 'codebros-api';
+const tokenAudience = 'codebros-web';
+const dummyPasswordHashPromise = argon2.hash('CodeBros-invalid-password-only-for-timing');
 
 export type AuthUser = { id: string; email: string; name: string; role: 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' };
 
@@ -19,10 +22,16 @@ export async function verifyPassword(hash: string, password: string) {
   return argon2.verify(hash, password);
 }
 
+export async function verifyPasswordWithTiming(hash: string | null, password: string) {
+  return argon2.verify(hash ?? await dummyPasswordHashPromise, password);
+}
+
 async function signToken(user: AuthUser, secret: Uint8Array, expiration: string) {
   return new SignJWT({ email: user.email, name: user.name, role: user.role })
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(user.id)
+    .setIssuer(tokenIssuer)
+    .setAudience(tokenAudience)
     .setIssuedAt()
     .setExpirationTime(expiration)
     .sign(secret);
@@ -42,7 +51,7 @@ export async function issueTokens(user: AuthUser) {
 }
 
 export async function verifyRefreshToken(token: string) {
-  const verified = await jwtVerify(token, refreshSecret);
+  const verified = await jwtVerify(token, refreshSecret, { issuer: tokenIssuer, audience: tokenAudience });
   const tokenRecord = await prisma.refreshToken.findUnique({
     where: { tokenHash: hashToken(token) },
     include: { user: true }
@@ -60,7 +69,7 @@ export async function authenticate(request: FastifyRequest, reply: any) {
     return null;
   }
   try {
-    const verified = await jwtVerify(header.slice(7), accessSecret);
+    const verified = await jwtVerify(header.slice(7), accessSecret, { issuer: tokenIssuer, audience: tokenAudience });
     const user = await prisma.user.findUnique({ where: { id: verified.payload.sub } });
     if (!user) {
       sendError(reply, 401, 'AUTH_INVALID', 'The access token does not belong to an active user.');
