@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" role="img" aria-labelledby="title">
+  <title id="title">CodeBros</title>
+  <rect width="40" height="40" rx="12" fill="#0b7772"/>
+  <path d="M25.6 12.3a11 11 0 1 0 0 15.4l-3.5-3.5a6 6 0 1 1 0-8.4z" fill="#fff5e8"/>
+  <circle cx="27.5" cy="20" r="3.2" fill="#f3a43b"/>
+  <text x="49" y="27" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#172746">CodeBros</text>
+</svg>

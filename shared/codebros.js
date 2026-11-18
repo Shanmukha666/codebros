@@ -1,7 +1,11 @@
 (function () {
   "use strict";
 
-  const API_BASE = localStorage.getItem("codebros_api_url") || "http://localhost:4000/api";
+  const API_BASE = localStorage.getItem("codebros_api_url") ||
+    window.CODEBROS_API_URL ||
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://localhost:4000/api"
+      : "/api");
   const folder = window.location.pathname.split(/[\\/]/).slice(-2, -1)[0] || "";
   const tokenKey = "codebros_access_token";
 
@@ -66,7 +70,9 @@
         "sign-in": "signIn", "sign-up": "signUp", "forgot-password": "recovery", "explore-courses": "courses",
         courses: "courses", "student-curriculum": "dashboard", "platform-home": "home",
         "practice-ide": "ide", quizzes: "quiz", progress: "progress", profile: "profile",
-        community: "home"
+        community: "home", "admin-portal": "admin", "help-center": "home",
+        "security-incident": "home", "terms-of-service": "home",
+        "privacy-policy": "home", "student-honor-code": "home"
       };
       if (mapping[path]) {
         link.setAttribute("href", routes[mapping[path]]);
@@ -104,6 +110,17 @@
         } catch (error) {
           toast(error.message, "error");
           if (button) button.disabled = false;
+        }
+
+        function wireLogout() {
+          const logout = Array.from(document.querySelectorAll("a, button")).find((element) => /log\s*out/i.test(element.textContent || ""));
+          if (!logout) return;
+          logout.addEventListener("click", async (event) => {
+            event.preventDefault();
+            try { await request("/auth/logout", { method: "POST" }); } catch (_) { /* local cleanup still matters */ }
+            localStorage.removeItem(tokenKey);
+            redirect("signIn");
+          });
         }
 
         function wireLogout() {
@@ -172,6 +189,38 @@
         panel.className = "cb-live-panel";
         panel.innerHTML = "<strong>Live student directory</strong><p style='margin:6px 0 12px'>" + escapeHtml(data.total) + " student(s) in the platform.</p>" + data.items.map((student) => "<div style='display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--cb-line)'><span>" + escapeHtml(student.name) + "</span><small>" + escapeHtml(student.email) + " · " + escapeHtml(student._count.completions) + " completions</small></div>").join("");
         document.querySelector("main")?.prepend(panel);
+      }
+
+      function wireCourseBuilderLegacy() {
+        if (folder !== "admin_course_builder") return;
+        const panel = document.createElement("section");
+        panel.className = "cb-live-panel";
+        panel.innerHTML = "<strong>Publish a course</strong><form class='cb-course-form' style='display:grid;gap:10px;margin-top:12px'>" +
+          "<input name='title' required placeholder='Course title' aria-label='Course title'>" +
+          "<input name='slug' required pattern='[a-z0-9]+(?:-[a-z0-9]+)*' placeholder='course-slug' aria-label='Course slug'>" +
+          "<textarea name='description' required minlength='20' placeholder='What will students build?' aria-label='Course description'></textarea>" +
+          "<div style='display:grid;grid-template-columns:1fr 1fr;gap:10px'><select name='level' aria-label='Course level'><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><input name='accent' required value='citrus' placeholder='Accent token' aria-label='Course accent'></div>" +
+          "<label style='display:flex;gap:8px;align-items:center'><input type='checkbox' name='publish'> Publish immediately</label>" +
+          "<button type='submit' style='background:var(--cb-mineral);color:white;padding:10px 14px;border:0;border-radius:10px'>Create course</button></form>";
+        document.querySelector("main")?.prepend(panel);
+        panel.querySelector("form")?.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const values = Object.fromEntries(new FormData(event.currentTarget).entries());
+          try {
+            const result = await request("/admin/courses", {
+              method: "POST",
+              body: JSON.stringify({
+                title: values.title, slug: values.slug, description: values.description,
+                level: values.level, accent: values.accent,
+                status: values.publish ? "PUBLISHED" : "DRAFT"
+              })
+            });
+            toast(result.course.title + " created.");
+            event.currentTarget.reset();
+          } catch (error) {
+            toast(error.message, "error");
+          }
+        });
       }
 
       function wireCourseBuilder() {
@@ -286,6 +335,26 @@
         quizId = featured.quizId;
         window.history.replaceState({}, "", "?quizId=" + encodeURIComponent(quizId));
       }
+
+      async function wireProgress() {
+        if (folder !== "student_progress_analytics") return;
+        try {
+          const data = await request("/progress");
+          addLivePanel("Live progress", "You have activity across " + data.courses.length + " course(s) and " + data.recentActivity.length + " recent learning event(s).");
+        } catch (error) {
+          addLivePanel("Progress API connection needed", error.message);
+        }
+      }
+
+      async function wireProfile() {
+        if (folder !== "student_profile_account_settings") return;
+        try {
+          const data = await request("/me");
+          addLivePanel("Live profile", data.user.name + " · " + data.user.email + " · " + data.user.role.toLowerCase());
+        } catch (error) {
+          addLivePanel("Profile API connection needed", error.message);
+        }
+      }
       const data = await request("/quizzes/" + quizId);
       const group = document.querySelector("#optionsGroup");
       const question = data.quiz.questions[0];
@@ -366,6 +435,20 @@
     });
   }
 
+  function wireImageFallbacks() {
+    document.querySelectorAll("img").forEach((image) => {
+      if (!image.src.startsWith("http")) return;
+      image.addEventListener("error", () => {
+        if (/codebros|brand|logo/i.test(image.alt || "")) {
+          image.src = new URL("../shared/codebros-mark.svg", window.location.href).href;
+          image.alt = "CodeBros";
+          return;
+        }
+        image.hidden = true;
+      }, { once: true });
+    });
+  }
+
   window.CodeBros = { request, redirect, toast, API_BASE };
   document.addEventListener("DOMContentLoaded", () => {
     wireNavigation();
@@ -381,5 +464,6 @@
     wireProfile();
     wirePractice();
     wireLessonCompletion();
+    wireImageFallbacks();
   });
 })();
