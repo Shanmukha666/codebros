@@ -1,0 +1,538 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"surface-container-high":"#e2e7ff","on-tertiary-fixed":"#002113","inverse-primary":"#c3c0ff","on-primary":"#ffffff","tertiary-fixed":"#6ffbbe","on-secondary-container":"#fffbff","on-background":"#131b2e","on-secondary":"#ffffff","primary-fixed":"#e2dfff","outline":"#777587","surface-bright":"#faf8ff","surface":"#faf8ff","secondary-container":"#8a4cfc","on-tertiary":"#ffffff","on-surface-variant":"#464555","error":"#ba1a1a","surface-variant":"#dae2fd","on-primary-fixed-variant":"#3323cc","on-primary-container":"#dad7ff","primary-container":"#4f46e5","on-secondary-fixed-variant":"#5a00c6","on-error":"#ffffff","on-primary-fixed":"#0f0069","tertiary-fixed-dim":"#4edea3","primary":"#3525cd","tertiary":"#005338","surface-tint":"#4d44e3","surface-container":"#eaedff","surface-container-lowest":"#ffffff","on-error-container":"#93000a","outline-variant":"#c7c4d8","secondary-fixed":"#eaddff","tertiary-container":"#006e4b","on-secondary-fixed":"#25005a","surface-container-low":"#f2f3ff","background":"#faf8ff","secondary-fixed-dim":"#d2bbff","on-tertiary-fixed-variant":"#005236","on-tertiary-container":"#67f4b7","inverse-on-surface":"#eef0ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","primary-fixed-dim":"#c3c0ff","inverse-surface":"#283044","on-surface":"#131b2e","secondary":"#712ae2","error-container":"#ffdad6"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"2rem","space-2xl":"3rem","space-2xs":"0.25rem","margin-mobile":"1rem","space-xs":"0.5rem","margin":"2rem","space-lg":"1.5rem","space-md":"1rem","space-sm":"0.75rem","gutter-mobile":"1rem","gutter":"1.5rem"},"fontFamily":{"display-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"label-sm":["Inter"],"display-md":["Plus Jakarta Sans"],"code-md":["JetBrains Mono"],"body-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["3.5rem",{"lineHeight":"1.1","letterSpacing":"-0.03em","fontWeight":"800"}],"label-md":["0.875rem",{"lineHeight":"1.25","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["1.125rem",{"lineHeight":"1.6","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["1.125rem",{"lineHeight":"1.4","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["1.75rem",{"lineHeight":"1.25","letterSpacing":"-0.015em","fontWeight":"700"}],"code-sm":["0.75rem",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"headline-md":["1.375rem",{"lineHeight":"1.35","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl":["2.25rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["1.75rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["0.75rem",{"lineHeight":"1.2","letterSpacing":"0.02em","fontWeight":"600"}],"display-md":["2.75rem",{"lineHeight":"1.15","letterSpacing":"-0.025em","fontWeight":"700"}],"code-md":["0.875rem",{"lineHeight":"1.6","letterSpacing":"0em","fontWeight":"500"}],"body-sm":["0.875rem",{"lineHeight":"1.45","letterSpacing":"0.005em","fontWeight":"400"}],"body-md":["1rem",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"400"}]}}}}</script><link rel="stylesheet" href="../shared/nocturne.css"/><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-space-lg"><div class="px-space-lg flex items-center gap-space-xs"><img alt="CodeBros Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1V9hwjbFlcKGGVjIIMLJbJNGv84-NI5CxA89FthSVtWKJG2GufaIDypIaqkrffy96TDx1BKp_LE-5Kg0dZrDxvdetR3fZ70zF13FF1C0rh1OmzykecClQPMOWHowAd6lvvWfPSHiE6PSgr2gaWgUx1gfFRtYh-syitq8TuYTX9ZboeAJuFYYQ04gidp5fa5RvzO4JaUMFaGg4RHPtrS3H3XiHP8T2EFc_pqgr948bASwg7hZ0wXv1cA7dSU"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CodeBros</span></div><div class="px-space-md"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider px-space-sm mb-space-xs">Study Center</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg"><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="courses" href="#"><span class="material-symbols-outlined text-lg">school</span><span>Courses</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2.5 transition-colors bg-primary-container text-on-primary font-label-md rounded-lg" data-path="practice-ide" href="#"><span class="material-symbols-outlined text-lg">terminal</span><span>Practice IDE</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="quizzes" href="#"><span class="material-symbols-outlined text-lg">quiz</span><span>Quizzes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="progress" href="#"><span class="material-symbols-outlined text-lg">insights</span><span>Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="community" href="#"><span class="material-symbols-outlined text-lg">forum</span><span>Community</span></a></nav></div></div><div class="px-space-md"><div class="bg-surface-container p-space-sm rounded-xl"><div class="flex items-center gap-space-xs mb-1.5"><span class="material-symbols-outlined text-secondary text-base">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface font-semibold">12-Day Streak</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">2 more lessons today to keep your streak active!</p></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-xl z-40 flex items-center justify-between px-8 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-sm bg-surface-container-low px-space-sm py-1.5 rounded-lg text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><input class="bg-transparent border-0 outline-none text-body-sm font-body-sm placeholder:text-on-surface-variant/70 w-72" placeholder="Search curriculum, functions, syntax..." type="text"/><kbd class="font-code-sm text-code-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant">âŒ˜K</kbd></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 bg-surface-container-low px-space-sm py-1.5 rounded-full"><span class="material-symbols-outlined text-secondary text-base">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface">12 Days</span></div><button class="relative p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary-container"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQm8oabWyCf5nl7eMuUITwGHWBZWGTqOSwxz8USVc_P9QOzYgUhlKtyOSu_JVX5hSUR5-9H9KSeRxcjsLwiF4amhDIXWLUTW13d2CrzPuVW6HDzh8rM4R1fl0z3JZpH2_obJGR123gbvP3lxtEondP0kCM5DVGJznntEjyOiaaG8s0zCbX515sTSSFQJNtDycB-xBmf4NQkDHHJ9pljIrNLQMvKHyKdj338yyhDupoNmquX1fDtYkmww"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary-container ring-2 ring-surface"></span></div></div></div></header><main class="w-full pt-16 px-8 bg-surface min-h-screen"><div class="flex flex-col w-full pb-8">
+<!-- TOP ACTION / IDE CONTROL BAR -->
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm mb-4 px-5 py-3 flex flex-wrap items-center justify-between gap-4">
+<!-- Problem Metadata & Difficulty -->
+<div class="flex items-center gap-3 min-w-0">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-ping"></span>
+<span class="font-code-sm text-code-sm bg-surface-container px-2 py-0.5 rounded text-on-surface-variant">#24</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface truncate">
+        Two Sum - Target Pair Indices
+      </h1>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        Beginner
+      </span>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold">
+        +100 XP
+      </span>
+</div>
+<!-- Right Controls: Language Selector, Timer, Actions -->
+<div class="flex items-center gap-3 ml-auto">
+<!-- Session Timer -->
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg text-on-surface-variant">
+<span class="material-symbols-outlined text-base text-primary">timer</span>
+<span class="font-code-sm text-code-sm font-semibold text-on-surface tracking-wide" id="session-timer">00:14:22</span>
+<button class="hover:text-primary transition-colors ml-1 p-0.5 rounded flex items-center" id="timer-toggle-btn" title="Pause / Resume Timer">
+<span class="material-symbols-outlined text-sm" id="timer-icon">pause</span>
+</button>
+</div>
+<!-- Language Selector -->
+<div class="relative">
+<select class="appearance-none bg-surface-container px-3.5 py-1.5 pr-8 rounded-lg font-label-md text-label-md text-on-surface outline-none cursor-pointer hover:bg-surface-container-high transition-colors" id="lang-select">
+<option value="python">Python 3.12</option>
+<option value="javascript">JavaScript ES6</option>
+<option value="java">Java 17</option>
+<option value="cpp">C++ 20</option>
+</select>
+<span class="material-symbols-outlined text-sm absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<!-- Utility icons -->
+<div class="hidden xl:flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="reset-code-btn" title="Reset Code">
+<span class="material-symbols-outlined text-lg">restart_alt</span>
+</button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="format-code-btn" title="Format Code">
+<span class="material-symbols-outlined text-lg">code_blocks</span>
+</button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Keyboard Shortcuts (âŒ˜K / Ctrl+Enter)">
+<span class="material-symbols-outlined text-lg">keyboard</span>
+</button>
+</div>
+<!-- Run & Submit Buttons -->
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container text-primary font-label-md text-label-md hover:bg-surface-container-high active:scale-95 transition-all" id="run-tests-btn">
+<span class="material-symbols-outlined text-base">play_arrow</span>
+<span>Run Tests</span>
+<kbd class="font-code-sm text-code-sm text-on-surface-variant/70 text-[10px] ml-1 bg-surface-container-lowest px-1 py-0.5 rounded">Ctrl+â†µ</kbd>
+</button>
+<button class="flex items-center gap-1.5 px-5 py-2 rounded-lg bg-gradient-to-r from-primary-container to-secondary text-on-primary font-label-md text-label-md shadow-md hover:shadow-lg hover:brightness-105 active:scale-95 transition-all" id="submit-btn">
+<span class="material-symbols-outlined text-base">rocket_launch</span>
+<span>Submit Solution</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MAIN SPLIT WORKSPACE: 40% Left Panel | 60% Right Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start w-full">
+<!-- LEFT PANEL: Curriculum, Instructions, Hints (5 cols = ~41.6%) -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<!-- Panel Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[640px]">
+<!-- Navigation Tabs -->
+<div class="flex items-center bg-surface-container-low px-4 pt-2 gap-2">
+<button class="spec-tab active flex items-center gap-1.5 px-3 py-2 text-primary font-label-md text-label-md bg-surface-container-lowest rounded-t-lg shadow-sm" data-tab="description">
+<span class="material-symbols-outlined text-base">description</span>
+<span>Description</span>
+</button>
+<button class="spec-tab flex items-center gap-1.5 px-3 py-2 text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors rounded-t-lg" data-tab="hints">
+<span class="material-symbols-outlined text-base">lightbulb</span>
+<span>Hints</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-code-sm text-code-sm px-1.5 py-0.2 rounded-full">2</span>
+</button>
+<button class="spec-tab flex items-center gap-1.5 px-3 py-2 text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors rounded-t-lg" data-tab="submissions">
+<span class="material-symbols-outlined text-base">history</span>
+<span>Submissions</span>
+</button>
+<button class="spec-tab flex items-center gap-1.5 px-3 py-2 text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors rounded-t-lg" data-tab="discussion">
+<span class="material-symbols-outlined text-base">forum</span>
+<span class="hidden sm:inline">Discussion</span>
+<span class="bg-surface-container text-on-surface-variant font-code-sm text-code-sm px-1.5 py-0.2 rounded-full">32</span>
+</button>
+</div>
+<!-- Tab Body Content -->
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div class="space-y-6">
+<!-- Description Text -->
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Problem Overview</h2>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                Given an array of integers <code class="font-code-sm text-code-sm bg-surface-container px-1.5 py-0.5 rounded text-primary font-semibold">nums</code> and an integer <code class="font-code-sm text-code-sm bg-surface-container px-1.5 py-0.5 rounded text-primary font-semibold">target</code>, return indices of the two numbers such that they add up to <code class="font-code-sm text-code-sm bg-surface-container px-1.5 py-0.5 rounded text-primary font-semibold">target</code>.
+              </p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                You may assume that each input would have <strong class="text-on-surface font-semibold">exactly one solution</strong>, and you may not use the same element twice. You can return the answer in any order.
+              </p>
+</div>
+<!-- Example 1 -->
+<div class="bg-surface-container-low p-4 rounded-xl space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary font-semibold">Example 1</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Default Case</span>
+</div>
+<div class="font-code-sm text-code-sm bg-surface-container-lowest p-3 rounded-lg text-on-surface space-y-1">
+<div><span class="text-on-surface-variant">Input:</span> nums = [2, 7, 11, 15], target = 9</div>
+<div><span class="text-on-surface-variant">Output:</span> [0, 1]</div>
+<div class="text-on-surface-variant text-[11px] pt-1">Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</div>
+</div>
+</div>
+<!-- Example 2 -->
+<div class="bg-surface-container-low p-4 rounded-xl space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary font-semibold">Example 2</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Boundary Case</span>
+</div>
+<div class="font-code-sm text-code-sm bg-surface-container-lowest p-3 rounded-lg text-on-surface space-y-1">
+<div><span class="text-on-surface-variant">Input:</span> nums = [3, 2, 4], target = 6</div>
+<div><span class="text-on-surface-variant">Output:</span> [1, 2]</div>
+<div class="text-on-surface-variant text-[11px] pt-1">Explanation: nums[1] + nums[2] == 6, therefore indices are 1 and 2.</div>
+</div>
+</div>
+<!-- Constraints -->
+<div class="bg-surface-container p-4 rounded-xl">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-primary">rule</span>
+                Constraints
+              </h3>
+<ul class="font-code-sm text-code-sm text-on-surface-variant space-y-1.5 list-disc list-inside">
+<li><code class="bg-surface-container-lowest px-1 py-0.5 rounded text-on-surface">2 â‰¤ nums.length â‰¤ 10<sup>4</sup></code></li>
+<li><code class="bg-surface-container-lowest px-1 py-0.5 rounded text-on-surface">-10<sup>9</sup> â‰¤ nums[i] â‰¤ 10<sup>9</sup></code></li>
+<li><code class="bg-surface-container-lowest px-1 py-0.5 rounded text-on-surface">-10<sup>9</sup> â‰¤ target â‰¤ 10<sup>9</sup></code></li>
+<li>Only one valid answer exists.</li>
+</ul>
+</div>
+<!-- Expandable Beginner Hint -->
+<div class="bg-primary-fixed/30 rounded-xl overflow-hidden">
+<button class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-primary-fixed/50 transition-colors" id="hint-toggle-btn">
+<span class="font-label-md text-label-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">tips_and_updates</span>
+                  ðŸ’¡ Hint 1: Optimizing from O(nÂ²) to O(n)
+                </span>
+<span class="material-symbols-outlined text-sm text-primary transition-transform" id="hint-chevron">expand_more</span>
+</button>
+<div class="px-4 pb-3 pt-1 text-on-surface font-body-sm text-body-sm hidden" id="hint-content">
+                Try using a <strong>hash map (dictionary)</strong> to store seen values as keys and their indices as values. While traversing the array, compute the complement: <code class="font-code-sm bg-surface-container px-1 rounded">diff = target - num</code>. If <code class="font-code-sm bg-surface-container px-1 rounded">diff</code> exists in your map, you immediately have your pair!
+              </div>
+</div>
+</div>
+<!-- Bottom Micro-Trophy / Progress status -->
+<div class="mt-8 pt-4 bg-surface-container-low -mx-6 -mb-6 px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-xl">military_tech</span>
+<span class="font-body-sm text-body-sm text-on-surface">Skill: <strong class="font-semibold">Hash Table Lookup</strong></span>
+</div>
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-on-surface-variant">
+<span>Time: <strong class="text-tertiary-container">O(N)</strong></span>
+<span>â€¢</span>
+<span>Space: <strong class="text-tertiary-container">O(N)</strong></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT PANEL: Dark Mode Professional IDE + Output Test Console (7 cols = ~58.4%) -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<!-- Dark IDE Wrapper (#0F172A production grade canvas) -->
+<div class="bg-[#0F172A] rounded-xl shadow-lg overflow-hidden flex flex-col">
+<!-- IDE Header Bar -->
+<div class="bg-[#1E293B] px-4 py-2 flex items-center justify-between text-slate-300">
+<!-- Active Tab -->
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2 bg-[#0F172A] px-3.5 py-1.5 rounded-t-lg text-white font-code-sm text-code-sm border-t-2 border-primary-container">
+<span class="text-amber-400 font-bold text-xs">PY</span>
+<span id="editor-filename">solution.py</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 ml-1"></span>
+</div>
+<div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-slate-400 hover:text-slate-200 font-code-sm text-code-sm cursor-pointer transition-colors">
+<span class="text-sky-400 font-bold text-xs">#</span>
+<span>test_harness.py</span>
+</div>
+</div>
+<!-- Editor Actions / Font Scale -->
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm text-slate-400 hidden sm:inline">UTF-8</span>
+<span class="text-slate-600">|</span>
+<div class="flex items-center bg-[#0F172A] rounded px-1.5 py-0.5">
+<button class="text-slate-400 hover:text-white px-1 text-xs font-mono font-bold" id="font-decrease">-</button>
+<span class="font-code-sm text-code-sm text-slate-300 px-1 text-[11px]" id="font-size-display">14px</span>
+<button class="text-slate-400 hover:text-white px-1 text-xs font-mono font-bold" id="font-increase">+</button>
+</div>
+<button class="p-1 text-slate-400 hover:text-white transition-colors" title="Toggle Fullscreen">
+<span class="material-symbols-outlined text-base">fullscreen</span>
+</button>
+</div>
+</div>
+<!-- Code Workspace Area with Line Numbers & Editable Code -->
+<div class="relative flex min-h-[300px] max-h-[360px] overflow-y-auto p-4 font-code-md text-code-md leading-relaxed selection:bg-primary-container selection:text-white">
+<!-- Line Numbers -->
+<div class="select-none text-right pr-4 text-slate-500 font-mono text-xs w-8 flex flex-col space-y-[2px]" id="line-numbers">
+<span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
+</div>
+<!-- Syntax Highlighted Editable Container -->
+<div class="flex-1 overflow-x-auto text-slate-100 font-mono text-sm pl-2 focus:outline-none">
+<pre class="font-code-md text-code-md m-0 leading-[1.625rem]"><span class="text-purple-400 font-medium">def</span> <span class="text-sky-300 font-semibold">two_sum</span>(nums: <span class="text-emerald-400">list</span>[<span class="text-emerald-400">int</span>], target: <span class="text-emerald-400">int</span>) -&gt; <span class="text-emerald-400">list</span>[<span class="text-emerald-400">int</span>]:
+    <span class="text-slate-400 italic"># Lookup table mapping value -&gt; index</span>
+    seen = {}
+    <span class="text-purple-400 font-medium">for</span> i, num <span class="text-purple-400 font-medium">in</span> <span class="text-sky-300">enumerate</span>(nums):
+        diff = target - num
+        <span class="text-purple-400 font-medium">if</span> diff <span class="text-purple-400 font-medium">in</span> seen:
+            <span class="text-purple-400 font-medium">return</span> [seen[diff], i]
+        seen[num] = i
+    <span class="text-purple-400 font-medium">return</span> []</pre>
+</div>
+<!-- Subtle Glowing Cursor simulation -->
+<div class="absolute right-4 top-4 text-[10px] font-code-sm text-slate-500 flex items-center gap-1.5 select-none pointer-events-none">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>Ln 9, Col 17</span>
+</div>
+</div>
+<!-- Integrated Status Pill inside IDE Footer -->
+<div class="bg-[#141E33] px-4 py-1.5 flex items-center justify-between text-slate-400 text-xs font-code-sm">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 text-emerald-400">
+<span class="material-symbols-outlined text-sm">check</span>
+              Syntax Valid
+            </span>
+<span class="hidden sm:inline text-slate-600">|</span>
+<span class="hidden sm:inline">Memory Limit: 256MB</span>
+</div>
+<div class="flex items-center gap-2">
+<span>Spaces: 4</span>
+<span>Python 3.12 (CPython)</span>
+</div>
+</div>
+</div>
+<!-- TEST CASES & EXECUTION DRAWER -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Output Drawer Header -->
+<div class="bg-surface-container-low px-4 pt-2.5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<button class="active flex items-center gap-1.5 px-3 py-1.5 text-primary font-label-md text-label-md bg-surface-container-lowest rounded-t-lg shadow-sm" id="tab-testcases-btn">
+<span class="material-symbols-outlined text-base">fact_check</span>
+<span>Test Cases</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors rounded-t-lg" id="tab-console-btn">
+<span class="material-symbols-outlined text-base">terminal</span>
+<span>Console Output</span>
+</button>
+</div>
+<!-- Quick Test Status pill -->
+<div class="flex items-center gap-2 pb-1">
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold flex items-center gap-1" id="overall-status-pill">
+<span class="material-symbols-outlined text-xs">done_all</span>
+              3 / 3 Passed
+            </span>
+</div>
+</div>
+<!-- Drawer Body -->
+<div class="p-5 flex flex-col gap-4">
+<!-- Test Case Selection Pills -->
+<div class="flex items-center gap-2 flex-wrap">
+<button class="testcase-pill active px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-sm text-tertiary-container font-bold">check_circle</span>
+<span>Case 1</span>
+</button>
+<button class="testcase-pill px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-md text-label-md flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-sm text-tertiary-container font-bold">check_circle</span>
+<span>Case 2</span>
+</button>
+<button class="testcase-pill px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-md text-label-md flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-sm text-tertiary-container font-bold">check_circle</span>
+<span>Case 3</span>
+</button>
+<button class="px-2 py-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container font-label-sm text-label-sm flex items-center gap-1 transition-colors" title="Add Custom Test Case">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Custom Case</span>
+</button>
+</div>
+<!-- Active Test Case Detail Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 font-code-sm text-code-sm" id="testcase-viewer">
+<!-- Input Parameter -->
+<div class="bg-surface-container-low p-3 rounded-lg flex flex-col justify-between">
+<span class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Input</span>
+<div class="mt-1 font-semibold text-on-surface">nums = [2, 7, 11, 15]<br/>target = 9</div>
+</div>
+<!-- Expected Output -->
+<div class="bg-surface-container-low p-3 rounded-lg flex flex-col justify-between">
+<span class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Expected</span>
+<div class="mt-1 font-semibold text-on-surface">[0, 1]</div>
+</div>
+<!-- Actual Output with Match Badge -->
+<div class="bg-surface-container p-3 rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Actual</span>
+<span class="text-tertiary-container font-semibold text-[11px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">verified</span> Match
+                </span>
+</div>
+<div class="mt-1 font-semibold text-tertiary-container">[0, 1]</div>
+</div>
+</div>
+<!-- SUCCESS BANNER & METRICS -->
+<div class="bg-gradient-to-r from-tertiary-container/10 via-surface-container to-secondary-container/10 p-4 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3" id="result-banner">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-xl">celebration</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+                  All 3 Test Cases Passed!
+                  <span class="font-code-sm text-code-sm bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded-full font-medium">Ready</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                  Ready for official submission to the CodeBros leaderboard.
+                </div>
+</div>
+</div>
+<!-- Execution Stats & Sparkline -->
+<div class="flex items-center gap-4 bg-surface-container-lowest px-4 py-2 rounded-lg shadow-sm w-full sm:w-auto justify-between sm:justify-end">
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Runtime</span>
+<span class="font-code-sm text-code-sm font-bold text-tertiary-container">48 ms</span>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Benchmark</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Beats 89.4%</span>
+</div>
+<!-- Compact inline SVG Sparkline distribution curve -->
+<svg class="w-16 h-8 text-primary" fill="none" viewbox="0 0 64 32">
+<path d="M2 30 Q 16 28, 28 12 T 42 6 T 54 22 L 62 30" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path>
+<circle class="fill-secondary" cx="42" cy="6" r="3"></circle>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE CLIENT LOGIC -->
+<script>
+    (function initIdeInteractions() {
+      // 1. Timer Logic
+      let seconds = 862; // 00:14:22
+      let timerActive = true;
+      const timerDisplay = document.getElementById('session-timer');
+      const timerBtn = document.getElementById('timer-toggle-btn');
+      const timerIcon = document.getElementById('timer-icon');
+
+      function formatTime(totalSec) {
+        const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+        const secs = String(totalSec % 60).padStart(2, '0');
+        return hrs + ':' + mins + ':' + secs;
+      }
+
+      setInterval(() => {
+        if (timerActive) {
+          seconds++;
+          if (timerDisplay) timerDisplay.textContent = formatTime(seconds);
+        }
+      }, 1000);
+
+      if (timerBtn && timerIcon) {
+        timerBtn.addEventListener('click', () => {
+          timerActive = !timerActive;
+          timerIcon.textContent = timerActive ? 'pause' : 'play_arrow';
+          timerBtn.classList.toggle('text-secondary', !timerActive);
+        });
+      }
+
+      // 2. Beginner Hint Accordion
+      const hintBtn = document.getElementById('hint-toggle-btn');
+      const hintContent = document.getElementById('hint-content');
+      const hintChevron = document.getElementById('hint-chevron');
+
+      if (hintBtn && hintContent && hintChevron) {
+        hintBtn.addEventListener('click', () => {
+          const isHidden = hintContent.classList.contains('hidden');
+          if (isHidden) {
+            hintContent.classList.remove('hidden');
+            hintChevron.classList.add('rotate-180');
+          } else {
+            hintContent.classList.add('hidden');
+            hintChevron.classList.remove('rotate-180');
+          }
+        });
+      }
+
+      // 3. Tab switching on problem spec
+      const specTabs = document.querySelectorAll('.spec-tab');
+      specTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          specTabs.forEach(t => {
+            t.classList.remove('active', 'bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+            t.classList.add('text-on-surface-variant');
+          });
+          tab.classList.add('active', 'bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          tab.classList.remove('text-on-surface-variant');
+        });
+      });
+
+      // 4. Testcase Pill Selector & Mock Values
+      const testcaseData = {
+        0: { input: "nums = [2, 7, 11, 15]\\ntarget = 9", expected: "[0, 1]", actual: "[0, 1]" },
+        1: { input: "nums = [3, 2, 4]\\ntarget = 6", expected: "[1, 2]", actual: "[1, 2]" },
+        2: { input: "nums = [3, 3]\\ntarget = 6", expected: "[0, 1]", actual: "[0, 1]" }
+      };
+
+      const testcasePills = document.querySelectorAll('.testcase-pill');
+      const testcaseViewer = document.getElementById('testcase-viewer');
+
+      testcasePills.forEach((pill, idx) => {
+        pill.addEventListener('click', () => {
+          testcasePills.forEach(p => {
+            p.classList.remove('active', 'bg-surface-container', 'text-on-surface');
+            p.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+          });
+          pill.classList.add('active', 'bg-surface-container', 'text-on-surface');
+          pill.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+
+          const data = testcaseData[idx];
+          if (data && testcaseViewer) {
+            testcaseViewer.innerHTML = `
+              <div class="bg-surface-container-low p-3 rounded-lg flex flex-col justify-between">
+                <span class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Input</span>
+                <div class="mt-1 font-semibold text-on-surface whitespace-pre-line">${data.input}</div>
+              </div>
+              <div class="bg-surface-container-low p-3 rounded-lg flex flex-col justify-between">
+                <span class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Expected</span>
+                <div class="mt-1 font-semibold text-on-surface">${data.expected}</div>
+              </div>
+              <div class="bg-surface-container p-3 rounded-lg flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                  <span class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Actual</span>
+                  <span class="text-tertiary-container font-semibold text-[11px] flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-xs">verified</span> Match
+                  </span>
+                </div>
+                <div class="mt-1 font-semibold text-tertiary-container">${data.actual}</div>
+              </div>
+            `;
+          }
+        });
+      });
+
+      // 5. Run Tests Action & Micro Animation
+      const runBtn = document.getElementById('run-tests-btn');
+      const submitBtn = document.getElementById('submit-btn');
+      const resultBanner = document.getElementById('result-banner');
+
+      function triggerTestExecution() {
+        if (!runBtn) return;
+        const originalText = runBtn.innerHTML;
+        runBtn.disabled = true;
+        runBtn.innerHTML = `
+          <span class="material-symbols-outlined text-base animate-spin">refresh</span>
+          <span>Executing...</span>
+        `;
+        setTimeout(() => {
+          runBtn.disabled = false;
+          runBtn.innerHTML = originalText;
+          if (resultBanner) {
+            resultBanner.classList.add('animate-pulse');
+            setTimeout(() => resultBanner.classList.remove('animate-pulse'), 800);
+          }
+        }, 600);
+      }
+
+      if (runBtn) {
+        runBtn.addEventListener('click', triggerTestExecution);
+      }
+
+      // Keyboard shortcut Ctrl+Enter or Cmd+Enter
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          triggerTestExecution();
+        }
+      });
+
+      // 6. Font Zoom inside Editor
+      let currentFontSize = 14;
+      const fontDisplay = document.getElementById('font-size-display');
+      const fontIncBtn = document.getElementById('font-increase');
+      const fontDecBtn = document.getElementById('font-decrease');
+
+      if (fontIncBtn && fontDecBtn && fontDisplay) {
+        fontIncBtn.addEventListener('click', () => {
+          if (currentFontSize < 18) {
+            currentFontSize++;
+            fontDisplay.textContent = currentFontSize + 'px';
+          }
+        });
+        fontDecBtn.addEventListener('click', () => {
+          if (currentFontSize > 12) {
+            currentFontSize--;
+            fontDisplay.textContent = currentFontSize + 'px';
+          }
+        });
+      }
+
+      // 7. Language Switcher Filename Synchronizer
+      const langSelect = document.getElementById('lang-select');
+      const filenameLabel = document.getElementById('editor-filename');
+      if (langSelect && filenameLabel) {
+        langSelect.addEventListener('change', (e) => {
+          const val = e.target.value;
+          if (val === 'python') filenameLabel.textContent = 'solution.py';
+          else if (val === 'javascript') filenameLabel.textContent = 'solution.js';
+          else if (val === 'java') filenameLabel.textContent = 'Solution.java';
+          else if (val === 'cpp') filenameLabel.textContent = 'solution.cpp';
+        });
+      }
+    })();
+  </script>
+</div></main></div><script src="../shared/codebros.js" defer></script></body></html>

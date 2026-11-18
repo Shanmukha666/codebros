@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: codebros
+      POSTGRES_PASSWORD: codebros
+      POSTGRES_DB: codebros
+    ports:
+      - "5432:5432"
+    volumes:
+      - codebros-postgres:/var/lib/postgresql/data
+
+volumes:
+  codebros-postgres:

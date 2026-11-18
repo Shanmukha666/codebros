@@ -1,0 +1,665 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"surface-container-high":"#e2e7ff","on-tertiary-fixed":"#002113","inverse-primary":"#c3c0ff","on-primary":"#ffffff","tertiary-fixed":"#6ffbbe","on-secondary-container":"#fffbff","on-background":"#131b2e","on-secondary":"#ffffff","primary-fixed":"#e2dfff","outline":"#777587","surface-bright":"#faf8ff","surface":"#faf8ff","secondary-container":"#8a4cfc","on-tertiary":"#ffffff","on-surface-variant":"#464555","error":"#ba1a1a","surface-variant":"#dae2fd","on-primary-fixed-variant":"#3323cc","on-primary-container":"#dad7ff","primary-container":"#4f46e5","on-secondary-fixed-variant":"#5a00c6","on-error":"#ffffff","on-primary-fixed":"#0f0069","tertiary-fixed-dim":"#4edea3","primary":"#3525cd","tertiary":"#005338","surface-tint":"#4d44e3","surface-container":"#eaedff","surface-container-lowest":"#ffffff","on-error-container":"#93000a","outline-variant":"#c7c4d8","secondary-fixed":"#eaddff","tertiary-container":"#006e4b","on-secondary-fixed":"#25005a","surface-container-low":"#f2f3ff","background":"#faf8ff","secondary-fixed-dim":"#d2bbff","on-tertiary-fixed-variant":"#005236","on-tertiary-container":"#67f4b7","inverse-on-surface":"#eef0ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","primary-fixed-dim":"#c3c0ff","inverse-surface":"#283044","on-surface":"#131b2e","secondary":"#712ae2","error-container":"#ffdad6"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"2rem","space-2xl":"3rem","space-2xs":"0.25rem","margin-mobile":"1rem","space-xs":"0.5rem","margin":"2rem","space-lg":"1.5rem","space-md":"1rem","space-sm":"0.75rem","gutter-mobile":"1rem","gutter":"1.5rem"},"fontFamily":{"display-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"label-sm":["Inter"],"display-md":["Plus Jakarta Sans"],"code-md":["JetBrains Mono"],"body-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["3.5rem",{"lineHeight":"1.1","letterSpacing":"-0.03em","fontWeight":"800"}],"label-md":["0.875rem",{"lineHeight":"1.25","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["1.125rem",{"lineHeight":"1.6","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["1.125rem",{"lineHeight":"1.4","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["1.75rem",{"lineHeight":"1.25","letterSpacing":"-0.015em","fontWeight":"700"}],"code-sm":["0.75rem",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"headline-md":["1.375rem",{"lineHeight":"1.35","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl":["2.25rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["1.75rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["0.75rem",{"lineHeight":"1.2","letterSpacing":"0.02em","fontWeight":"600"}],"display-md":["2.75rem",{"lineHeight":"1.15","letterSpacing":"-0.025em","fontWeight":"700"}],"code-md":["0.875rem",{"lineHeight":"1.6","letterSpacing":"0em","fontWeight":"500"}],"body-sm":["0.875rem",{"lineHeight":"1.45","letterSpacing":"0.005em","fontWeight":"400"}],"body-md":["1rem",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"400"}]}}}}</script><link rel="stylesheet" href="../shared/nocturne.css"/><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-space-lg"><div class="px-space-lg flex items-center gap-space-xs"><img alt="CodeBros Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1V9hwjbFlcKGGVjIIMLJbJNGv84-NI5CxA89FthSVtWKJG2GufaIDypIaqkrffy96TDx1BKp_LE-5Kg0dZrDxvdetR3fZ70zF13FF1C0rh1OmzykecClQPMOWHowAd6lvvWfPSHiE6PSgr2gaWgUx1gfFRtYh-syitq8TuYTX9ZboeAJuFYYQ04gidp5fa5RvzO4JaUMFaGg4RHPtrS3H3XiHP8T2EFc_pqgr948bASwg7hZ0wXv1cA7dSU"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CodeBros</span></div><div class="px-space-md"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider px-space-sm mb-space-xs">Study Center</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg"><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="courses" href="#"><span class="material-symbols-outlined text-lg">school</span><span>Courses</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2.5 transition-colors bg-primary-container text-on-primary font-label-md rounded-lg" data-path="practice-ide" href="#"><span class="material-symbols-outlined text-lg">terminal</span><span>Practice IDE</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="quizzes" href="#"><span class="material-symbols-outlined text-lg">quiz</span><span>Quizzes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="progress" href="#"><span class="material-symbols-outlined text-lg">insights</span><span>Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="community" href="#"><span class="material-symbols-outlined text-lg">forum</span><span>Community</span></a></nav></div></div><div class="px-space-md"><div class="bg-surface-container p-space-sm rounded-xl"><div class="flex items-center gap-space-xs mb-1.5"><span class="material-symbols-outlined text-secondary text-base">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface font-semibold">12-Day Streak</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">2 more lessons today to keep your streak active!</p></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-xl z-40 flex items-center justify-between px-8 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-sm bg-surface-container-low px-space-sm py-1.5 rounded-lg text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><input class="bg-transparent border-0 outline-none text-body-sm font-body-sm placeholder:text-on-surface-variant/70 w-72" placeholder="Search curriculum, functions, syntax..." type="text"/><kbd class="font-code-sm text-code-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant">âŒ˜K</kbd></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 bg-surface-container-low px-space-sm py-1.5 rounded-full"><span class="material-symbols-outlined text-secondary text-base">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface">12 Days</span></div><button class="relative p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary-container"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQm8oabWyCf5nl7eMuUITwGHWBZWGTqOSwxz8USVc_P9QOzYgUhlKtyOSu_JVX5hSUR5-9H9KSeRxcjsLwiF4amhDIXWLUTW13d2CrzPuVW6HDzh8rM4R1fl0z3JZpH2_obJGR123gbvP3lxtEondP0kCM5DVGJznntEjyOiaaG8s0zCbX515sTSSFQJNtDycB-xBmf4NQkDHHJ9pljIrNLQMvKHyKdj338yyhDupoNmquX1fDtYkmww"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary-container ring-2 ring-surface"></span></div></div></div></header><main class="w-full pt-16 px-8 bg-surface min-h-screen"><div class="flex flex-col w-full pb-16">
+<!-- Top Course Control / Breadcrumb Anchor Bar -->
+<div class="sticky top-16 z-30 bg-surface/95 backdrop-blur-md pb-4 pt-2 -mx-8 px-8 shadow-sm">
+<div class="flex flex-col gap-3">
+<!-- Top Micro-bar: Breadcrumb & Progress Stat -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<nav class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Courses</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Python Fundamentals</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface font-semibold">Module 3: Functions &amp; Modular Code</span>
+</nav>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded-full shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Lesson 12 of 28</span>
+<span class="inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary font-bold">42% Complete</span>
+</div>
+<div class="w-28 bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-secondary to-primary-container h-full rounded-full transition-all duration-500" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+<!-- Main Action Bar: Title & Navigation Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Python Fundamentals for Beginners</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Master modular coding, scope encapsulation, and reusability with Python 3.12+</p>
+</div>
+<div class="flex items-center gap-2 self-start lg:self-auto shrink-0">
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+<span>Previous</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-highest hover:bg-primary-fixed text-primary transition-all font-label-md text-label-md shadow-sm" id="markCompleteBtn" onclick="toggleLessonComplete()">
+<span class="material-symbols-outlined text-lg" id="completeIcon">check_circle</span>
+<span id="completeText">Mark as Complete</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary transition-all font-label-md text-label-md shadow-md hover:shadow-lg">
+<span>Next Lesson</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Split Layout: Syllabus Sidebar + Lesson Canvas -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8 mt-6 items-start">
+<!-- LEFT: Persistent / Collapsible Syllabus Outline (xl:col-span-4 2xl:col-span-3) -->
+<aside class="xl:col-span-4 2xl:col-span-3 flex flex-col gap-4">
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm sticky top-44">
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">menu_book</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Curriculum</span>
+</div>
+<span class="font-code-sm text-code-sm bg-surface-container-low text-primary px-2 py-0.5 rounded-full font-semibold">12 / 28 Done</span>
+</div>
+<!-- Scrollable Module Accordions -->
+<div class="flex flex-col gap-3 mt-3 max-h-[calc(100vh-270px)] overflow-y-auto pr-1">
+<!-- Module 1 (Done) -->
+<div class="rounded-lg bg-surface-container-low overflow-hidden transition-all">
+<div class="w-full flex items-center justify-between p-3 cursor-pointer select-none hover:bg-surface-container transition-colors" onclick="toggleAccordion('mod1-content', 'mod1-icon')">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xs">done</span>
+</span>
+<span class="font-label-md text-label-md text-on-surface truncate">1. Introduction to Python</span>
+</div>
+<div class="flex items-center gap-1 shrink-0 text-on-surface-variant">
+<span class="font-label-sm text-label-sm text-tertiary-container font-semibold">4/4</span>
+<span class="material-symbols-outlined text-base transition-transform duration-200" id="mod1-icon">expand_more</span>
+</div>
+</div>
+<div class="hidden px-3 pb-3 pt-1 flex flex-col gap-1 text-on-surface-variant font-body-sm text-body-sm" id="mod1-content">
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">1.1 Running Your First Script</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">1.2 Interpreters &amp; REPLs</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">1.3 Variables &amp; Output</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">1.4 Module 1 Mini-Project</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+</div>
+</div>
+<!-- Module 2 (Done) -->
+<div class="rounded-lg bg-surface-container-low overflow-hidden transition-all">
+<div class="w-full flex items-center justify-between p-3 cursor-pointer select-none hover:bg-surface-container transition-colors" onclick="toggleAccordion('mod2-content', 'mod2-icon')">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xs">done</span>
+</span>
+<span class="font-label-md text-label-md text-on-surface truncate">2. Data Types &amp; Flow</span>
+</div>
+<div class="flex items-center gap-1 shrink-0 text-on-surface-variant">
+<span class="font-label-sm text-label-sm text-tertiary-container font-semibold">6/6</span>
+<span class="material-symbols-outlined text-base transition-transform duration-200" id="mod2-icon">expand_more</span>
+</div>
+</div>
+<div class="hidden px-3 pb-3 pt-1 flex flex-col gap-1 text-on-surface-variant font-body-sm text-body-sm" id="mod2-content">
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">2.1 Integers, Floats, Strings</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">2.2 Conditionals: if, elif, else</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">2.3 Boolean Operators</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+<div class="flex items-center justify-between py-1 px-2 rounded hover:bg-surface-container-lowest text-xs">
+<span class="truncate">2.4 Flow Control Lab</span>
+<span class="material-symbols-outlined text-tertiary-container text-sm">check</span>
+</div>
+</div>
+</div>
+<!-- Module 3 (ACTIVE MODULE) -->
+<div class="rounded-lg bg-surface-container-low overflow-hidden shadow-sm">
+<div class="w-full flex items-center justify-between p-3 bg-surface-container cursor-pointer select-none">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xs">code</span>
+</span>
+<span class="font-label-md text-label-md text-primary font-bold truncate">3. Functions &amp; Scope</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">1/5 Active</span>
+</div>
+<!-- Module 3 Lesson List -->
+<div class="p-2 flex flex-col gap-1.5">
+<!-- 3.1 Done -->
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-tertiary-container text-sm shrink-0">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">3.1 What is a Function?</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">08:14</span>
+</a>
+<!-- 3.2 ACTIVE -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="relative flex h-2.5 w-2.5 shrink-0">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary-container"></span>
+</span>
+<span class="font-label-md text-label-md text-primary font-bold truncate">3.2 Defining Parameters</span>
+</div>
+<span class="font-code-sm text-code-sm bg-primary-fixed text-on-primary-fixed px-1.5 py-0.5 rounded font-semibold shrink-0">Playing</span>
+</div>
+<!-- 3.3 Locked -->
+<div class="flex items-center justify-between p-2 rounded-lg text-on-surface-variant/70 cursor-not-allowed">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-sm shrink-0">lock</span>
+<span class="font-body-sm text-body-sm truncate">3.3 Return Values &amp; Scope</span>
+</div>
+<span class="font-code-sm text-code-sm">11:02</span>
+</div>
+<!-- 3.4 Practice Challenge -->
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-sm shrink-0">terminal</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">3.4 Challenge: Calculate Tip</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-fixed px-1.5 py-0.5 rounded">IDE</span>
+</a>
+<!-- 3.5 Quiz -->
+<a class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-on-surface-variant text-sm shrink-0">quiz</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-on-surface truncate">3.5 Module 3 Quiz</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5 Qs</span>
+</a>
+</div>
+</div>
+<!-- Module 4 (Locked) -->
+<div class="rounded-lg bg-surface-container-low p-3 flex items-center justify-between opacity-60 cursor-not-allowed">
+<div class="flex items-center gap-2.5 min-w-0">
+<span class="material-symbols-outlined text-base text-outline">lock</span>
+<span class="font-label-md text-label-md text-on-surface truncate">4. Lists, Dictionaries &amp; Loops</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">8 lessons</span>
+</div>
+</div>
+<!-- Sidebar Resource Quicklink Banner -->
+<div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-xs text-on-surface-variant">
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-sm">download</span> Python 3 Cheat Sheet
+          </span>
+<span class="font-code-sm text-code-sm">PDF (2.4MB)</span>
+</div>
+</div>
+</aside>
+<!-- RIGHT: Main Lesson Viewport & Interactive Content (xl:col-span-8 2xl:col-span-9) -->
+<main class="xl:col-span-8 2xl:col-span-9 flex flex-col gap-8 min-w-0">
+<!-- Video Player Card Container -->
+<section class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-md flex flex-col">
+<!-- Video Header Info Bar -->
+<div class="px-6 py-4 flex flex-wrap items-center justify-between gap-3 bg-surface-container-lowest">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-headline-sm text-headline-sm">3.2</span>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface leading-tight">Defining Functions with Parameters &amp; Default Arguments</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Runtime: 14 mins â€¢ HD 1080p â€¢ Interactive code checkpoints enabled</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-base">notes</span>
+<span>Lesson Notes</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg">bookmark</span>
+</button>
+</div>
+</div>
+<!-- Immersive Media Mock Screen (The Video Player Surface) -->
+<div class="relative w-full aspect-video bg-inverse-surface overflow-hidden group select-none flex flex-col justify-between">
+<!-- Background Atmospheric Video Simulation Poster -->
+<div class="absolute inset-0 bg-cover bg-center opacity-85" data-alt="A modern code tutorial video screen featuring vibrant Python function syntax in Electric Indigo, glowing variable arguments, clean code editor interface with glowing neon purple accents, sleek dark technical background, soft bokeh studio illumination." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBu9bSB4c3dn_ZaiX-lXwinHwayyTZlx4IBqDjmtiiVPuiKNx-ZJ_8cPWAH9QZT6MXX6QON2goO8utNDk-8uO37xqIZQqK_mKncqElsH6hmThuZ9MDAzw9N96p9Qglvbb-oiyG5nW0uJAuEKhS2nAHvCtukR1kjMykBD65VttbFoj2WfYq144L9ZjPUDT8iQTuww4a-f0CbBUh6DwUPVwlX4jPdHKhMOK2lYWlxOXG-Fsdb0joXClJNxw')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface via-transparent to-inverse-surface/40"></div>
+<!-- Top Video Overlay HUD -->
+<div class="relative z-10 p-5 flex items-center justify-between text-inverse-on-surface">
+<div class="flex items-center gap-2 bg-inverse-surface/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-code-sm">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span>Python 3.12 Core Concepts</span>
+</div>
+<div class="flex items-center gap-2 bg-inverse-surface/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-label-sm">
+<span>Chapter 2: Default Parameter Order</span>
+</div>
+</div>
+<!-- Big Center Play Button Trigger -->
+<div class="relative z-10 self-center">
+<button class="w-20 h-20 rounded-full bg-primary-container/90 hover:bg-primary text-on-primary flex items-center justify-center shadow-xl hover:scale-110 transition-transform duration-200 group-hover:bg-primary">
+<span class="material-symbols-outlined text-4xl ml-1">play_arrow</span>
+</button>
+</div>
+<!-- Bottom Video Control Scrim & Scrub Bar -->
+<div class="relative z-10 px-6 py-4 bg-gradient-to-t from-inverse-surface via-inverse-surface/90 to-transparent flex flex-col gap-2">
+<!-- Scrub Timeline with Chapter Breakpoints -->
+<div class="relative w-full h-1.5 bg-outline-variant/40 hover:h-2.5 transition-all rounded-full cursor-pointer flex items-center">
+<div class="bg-primary-container h-full rounded-full relative" style="width: 38%;">
+<div class="absolute -right-2 -top-1 w-3.5 h-3.5 bg-on-primary rounded-full shadow-md"></div>
+</div>
+<!-- Chapter Pins -->
+<span class="absolute left-[15%] w-1 h-2 bg-surface rounded" title="02:10 - Basic Function Syntax"></span>
+<span class="absolute left-[38%] w-1 h-2 bg-surface rounded" title="05:20 - Positional vs Named Arguments"></span>
+<span class="absolute left-[65%] w-1 h-2 bg-surface rounded" title="09:05 - Pitfalls with Mutable Defaults"></span>
+<span class="absolute left-[85%] w-1 h-2 bg-surface rounded" title="12:15 - Code-Along Review"></span>
+</div>
+<!-- Control Bar Row -->
+<div class="flex items-center justify-between text-inverse-on-surface pt-1">
+<div class="flex items-center gap-4">
+<button class="hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-2xl">play_arrow</span></button>
+<button class="hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-xl">replay_10</span></button>
+<button class="hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-xl">forward_10</span></button>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xl">volume_up</span>
+<div class="w-16 h-1 bg-outline-variant/50 rounded-full">
+<div class="bg-inverse-on-surface h-full w-3/4 rounded-full"></div>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-inverse-on-surface/90 ml-2">05:24 / 14:18</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-2 py-0.5 rounded font-code-sm text-code-sm bg-inverse-surface hover:bg-surface-variant/20 transition-colors text-inverse-on-surface">1.25x</button>
+<button class="hover:text-primary-fixed transition-colors p-1" title="Subtitles on"><span class="material-symbols-outlined text-xl">subtitles</span></button>
+<button class="hover:text-primary-fixed transition-colors p-1" title="Settings"><span class="material-symbols-outlined text-xl">settings</span></button>
+<button class="hover:text-primary-fixed transition-colors p-1" title="Fullscreen"><span class="material-symbols-outlined text-xl">fullscreen</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Video Chapter Jump Points Row -->
+<div class="px-6 py-3 bg-surface-container-low flex items-center gap-3 overflow-x-auto text-xs font-label-md">
+<span class="text-on-surface-variant uppercase tracking-wider text-[10px] font-bold shrink-0">Jump To:</span>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface whitespace-nowrap transition-colors">00:00 Intro</button>
+<button class="px-2.5 py-1 rounded bg-primary-fixed text-on-primary-fixed font-bold whitespace-nowrap transition-colors">05:20 Defining Parameters</button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface whitespace-nowrap transition-colors">08:45 Default Values</button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface whitespace-nowrap transition-colors">11:10 Common Bugs</button>
+<button class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-on-surface whitespace-nowrap transition-colors">13:00 Summary</button>
+</div>
+</section>
+<!-- Section: Conceptual Breakdown & Visual Explanations -->
+<section class="flex flex-col gap-6">
+<!-- Chapter Header -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded uppercase tracking-wider font-bold">Concept Deep Dive</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">â€¢ 4 min read</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Understanding Function Signatures &amp; Default Arguments</h3>
+</div>
+<!-- Prose Description -->
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+          In Python, functions allow you to group reusable logic under a named identifier. When authoring real-world toolsâ€”like calculating order tax, formatting strings, or connecting to APIsâ€”you frequently encounter arguments that possess consistent default states but require occasional overrides.
+        </p>
+<!-- Pro-Tip Callout Card -->
+<div class="p-5 rounded-xl bg-surface-container-low shadow-sm flex items-start gap-4">
+<div class="p-2.5 rounded-lg bg-surface-container-highest text-secondary shrink-0">
+<span class="material-symbols-outlined text-2xl">lightbulb</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">ðŸ’¡ Pro-Tip: Default arguments must follow positional arguments</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              In Python, syntax demands all positional (mandatory) parameters appear first. Any parameter with a default value (e.g. <code class="font-code-sm text-code-sm bg-surface-container px-1 py-0.5 rounded text-primary">country="USA"</code>) must be placed at the end of the argument list. Otherwise, the Python parser will trigger a <code class="font-code-sm text-code-sm bg-surface-container px-1 py-0.5 rounded text-error">SyntaxError: non-default argument follows default argument</code>.
+            </p>
+</div>
+</div>
+<!-- Interactive Production-Grade Code Block Panel -->
+<div class="rounded-xl overflow-hidden bg-inverse-surface shadow-lg">
+<!-- Code Panel Header Toolbar -->
+<div class="px-4 py-3 bg-[#1e293b] flex items-center justify-between text-slate-300">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-error inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-secondary inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary-container inline-block"></span>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-slate-200">greet_user.py</span>
+<span class="font-label-sm text-label-sm bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Python 3.12</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-1 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-label-md transition-colors text-slate-200" id="copyCodeBtn" onclick="copySnippet()">
+<span class="material-symbols-outlined text-sm" id="copyIcon">content_copy</span>
+<span id="copyLabel">Copy Code</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded bg-primary-container hover:bg-primary text-on-primary text-xs font-label-md transition-colors shadow">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span>Open in Practice IDE</span>
+</button>
+</div>
+</div>
+<!-- Code Content with Line Numbers & Monospace Font -->
+<div class="p-5 font-code-md text-code-md overflow-x-auto text-slate-200 leading-relaxed">
+<table class="w-full border-collapse">
+<tbody>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">1</td>
+<td><span class="text-secondary-fixed">def</span> <span class="text-tertiary-fixed font-bold">greet_user</span>(name, greeting=<span class="text-on-tertiary-container">"Hello"</span>, punctuation=<span class="text-on-tertiary-container">"!"</span>):</td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">2</td>
+<td class="text-slate-500 pl-4 italic">"""Generates a personalized welcome string with default parameters."""</td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">3</td>
+<td class="pl-4"><span class="text-secondary-fixed">return</span> <span class="text-on-primary-container">f</span><span class="text-on-tertiary-container">"{greeting}, {name}{punctuation}"</span></td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">4</td>
+<td>Â </td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">5</td>
+<td class="text-slate-500 italic"># Case 1: Rely entirely on default greeting &amp; punctuation</td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">6</td>
+<td>message_one = <span class="text-tertiary-fixed font-bold">greet_user</span>(<span class="text-on-tertiary-container">"Sarah"</span>)</td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">7</td>
+<td><span class="text-primary-fixed">print</span>(message_one)  <span class="text-slate-500 italic"># Output: "Hello, Sarah!"</span></td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">8</td>
+<td>Â </td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">9</td>
+<td class="text-slate-500 italic"># Case 2: Custom greeting, override default</td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">10</td>
+<td>message_two = <span class="text-tertiary-fixed font-bold">greet_user</span>(<span class="text-on-tertiary-container">"Devon"</span>, greeting=<span class="text-on-tertiary-container">"Welcome aboard"</span>)</td>
+</tr>
+<tr class="hover:bg-slate-800/40">
+<td class="text-right pr-4 text-slate-600 select-none w-8 font-code-sm">11</td>
+<td><span class="text-primary-fixed">print</span>(message_two)  <span class="text-slate-500 italic"># Output: "Welcome aboard, Devon!"</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Inline Visual Concept Diagram Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Parameter Anatomy Diagram</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Visual Blueprint</span>
+</div>
+<!-- SVG Visual Representation of Function Signatures -->
+<div class="w-full bg-surface-container-low rounded-xl p-6 flex flex-col items-center justify-center">
+<svg class="w-full max-w-2xl h-auto" fill="none" viewbox="0 0 650 140" xmlns="http://www.w3.org/2000/svg">
+<!-- Keyword 'def' -->
+<rect fill="#eaddff" height="40" rx="8" width="55" x="10" y="45"></rect>
+<text fill="#25005a" font-family="JetBrains Mono" font-size="16" font-weight="700" text-anchor="middle" x="37" y="70">def</text>
+<!-- Function Name -->
+<rect fill="#e2dfff" height="40" rx="8" width="130" x="75" y="45"></rect>
+<text fill="#0f0069" font-family="JetBrains Mono" font-size="16" font-weight="700" text-anchor="middle" x="140" y="70">calculate_bill</text>
+<!-- Open Parenthesis -->
+<text fill="#464555" font-family="JetBrains Mono" font-size="20" font-weight="bold" x="215" y="70">(</text>
+<!-- Positional Arg -->
+<rect fill="#dae2fd" height="40" rx="8" width="105" x="230" y="45"></rect>
+<text fill="#131b2e" font-family="JetBrains Mono" font-size="14" font-weight="600" text-anchor="middle" x="282" y="70">subtotal</text>
+<!-- Indicator Arrow Up -->
+<path d="M 282 38 L 282 20" stroke="#3525cd" stroke-dasharray="3 3" stroke-width="2"></path>
+<text fill="#3525cd" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="282" y="14">1. Positional (Required)</text>
+<!-- Comma -->
+<text fill="#464555" font-family="JetBrains Mono" font-size="16" x="342" y="70">,</text>
+<!-- Default Arg 1 -->
+<rect fill="#67f4b7" fill-opacity="0.3" height="40" rx="8" stroke="#006e4b" stroke-width="1.5" width="125" x="355" y="45"></rect>
+<text fill="#002113" font-family="JetBrains Mono" font-size="13" font-weight="600" text-anchor="middle" x="417" y="70">tax_rate=0.08</text>
+<!-- Indicator Arrow Down -->
+<path d="M 417 92 L 417 110" stroke="#006e4b" stroke-dasharray="3 3" stroke-width="2"></path>
+<text fill="#006e4b" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="417" y="125">2. Default (Optional)</text>
+<!-- Comma -->
+<text fill="#464555" font-family="JetBrains Mono" font-size="16" x="487" y="70">,</text>
+<!-- Default Arg 2 -->
+<rect fill="#67f4b7" fill-opacity="0.3" height="40" rx="8" stroke="#006e4b" stroke-width="1.5" width="115" x="498" y="45"></rect>
+<text fill="#002113" font-family="JetBrains Mono" font-size="13" font-weight="600" text-anchor="middle" x="555" y="70">tip=0.15</text>
+<!-- Close Parenthesis & Colon -->
+<text fill="#464555" font-family="JetBrains Mono" font-size="20" font-weight="bold" x="622" y="70">):</text>
+</svg>
+</div>
+</div>
+<!-- Section: Interactive Mini-Check Quiz Question -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-md flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-xs">?</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Knowledge Check â€¢ Test Your Intuition</span>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container px-2 py-1 rounded text-on-surface-variant font-semibold">1 Question</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+            Examine the code snippet below. What value is printed when the function execution completes?
+          </p>
+<!-- Question Mini Code Box -->
+<div class="bg-inverse-surface rounded-lg p-3 font-code-sm text-code-sm text-slate-200">
+<p><span class="text-secondary-fixed">def</span> <span class="text-tertiary-fixed">register_profile</span>(username, tier=<span class="text-on-tertiary-container">"Starter"</span>, verified=<span class="text-primary-fixed">False</span>):</p>
+<p class="pl-4"><span class="text-secondary-fixed">return</span> <span class="text-on-primary-container">f</span><span class="text-on-tertiary-container">"{username} [{tier}] - Verified: {verified}"</span></p>
+<p class="mt-2"><span class="text-primary-fixed">print</span>(register_profile(<span class="text-on-tertiary-container">"alex99"</span>, verified=<span class="text-primary-fixed">True</span>))</p>
+</div>
+<!-- Radio Options Group -->
+<div class="flex flex-col gap-2.5 mt-2" id="quizOptionsGroup">
+<label class="quiz-option flex items-center gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors select-none" onclick="selectOption(this, 1)">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center option-circle shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent option-dot"></div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface">A) alex99 [Starter] - Verified: True</span>
+</label>
+<label class="quiz-option flex items-center gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors select-none" onclick="selectOption(this, 2)">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center option-circle shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent option-dot"></div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface">B) alex99 [True] - Verified: False</span>
+</label>
+<label class="quiz-option flex items-center gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors select-none" onclick="selectOption(this, 3)">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center option-circle shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent option-dot"></div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface">C) TypeError: missing 1 required positional argument: 'tier'</span>
+</label>
+<label class="quiz-option flex items-center gap-3 p-3.5 rounded-lg bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors select-none" onclick="selectOption(this, 4)">
+<div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center option-circle shrink-0">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent option-dot"></div>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface">D) SyntaxError: keyword argument after non-keyword</span>
+</label>
+</div>
+<!-- Quiz Feedback State Area -->
+<div class="hidden p-4 rounded-xl flex items-start gap-3 transition-all duration-300" id="quizFeedback">
+<span class="material-symbols-outlined text-2xl shrink-0" id="feedbackIcon"></span>
+<div>
+<p class="font-headline-sm text-headline-sm" id="feedbackTitle"></p>
+<p class="font-body-sm text-body-sm mt-0.5" id="feedbackExplanation"></p>
+</div>
+</div>
+<!-- Submit Answer Action Button -->
+<div class="flex items-center justify-between pt-2">
+<button class="px-5 py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-colors shadow" id="checkAnswerBtn" onclick="checkAnswer()">
+              Check Answer
+            </button>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Earn +25 XP upon correct attempt</span>
+</div>
+</div>
+<!-- Community Discussion / Q&A Accordion Strip -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">forum</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Lesson Discussion</span>
+<span class="bg-surface-container text-on-surface-variant font-code-sm text-code-sm px-2 py-0.5 rounded-full">14 comments</span>
+</div>
+<button class="font-label-sm text-label-sm text-primary font-semibold hover:underline">View All</button>
+</div>
+<!-- Featured Instructor Answered Comment -->
+<div class="p-3.5 rounded-lg bg-surface-container-low flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary font-bold flex items-center justify-center text-xs">
+                  TB
+                </div>
+<span class="font-label-md text-label-md text-on-surface">Tyler B.</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm px-1.5 py-0.2 rounded font-bold">Instructor</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">2 hrs ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pl-9">
+              "Remember that default argument expressions are evaluated once when the function is definedâ€”not each time it's called! This is why you should avoid <code class="font-code-sm text-code-sm bg-surface-container px-1 rounded">def add(item, lst=[])</code>."
+            </p>
+</div>
+<!-- Quick Reply Input -->
+<div class="flex items-center gap-2 mt-1">
+<input class="flex-1 bg-surface-container-low px-4 py-2 rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant outline-none focus:bg-surface-container transition-colors" placeholder="Have a question on default arguments? Ask the community..." type="text"/>
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors shrink-0">
+              Post
+            </button>
+</div>
+</div>
+</section>
+<!-- Bottom Next / Previous Footer Navigator Bar -->
+<nav class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-surface-container-high mt-4">
+<a class="w-full sm:w-auto flex items-center gap-3 p-3 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-all group shadow-sm" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<div class="text-left">
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Previous Lesson</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">3.1 What is a Function?</span>
+</div>
+</a>
+<a class="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 p-3 rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all group shadow-md" href="#">
+<div class="text-left sm:text-right">
+<span class="block font-label-sm text-label-sm text-on-primary/80">Next Lesson</span>
+<span class="font-label-md text-label-md text-on-primary font-semibold">3.3 Return Values and Scope</span>
+</div>
+<span class="material-symbols-outlined text-on-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</nav>
+</main>
+</div>
+</div>
+<script>
+  let selectedQuizIndex = null;
+  let isComplete = false;
+
+  function toggleAccordion(contentId, iconId) {
+    const content = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      icon.classList.add('rotate-180');
+    } else {
+      content.classList.add('hidden');
+      icon.classList.remove('rotate-180');
+    }
+  }
+
+  function toggleLessonComplete() {
+    isComplete = !isComplete;
+    const btn = document.getElementById('markCompleteBtn');
+    const icon = document.getElementById('completeIcon');
+    const text = document.getElementById('completeText');
+
+    if (isComplete) {
+      btn.classList.remove('bg-surface-container-highest', 'text-primary');
+      btn.classList.add('bg-tertiary-container', 'text-on-tertiary');
+      icon.innerText = 'task_alt';
+      text.innerText = 'Completed âœ“';
+    } else {
+      btn.classList.remove('bg-tertiary-container', 'text-on-tertiary');
+      btn.classList.add('bg-surface-container-highest', 'text-primary');
+      icon.innerText = 'check_circle';
+      text.innerText = 'Mark as Complete';
+    }
+  }
+
+  function selectOption(element, index) {
+    selectedQuizIndex = index;
+    const options = document.querySelectorAll('.quiz-option');
+    options.forEach((opt) => {
+      opt.classList.remove('bg-primary-fixed', 'shadow-sm');
+      opt.classList.add('bg-surface-container-low');
+      const dot = opt.querySelector('.option-dot');
+      dot.classList.remove('bg-primary');
+      dot.classList.add('bg-transparent');
+    });
+
+    element.classList.remove('bg-surface-container-low');
+    element.classList.add('bg-primary-fixed', 'shadow-sm');
+    const activeDot = element.querySelector('.option-dot');
+    activeDot.classList.remove('bg-transparent');
+    activeDot.classList.add('bg-primary');
+  }
+
+  function checkAnswer() {
+    const feedback = document.getElementById('quizFeedback');
+    const icon = document.getElementById('feedbackIcon');
+    const title = document.getElementById('feedbackTitle');
+    const expl = document.getElementById('feedbackExplanation');
+
+    if (selectedQuizIndex === null) {
+      feedback.className = 'p-4 rounded-xl flex items-start gap-3 bg-secondary-fixed text-on-secondary-fixed block';
+      icon.innerText = 'info';
+      title.innerText = 'Please pick an option first';
+      expl.innerText = 'Select one of the 4 choices above to verify your understanding.';
+      feedback.classList.remove('hidden');
+      return;
+    }
+
+    feedback.classList.remove('hidden');
+
+    if (selectedQuizIndex === 1) {
+      feedback.className = 'p-4 rounded-xl flex items-start gap-3 bg-tertiary-fixed text-on-tertiary-fixed block';
+      icon.innerText = 'verified';
+      icon.className = 'material-symbols-outlined text-2xl text-tertiary-container';
+      title.innerText = 'Correct! Outstanding work (+25 XP)';
+      expl.innerText = 'Because "tier" was not provided, Python retained default value "Starter". Meanwhile, "verified=True" explicitly overrode the default False value by keyword assignment.';
+    } else {
+      feedback.className = 'p-4 rounded-xl flex items-start gap-3 bg-error-container text-on-error-container block';
+      icon.innerText = 'cancel';
+      icon.className = 'material-symbols-outlined text-2xl text-error';
+      title.innerText = 'Not quite right. Try analyzing the call again!';
+      expl.innerText = 'Notice that "verified=True" is passed as a keyword argument, so it targets the "verified" parameter directly without affecting the default value of "tier".';
+    }
+  }
+
+  function copySnippet() {
+    const code = `def greet_user(name, greeting="Hello", punctuation="!"):
+    """Generates a personalized welcome string with default parameters."""
+    return f"{greeting}, {name}{punctuation}"
+
+# Case 1: Rely entirely on default greeting & punctuation
+message_one = greet_user("Sarah")
+print(message_one)  # Output: "Hello, Sarah!"
+
+# Case 2: Custom greeting, override default
+message_two = greet_user("Devon", greeting="Welcome aboard")
+print(message_two)  # Output: "Welcome aboard, Devon!"`;
+
+    navigator.clipboard.writeText(code).then(() => {
+      const label = document.getElementById('copyLabel');
+      const icon = document.getElementById('copyIcon');
+      label.innerText = 'Copied!';
+      icon.innerText = 'check';
+      setTimeout(() => {
+        label.innerText = 'Copy Code';
+        icon.innerText = 'content_copy';
+      }, 2000);
+    });
+  }
+</script></main></div><script src="../shared/codebros.js" defer></script></body></html>

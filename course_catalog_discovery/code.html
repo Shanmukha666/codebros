@@ -1,0 +1,759 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"surface-container-high":"#e2e7ff","on-tertiary-fixed":"#002113","inverse-primary":"#c3c0ff","on-primary":"#ffffff","tertiary-fixed":"#6ffbbe","on-secondary-container":"#fffbff","on-background":"#131b2e","on-secondary":"#ffffff","primary-fixed":"#e2dfff","outline":"#777587","surface-bright":"#faf8ff","surface":"#faf8ff","secondary-container":"#8a4cfc","on-tertiary":"#ffffff","on-surface-variant":"#464555","error":"#ba1a1a","surface-variant":"#dae2fd","on-primary-fixed-variant":"#3323cc","on-primary-container":"#dad7ff","primary-container":"#4f46e5","on-secondary-fixed-variant":"#5a00c6","on-error":"#ffffff","on-primary-fixed":"#0f0069","tertiary-fixed-dim":"#4edea3","primary":"#3525cd","tertiary":"#005338","surface-tint":"#4d44e3","surface-container":"#eaedff","surface-container-lowest":"#ffffff","on-error-container":"#93000a","outline-variant":"#c7c4d8","secondary-fixed":"#eaddff","tertiary-container":"#006e4b","on-secondary-fixed":"#25005a","surface-container-low":"#f2f3ff","background":"#faf8ff","secondary-fixed-dim":"#d2bbff","on-tertiary-fixed-variant":"#005236","on-tertiary-container":"#67f4b7","inverse-on-surface":"#eef0ff","surface-container-highest":"#dae2fd","surface-dim":"#d2d9f4","primary-fixed-dim":"#c3c0ff","inverse-surface":"#283044","on-surface":"#131b2e","secondary":"#712ae2","error-container":"#ffdad6"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"2rem","space-2xl":"3rem","space-2xs":"0.25rem","margin-mobile":"1rem","space-xs":"0.5rem","margin":"2rem","space-lg":"1.5rem","space-md":"1rem","space-sm":"0.75rem","gutter-mobile":"1rem","gutter":"1.5rem"},"fontFamily":{"display-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"headline-md":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"label-sm":["Inter"],"display-md":["Plus Jakarta Sans"],"code-md":["JetBrains Mono"],"body-sm":["Inter"],"body-md":["Inter"]},"fontSize":{"display-lg":["3.5rem",{"lineHeight":"1.1","letterSpacing":"-0.03em","fontWeight":"800"}],"label-md":["0.875rem",{"lineHeight":"1.25","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["1.125rem",{"lineHeight":"1.6","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["1.125rem",{"lineHeight":"1.4","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["1.75rem",{"lineHeight":"1.25","letterSpacing":"-0.015em","fontWeight":"700"}],"code-sm":["0.75rem",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"headline-md":["1.375rem",{"lineHeight":"1.35","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl":["2.25rem",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["1.75rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"600"}],"label-sm":["0.75rem",{"lineHeight":"1.2","letterSpacing":"0.02em","fontWeight":"600"}],"display-md":["2.75rem",{"lineHeight":"1.15","letterSpacing":"-0.025em","fontWeight":"700"}],"code-md":["0.875rem",{"lineHeight":"1.6","letterSpacing":"0em","fontWeight":"500"}],"body-sm":["0.875rem",{"lineHeight":"1.45","letterSpacing":"0.005em","fontWeight":"400"}],"body-md":["1rem",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"400"}]}}}}</script><link rel="stylesheet" href="../shared/nocturne.css"/><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-space-lg"><div class="px-space-lg flex items-center gap-space-xs"><img alt="CodeBros Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1V9hwjbFlcKGGVjIIMLJbJNGv84-NI5CxA89FthSVtWKJG2GufaIDypIaqkrffy96TDx1BKp_LE-5Kg0dZrDxvdetR3fZ70zF13FF1C0rh1OmzykecClQPMOWHowAd6lvvWfPSHiE6PSgr2gaWgUx1gfFRtYh-syitq8TuYTX9ZboeAJuFYYQ04gidp5fa5RvzO4JaUMFaGg4RHPtrS3H3XiHP8T2EFc_pqgr948bASwg7hZ0wXv1cA7dSU"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CodeBros</span></div><div class="px-space-md"><div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider px-space-sm mb-space-xs">Study Center</div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg"><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="courses" href="#"><span class="material-symbols-outlined text-lg">school</span><span>Courses</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="practice-ide" href="#"><span class="material-symbols-outlined text-lg">terminal</span><span>Practice IDE</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="quizzes" href="#"><span class="material-symbols-outlined text-lg">quiz</span><span>Quizzes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="progress" href="#"><span class="material-symbols-outlined text-lg">insights</span><span>Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" data-path="community" href="#"><span class="material-symbols-outlined text-lg">forum</span><span>Community</span></a></nav></div></div><div class="px-space-md"><div class="bg-surface-container p-space-sm rounded-xl"><div class="flex items-center gap-space-xs mb-1.5"><span class="material-symbols-outlined text-secondary text-base">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface font-semibold">12-Day Streak</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">2 more lessons today to keep your streak active!</p></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-xl z-40 flex items-center justify-between px-8 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-sm bg-surface-container-low px-space-sm py-1.5 rounded-lg text-on-surface-variant"><span class="material-symbols-outlined text-lg">search</span><input class="bg-transparent border-0 outline-none text-body-sm font-body-sm placeholder:text-on-surface-variant/70 w-72" placeholder="Search curriculum, functions, syntax..." type="text"/><kbd class="font-code-sm text-code-sm bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant">âŒ˜K</kbd></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 bg-surface-container-low px-space-sm py-1.5 rounded-full"><span class="material-symbols-outlined text-secondary text-base">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface">12 Days</span></div><button class="relative p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary-container"></span></button><div class="flex items-center gap-space-xs pl-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQm8oabWyCf5nl7eMuUITwGHWBZWGTqOSwxz8USVc_P9QOzYgUhlKtyOSu_JVX5hSUR5-9H9KSeRxcjsLwiF4amhDIXWLUTW13d2CrzPuVW6HDzh8rM4R1fl0z3JZpH2_obJGR123gbvP3lxtEondP0kCM5DVGJznntEjyOiaaG8s0zCbX515sTSSFQJNtDycB-xBmf4NQkDHHJ9pljIrNLQMvKHyKdj338yyhDupoNmquX1fDtYkmww"/><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary-container ring-2 ring-surface"></span></div></div></div></header><main class="w-full pt-16 px-8 bg-surface min-h-screen"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Subtle Ambient Glow Orbs contained within relative section -->
+<div class="relative w-full overflow-hidden mb-space-lg">
+<div class="absolute -top-32 -left-20 w-96 h-96 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute top-10 right-0 w-80 h-80 rounded-full bg-secondary/10 blur-3xl pointer-events-none"></div>
+<!-- Header & Overline -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pt-space-xs">
+<div>
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+            CATALOG 2025
+          </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">/ curricula.v4.live</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Explore Courses</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+          Browse our hands-on interactive programming courses with real-time feedback, interactive lessons, and guided projects.
+        </p>
+</div>
+<!-- Quick Metrics Strip -->
+<div class="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-xl shadow-sm self-start md:self-auto">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></div>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">1,420 Labs Active</span>
+</div>
+<span class="text-outline-variant">â€¢</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary">terminal</span>
+<span>In-Browser Runtimes</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Track Banner Card -->
+<section class="relative w-full bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden mb-space-xl transition-all duration-300 hover:shadow-md">
+<div class="h-1.5 w-full bg-gradient-to-r from-secondary-container via-primary to-tertiary-fixed-dim"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg p-space-lg lg:p-space-xl items-center">
+<!-- Left Content Column -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">bolt</span>
+            Featured Track
+          </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-primary-fixed-variant font-code-sm text-code-sm font-semibold">
+            Updated 2025
+          </span>
+<span class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm ml-auto">
+<span class="material-symbols-outlined text-base text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.9</span>
+<span>(4.2k reviews)</span>
+</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+            Full-Stack Web Mastery (Zero to Hero)
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-2xs leading-relaxed">
+            Master professional web architecture from structural semantic layouts to real-time microservices, relational modeling, and production cloud deploys with embedded automated test suites.
+          </p>
+</div>
+<!-- Metric Badges Row -->
+<div class="flex flex-wrap gap-y-2 gap-x-space-md font-label-sm text-label-sm text-on-surface">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-base text-primary">menu_book</span>
+<span>48 Lessons</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-base text-secondary">layers</span>
+<span>6 Real Projects</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-base text-tertiary-container">terminal</span>
+<span>24 IDE Labs</span>
+</div>
+</div>
+<!-- Syllabus Tags -->
+<div class="flex flex-wrap items-center gap-1.5 pt-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">Stack:</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container font-code-sm text-code-sm text-primary">HTML5/CSS3</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container font-code-sm text-code-sm text-primary">JavaScript ESNext</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container font-code-sm text-code-sm text-primary">Node.js</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container font-code-sm text-code-sm text-primary">React 19</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container font-code-sm text-code-sm text-primary">PostgreSQL</span>
+</div>
+<!-- Instructor Row & Actions -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md pt-space-xs mt-space-2xs">
+<div class="flex items-center gap-space-xs">
+<img alt="Lead Instructor" class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Close up professional portrait of a modern software engineer instructor smiling warmly against clean minimal modern studio lighting with cool indigo rim light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClTrtMsTohexC1YkidKRbVbo737HF4ymgfW2AWQlLeFEmqLUl1jYBRFSM__lWGLVeWC1MIG0kqB9rYlIjQqrkWAZuMgkT6gNfGZ2MRuFEgU4nhwGmU72_QCPfJWpsjQGTAlPSzNpHywtUQQGJM-LTizNapj4KBLX25tyAwGZDJTznlfoms8M_Z9AphJ55ODj_XvyWZC01Cm2cl_5DGXVVtoiY8KaFLd_BTW-znv73HY3pi5ZvAolC-Vw"/>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Elena Rostova &amp; CodeBros Core Team</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Ex-Staff Platform Architect</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">subject</span>
+<span>Preview Syllabus</span>
+</button>
+<button class="px-5 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-md hover:bg-primary transition-all flex items-center gap-1.5">
+<span>Enroll Now</span>
+<span class="text-tertiary-fixed-dim font-bold">â€¢</span>
+<span class="text-tertiary-fixed">Free</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Visual Preview Mockup Bento -->
+<div class="lg:col-span-5 relative w-full h-full min-h-[260px] flex flex-col justify-center">
+<div class="relative bg-surface-container-high rounded-xl p-space-md shadow-inner overflow-hidden">
+<div class="flex items-center justify-between pb-2 mb-2 bg-surface-container-highest px-3 py-1.5 rounded-lg">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="font-code-sm text-code-sm text-on-surface-variant ml-2">app/api/stream.ts</span>
+</div>
+<span class="font-code-sm text-code-sm text-tertiary-container font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">play_circle</span> Verified
+            </span>
+</div>
+<!-- Code Snippet Simulated -->
+<div class="bg-inverse-surface rounded-lg p-space-md text-inverse-on-surface font-code-sm text-code-sm leading-relaxed overflow-x-auto">
+<div class="text-on-surface-variant flex gap-3">
+<span class="select-none text-outline">01</span>
+<span><span class="text-inverse-primary">import</span> { createRouter } <span class="text-inverse-primary">from</span> <span class="text-tertiary-fixed-dim">'@codebros/edge'</span>;</span>
+</div>
+<div class="text-on-surface-variant flex gap-3">
+<span class="select-none text-outline">02</span>
+<span><span class="text-inverse-primary">export const</span> POST = <span class="text-inverse-primary">async</span> (req: Request) =&gt; {</span>
+</div>
+<div class="text-on-surface-variant flex gap-3">
+<span class="select-none text-outline">03</span>
+<span class="pl-4"><span class="text-inverse-primary">const</span> { token, stream } = <span class="text-inverse-primary">await</span> req.json();</span>
+</div>
+<div class="text-on-surface-variant flex gap-3">
+<span class="select-none text-outline">04</span>
+<span class="pl-4"><span class="text-inverse-primary">return</span> Response.json({ status: <span class="text-tertiary-fixed-dim">'synced'</span>, latency: 4 });</span>
+</div>
+<div class="text-on-surface-variant flex gap-3">
+<span class="select-none text-outline">05</span>
+<span>};</span>
+</div>
+</div>
+<!-- Floating Micro Achievement Badge -->
+<div class="absolute -bottom-2 -right-2 bg-surface-container-lowest p- space-xs px-3 py-2 rounded-xl shadow-lg flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-lg">military_tech</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface font-bold">Cap-Stone Project</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant">Real-Time Canvas Board</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter & Discovery Control Deck -->
+<section class="flex flex-col gap-space-md mb-space-lg">
+<!-- Search Bar & Sort Dropdown -->
+<div class="flex flex-col sm:flex-row gap-space-sm items-stretch sm:items-center justify-between">
+<div class="relative flex-1 max-w-2xl">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-on-surface-variant/70 font-body-sm text-body-sm pl-11 pr-10 py-3 rounded-xl shadow-sm outline-none transition-shadow focus:shadow-md" id="courseSearchInput" placeholder="Search by language, framework, topic (e.g. Python, Algorithms, React)..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+<kbd class="font-code-sm text-code-sm bg-surface-container-high text-on-surface-variant px-1.5 py-0.5 rounded">âŒ˜K</kbd>
+</div>
+</div>
+<!-- Sorting dropdown -->
+<div class="flex items-center gap-space-xs self-end sm:self-auto">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sort:</span>
+<div class="relative inline-block">
+<select class="appearance-none bg-surface-container-lowest text-on-surface font-label-md text-label-md py-2.5 pl-3.5 pr-8 rounded-xl shadow-sm outline-none cursor-pointer hover:bg-surface-container-low transition-colors">
+<option>Most Popular</option>
+<option>Newest</option>
+<option>Highest Rated</option>
+<option>Shortest duration</option>
+</select>
+<span class="material-symbols-outlined text-lg text-on-surface-variant absolute right-2.5 top-2.5 pointer-events-none">
+            expand_more
+          </span>
+</div>
+</div>
+</div>
+<!-- Difficulty Filter Tabs -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-2xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">Level:</span>
+<button class="filter-difficulty-btn active px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary font-label-md text-label-md transition-all shadow-sm">
+        All Levels (24)
+      </button>
+<button class="filter-difficulty-btn px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors shadow-sm">
+        Beginner (12)
+      </button>
+<button class="filter-difficulty-btn px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors shadow-sm">
+        Intermediate (8)
+      </button>
+<button class="filter-difficulty-btn px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors shadow-sm">
+        Advanced (4)
+      </button>
+</div>
+<!-- Category / Topic Tags Filter Row -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 scrollbar-none">
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1 shrink-0">Topics:</span>
+<button class="topic-tag-btn active shrink-0 px-3 py-1 rounded-lg bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold transition-colors">
+        All Topics
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        Python
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        Web Development
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        Data Structures &amp; Algorithms
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        Java
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        C/C++
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        Databases / SQL
+      </button>
+<button class="topic-tag-btn shrink-0 px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-label-sm text-label-sm transition-colors shadow-sm">
+        Machine Learning
+      </button>
+</div>
+</section>
+<!-- 3-Column Course Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg mb-space-2xl">
+<!-- CARD 1: Python Fundamentals (In Progress) -->
+<article class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+<div class="h-1 bg-gradient-to-r from-secondary-container to-primary-container"></div>
+<!-- Card Media Header -->
+<div class="relative h-44 bg-surface-container overflow-hidden">
+<img alt="Python Fundamentals" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Minimalist abstract glowing 3D pythonic snake algorithmic ribbon floating against clean sleek dark indigo backdrop, geometric data structures, ultra crisp render with soft studio reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeVyn2KD9py2UvEuzqisqfZKu4EZenunqPReesL5jn-vsnPGkeBshcqNBgZifsY_BS8NPpGOZExQiGb5bk920JQaXWcbul2tbpcFwd5cffKegQLNjyFCe5ay4j962PK3jRJeOf2iAtEKVgfrLp3IO2fqmHiftU60FcrRm8tSJFLkqyEWuSFIWMpQ7rImxjOENNeQpgMACF7KCXOGMyS1tlD4WNC7E0Mk1Wq7vqUX60L5gZR-wLTQvWvg"/>
+<div class="absolute top-3 left-3 flex items-center gap-1.5">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur text-primary font-label-sm text-label-sm shadow-sm">
+            Beginner
+          </span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-code-sm text-code-sm font-semibold shadow-sm">
+            In Progress
+          </span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.9</span>
+<span class="text-on-surface-variant text-xs">(5.8k)</span>
+</div>
+</div>
+<!-- Card Body -->
+<div class="flex-1 p-space-md flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Python Fundamentals for Beginners
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+            Write clean, idiomatic Python. Master conditionals, data types, functions, list comprehensions, and error handling.
+          </p>
+<!-- Course Specs Row -->
+<div class="flex items-center gap-3 text-on-surface-variant font-code-sm text-code-sm mt-3 pt-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">menu_book</span>
+              28 lessons
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">schedule</span>
+              14 hrs
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base">terminal</span>
+              18 IDE Labs
+            </span>
+</div>
+<!-- Active In-Progress Bar -->
+<div class="mt-space-md p-space-xs bg-surface-container-low rounded-xl">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm mb-1">
+<span class="font-semibold text-primary">Lesson 12 of 28</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">42% Completed</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full transition-all duration-500" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+<!-- CTA Footer -->
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm">
+<span class="material-symbols-outlined text-base text-tertiary-container">check_circle</span>
+<span>Auto-saved state</span>
+</div>
+<button class="px-4 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-colors flex items-center gap-1">
+<span>Continue Learning</span>
+<span class="material-symbols-outlined text-base">play_arrow</span>
+</button>
+</div>
+</div>
+</article>
+<!-- CARD 2: Full-Stack JavaScript Basics -->
+<article class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+<div class="h-1 bg-surface-container-high"></div>
+<!-- Card Media Header -->
+<div class="relative h-44 bg-surface-container overflow-hidden">
+<img alt="Full-Stack JavaScript" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Dynamic glowing JavaScript amber and electric violet node connections in virtual matrix space with crisp floating UI brackets, modern EdTech digital artwork" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGDGn1gnvzBE--cgdPjllTnmxJqFZjyG2m17vr9UIbZ8x6z8g2kLCuGMgCV4tzjb4KwbyfdAv5jXCo0E1Ffvib0dr8EyHkepQr1pXOXnk1US6ZyBYHOi9MJCVf9018ueu7Qd8O-f7NtaO6-cCnBbwOhqBK8eUjUx8--IkrwFdWBbVuAkaytab_zSHqcneovsGBNli-hxKmMAkJEZ3AXuiy6HbUfy2hmdvvIhMpFlddXCUpFdlGltWnrw"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur text-primary font-label-sm text-label-sm shadow-sm">
+            Beginner
+          </span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.8</span>
+<span class="text-on-surface-variant text-xs">(3.1k)</span>
+</div>
+</div>
+<!-- Card Body -->
+<div class="flex-1 p-space-md flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Full-Stack JavaScript Basics
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+            Build interactive, responsive interfaces and connect to RESTful services using modern browser APIs and ES6 standards.
+          </p>
+<!-- Course Specs Row -->
+<div class="flex items-center gap-3 text-on-surface-variant font-code-sm text-code-sm mt-3 pt-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">menu_book</span>
+              34 lessons
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">schedule</span>
+              18 hrs
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base">terminal</span>
+              22 IDE Labs
+            </span>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">ES6+</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">DOM</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Async/Await</span>
+</div>
+</div>
+<!-- CTA Footer -->
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Self-paced â€¢ Guided</span>
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span>Start Course</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- CARD 3: Data Structures & Algorithms in Java -->
+<article class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+<div class="h-1 bg-surface-container-high"></div>
+<!-- Card Media Header -->
+<div class="relative h-44 bg-surface-container overflow-hidden">
+<img alt="DSA in Java" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Geometric glowing binary tree and graph algorithm nodes radiating clean electric purple and indigo laser pathways across depth of field studio space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Irp9p_bNlzP29Qa-uvnBcq9n-clrw7oqD5x20uZwlTqTXOyKP2sBzTf3dm7mZqELdFos0Z8a-lVrl6BIQCt2unQ2YDIfLDZ2xhY1t4b1aP1Ujkk8RSBKaMouSzwnF4DJpGsl07F5IM4mjyhiIpt94NLnKhFEN1IVjt8cJ0U84r_K6wQox7_FN6cWC2ChmoVL-KvQBwbPXS8549-Ys2cG5igrhPkl4HU0nTJSBRxdCxXbly8jW4svag"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur text-secondary font-label-sm text-label-sm shadow-sm">
+            Intermediate
+          </span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.9</span>
+<span class="text-on-surface-variant text-xs">(4.1k)</span>
+</div>
+</div>
+<!-- Card Body -->
+<div class="flex-1 p-space-md flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Data Structures &amp; Algorithms in Java
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+            Ace technical interviews with rigorous coverage of complex data types, dynamic programming, and asymptotic complexity analysis.
+          </p>
+<!-- Course Specs Row -->
+<div class="flex items-center gap-3 text-on-surface-variant font-code-sm text-code-sm mt-3 pt-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">menu_book</span>
+              45 lessons
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">schedule</span>
+              26 hrs
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base">terminal</span>
+              50 LeetCode Labs
+            </span>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Big O</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Trees</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Graphs</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Sorting</span>
+</div>
+</div>
+<!-- CTA Footer -->
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Interview prep badge</span>
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span>Start Course</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- CARD 4: Modern C++ -->
+<article class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+<div class="h-1 bg-surface-container-high"></div>
+<!-- Card Media Header -->
+<div class="relative h-44 bg-surface-container overflow-hidden">
+<img alt="Modern C++ Systems" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="High-tech hardware circuit traces and microchip silicon die with sharp teal and indigo neon reflections, systems engineering concept" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz8PoA_cP-OSASQ_wMv326Sqa0htJY3YOVbdfPDHyBjLCs_ln9T0WyuEknCBaBH3Y14rultFb1ilB4mkQuWWfGL-T0oVdr5oCV66wiDcSlMU6CF8WgYc5FwFFuyaYt6ggCKS8REx7B197elCc7nlMbw3EZfU0HotnCcwRkYzct9Zat2Z-G81ZtFhghEixPD2nWY-9UbitYG--zzqcwHTXQ7V_vsDI5kXnOqynFMWBztB56ZZvjPlWfQg"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur text-secondary font-label-sm text-label-sm shadow-sm">
+            Intermediate
+          </span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.7</span>
+<span class="text-on-surface-variant text-xs">(1.9k)</span>
+</div>
+</div>
+<!-- Card Body -->
+<div class="flex-1 p-space-md flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Modern C++ for High Performance &amp; Systems
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+            Dive into memory management, smart pointers, RAII, concurrency, and high-throughput low-latency programming.
+          </p>
+<!-- Course Specs Row -->
+<div class="flex items-center gap-3 text-on-surface-variant font-code-sm text-code-sm mt-3 pt-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">menu_book</span>
+              32 lessons
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">schedule</span>
+              20 hrs
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base">terminal</span>
+              25 Memory Labs
+            </span>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Pointers</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">STL</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">OOP</span>
+</div>
+</div>
+<!-- CTA Footer -->
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Clang 18 Compiler</span>
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span>Start Course</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- CARD 5: Relational Databases & SQL -->
+<article class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+<div class="h-1 bg-surface-container-high"></div>
+<!-- Card Media Header -->
+<div class="relative h-44 bg-surface-container overflow-hidden">
+<img alt="Relational Databases and SQL" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Cylindrical database storage disks stacked in futuristic server room with subtle cool mint and dark indigo laser lights, clean data architecture render" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtaQSkR2FWmQ8y6RJyPaYWSEOVbMsdniJwdmgA5ttF69YbVielp0TrJ1tzf-OauSDaP2s2tSmCQaGMcUqpfteBYf3VeQcexktdXZc6VJuVAG85YUETJwcSz428FLAXDsHIiIlFB5Y717T5MA2Q3NFTvSi2_gVY9c6i4YnV8P00rbxVzIAQD2IquEoD-TpNJdZqoDWrou6kcntlxU5DMnaiNtE00JgElYSUVo9Dzxh4gkXk41LO1LTYGQ"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur text-primary font-label-sm text-label-sm shadow-sm">
+            Beginner
+          </span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.8</span>
+<span class="text-on-surface-variant text-xs">(2.4k)</span>
+</div>
+</div>
+<!-- Card Body -->
+<div class="flex-1 p-space-md flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Relational Databases &amp; Practical SQL
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+            Design schemas, write performant multi-table JOINs, optimize B-tree indexes, and execute transactional ACID guarantees.
+          </p>
+<!-- Course Specs Row -->
+<div class="flex items-center gap-3 text-on-surface-variant font-code-sm text-code-sm mt-3 pt-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">menu_book</span>
+              20 lessons
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">schedule</span>
+              12 hrs
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base">terminal</span>
+              15 Live Sandboxes
+            </span>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Queries</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Joins</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Indexing</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Schema</span>
+</div>
+</div>
+<!-- CTA Footer -->
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Postgres &amp; SQLite</span>
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span>Start Course</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- CARD 6: Machine Learning with Python & Scikit -->
+<article class="group flex flex-col bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+<div class="h-1 bg-surface-container-high"></div>
+<!-- Card Media Header -->
+<div class="relative h-44 bg-surface-container overflow-hidden">
+<img alt="Machine Learning with Python" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Intricate 3D neural network synapses glowing with soft emerald and electric indigo pulses in an analytical computational space, high resolution vector aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgKpqog3FzCvE1yWaTa7QzkdqSAOe_tu8k95I-KYf5PSaEAV0VcNJLg7SfZLpvWupR74oFfrQIzDgbOgvWktptNriC6lK9Mqx3uC5rKlCTi9Spygoc7KRgXYgPKW8QkttIwXYfTbmqETrrqlpnTiQjeVzkPtGpE29oiy14SoySuCPF1fjuymZ7xOax3zAGne4uwyaEysGJa4wdokZ_ePohhaCB9mLfIGTBcia_H9oJ2He4FbRQIHzWJw"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur text-tertiary-container font-label-sm text-label-sm shadow-sm font-semibold">
+            Advanced
+          </span>
+</div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.9</span>
+<span class="text-on-surface-variant text-xs">(1.5k)</span>
+</div>
+</div>
+<!-- Card Body -->
+<div class="flex-1 p-space-md flex flex-col justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Applied Machine Learning with Python &amp; Scikit
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+            Train predictive models, run feature engineering, evaluate ROC curves, and deploy inference microservices from scratch.
+          </p>
+<!-- Course Specs Row -->
+<div class="flex items-center gap-3 text-on-surface-variant font-code-sm text-code-sm mt-3 pt-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">menu_book</span>
+              38 lessons
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">schedule</span>
+              28 hrs
+            </span>
+<span>â€¢</span>
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-base">terminal</span>
+              12 Jupyter Projects
+            </span>
+</div>
+<!-- Tags -->
+<div class="flex flex-wrap gap-1.5 mt-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Pandas</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">NumPy</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Regression</span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-code-sm text-code-sm text-on-surface-variant">Neural Nets</span>
+</div>
+</div>
+<!-- CTA Footer -->
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-on-surface-variant">GPU-accelerated labs</span>
+<button class="px-4 py-2 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span>Start Course</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Curated Career Roadmaps Section -->
+<section class="flex flex-col gap-space-lg pt-space-md">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-lg">route</span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Guided Journeys</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Curated Career Roadmaps</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Structured multi-course paths designed to take you from foundational syntax to job-ready engineering roles.</p>
+</div>
+<button class="font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant flex items-center gap-1 transition-colors self-start sm:self-auto">
+<span>View all 8 paths</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Career Roadmap 3-Bento Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Roadmap 1: Frontend -->
+<div class="group relative bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
+<div class="absolute -top-12 -right-12 w-28 h-28 rounded-full bg-primary/5 group-hover:scale-125 transition-transform duration-500 pointer-events-none"></div>
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary mb-space-md">
+<span class="material-symbols-outlined text-2xl">devices</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-code-sm text-code-sm mb-1">
+<span>8 Milestones</span>
+<span>â€¢</span>
+<span>~4 Months</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Software Engineer (Frontend)
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+            From semantic web architecture and responsive CSS to state management, TypeScript, and micro-frontends.
+          </p>
+<!-- Timeline SVG Step Visualization -->
+<div class="mt-space-md flex items-center gap-2">
+<div class="flex-1 h-1.5 rounded-full bg-primary-container"></div>
+<div class="flex-1 h-1.5 rounded-full bg-primary-container"></div>
+<div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+<div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Includes 4 Certifications</span>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Roadmap 2: Backend Systems -->
+<div class="group relative bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
+<div class="absolute -top-12 -right-12 w-28 h-28 rounded-full bg-secondary/5 group-hover:scale-125 transition-transform duration-500 pointer-events-none"></div>
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed mb-space-md">
+<span class="material-symbols-outlined text-2xl">dns</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-code-sm text-code-sm mb-1">
+<span>10 Milestones</span>
+<span>â€¢</span>
+<span>~5 Months</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Backend Systems Developer
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+            Distributed storage, relational schemas, high-throughput caching, Docker containers, and gRPC microservices.
+          </p>
+<!-- Timeline SVG Step Visualization -->
+<div class="mt-space-md flex items-center gap-2">
+<div class="flex-1 h-1.5 rounded-full bg-secondary-container"></div>
+<div class="flex-1 h-1.5 rounded-full bg-secondary-container"></div>
+<div class="flex-1 h-1.5 rounded-full bg-secondary-container"></div>
+<div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Includes 5 Certifications</span>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container hover:text-on-secondary-container text-on-surface flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Roadmap 3: Data & AI Engineer -->
+<div class="group relative bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
+<div class="absolute -top-12 -right-12 w-28 h-28 rounded-full bg-tertiary/5 group-hover:scale-125 transition-transform duration-500 pointer-events-none"></div>
+<div>
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed mb-space-md">
+<span class="material-symbols-outlined text-2xl">neurology</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-code-sm text-code-sm mb-1">
+<span>12 Milestones</span>
+<span>â€¢</span>
+<span>~6 Months</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+            Data &amp; AI Engineer
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 leading-relaxed">
+            Data pipelines, vector databases, LLM orchestration, feature stores, and automated production MLOps workflows.
+          </p>
+<!-- Timeline SVG Step Visualization -->
+<div class="mt-space-md flex items-center gap-2">
+<div class="flex-1 h-1.5 rounded-full bg-tertiary-container"></div>
+<div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+<div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+<div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Includes 6 Certifications</span>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-tertiary-container hover:text-on-tertiary text-on-surface flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Filter Behavior -->
+<script>
+    // Simple filter tabs interaction
+    document.querySelectorAll('.filter-difficulty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-difficulty-btn').forEach(b => {
+          b.classList.remove('bg-primary-container', 'text-on-primary');
+          b.classList.add('bg-surface-container-lowest', 'text-on-surface');
+        });
+        btn.classList.add('bg-primary-container', 'text-on-primary');
+        btn.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+      });
+    });
+
+    document.querySelectorAll('.topic-tag-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.topic-tag-btn').forEach(b => {
+          b.classList.remove('bg-surface-container-high', 'text-primary', 'font-semibold');
+          b.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+        });
+        btn.classList.add('bg-surface-container-high', 'text-primary', 'font-semibold');
+        btn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+      });
+    });
+  </script>
+</div></main></div><script src="../shared/codebros.js" defer></script></body></html>

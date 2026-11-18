@@ -1,0 +1,305 @@
+import Fastify from 'fastify';
+import { pathToFileURL } from 'node:url';
+import cookie from '@fastify/cookie';
+import cors from '@fastify/cors';
+import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
+import { z } from 'zod';
+import { authenticate, hashPassword, hashToken, issueTokens, verifyPassword, verifyRefreshToken } from './auth.js';
+import { config } from './config.js';
+import { prisma } from './db.js';
+import { sendError } from './errors.js';
+import { runDeterministicChallenge } from './runner.js';
+
+const app = Fastify({ logger: true, requestIdHeader: 'x-request-id' });
+
+await app.register(helmet);
+await app.register(cookie);
+await app.register(cors, {
+  origin: (origin, callback) => {
+    if (!origin || config.NODE_ENV !== 'production' || origin === config.WEB_ORIGIN) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error('Origin is not allowed by the CodeBros API.'), false);
+  },
+  credentials: true
+});
+await app.register(rateLimit, { max: 100, timeWindow: '1 minute' });
+
+const registerSchema = z.object({ name: z.string().trim().min(2).max(80), email: z.string().email().max(160), password: z.string().min(8).max(128) });
+const loginSchema = z.object({ email: z.string().email(), password: z.string().min(1) });
+const runSchema = z.object({ source: z.string().max(50000), language: z.string().min(1).max(40) });
+const quizSchema = z.object({ answers: z.record(z.string()) });
+const courseSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(3).max(120),
+  description: z.string().trim().min(20).max(1000),
+  level: z.string().trim().min(2).max(30),
+  accent: z.string().trim().min(2).max(30),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).default('DRAFT')
+});
+
+function parseJsonValue<T>(value: unknown, fallback: T): T {
+  if (typeof value !== 'string') return value as T;
+  try { return JSON.parse(value) as T; } catch { return fallback; }
+}
+
+function jsonForDatabase(value: unknown): any {
+  return config.DATABASE_URL.startsWith('file:')
+    ? JSON.stringify(value)
+    : value;
+}
+
+app.get('/api/health', async () => {
+  let database: 'up' | 'down' = 'up';
+  try { await prisma.$queryRaw`SELECT 1`; } catch { database = 'down'; }
+  return { ok: database === 'up', service: 'codebros-api', database, timestamp: new Date().toISOString() };
+});
+
+app.post('/api/auth/register', async (request, reply) => {
+  const parsed = registerSchema.safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Please check the account details.', parsed.error.flatten());
+  const email = parsed.data.email.toLowerCase();
+  const existing = await prisma.user.findUnique({ where: { email } });
+  if (existing) return sendError(reply, 409, 'EMAIL_IN_USE', 'An account with this email already exists.');
+  const { password, ...profile } = parsed.data;
+  const user = await prisma.user.create({ data: { ...profile, email, passwordHash: await hashPassword(password) } });
+  const tokens = await issueTokens({ id: user.id, email: user.email, name: user.name, role: user.role as 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' });
+  reply.setCookie('refresh_token', tokens.refreshToken, { httpOnly: true, sameSite: 'lax', secure: config.NODE_ENV === 'production', path: '/api/auth' });
+  return reply.code(201).send({ user: { id: user.id, name: user.name, email: user.email, role: user.role }, accessToken: tokens.accessToken });
+});
+
+app.post('/api/auth/login', async (request, reply) => {
+  const parsed = loginSchema.safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Email and password are required.');
+  const user = await prisma.user.findUnique({ where: { email: parsed.data.email.toLowerCase() } });
+  if (!user || !(await verifyPassword(user.passwordHash, parsed.data.password))) return sendError(reply, 401, 'AUTH_INVALID', 'Email or password is incorrect.');
+  const tokens = await issueTokens({ id: user.id, email: user.email, name: user.name, role: user.role as 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' });
+  reply.setCookie('refresh_token', tokens.refreshToken, { httpOnly: true, sameSite: 'lax', secure: config.NODE_ENV === 'production', path: '/api/auth' });
+  return { user: { id: user.id, name: user.name, email: user.email, role: user.role }, accessToken: tokens.accessToken };
+});
+
+app.post('/api/auth/refresh', async (request, reply) => {
+  const refreshToken = request.cookies.refresh_token;
+  if (!refreshToken) return sendError(reply, 401, 'AUTH_REQUIRED', 'A refresh session is required.');
+  try {
+    const user = await verifyRefreshToken(refreshToken);
+    if (!user) return sendError(reply, 401, 'AUTH_INVALID', 'The refresh session is invalid or expired.');
+    await prisma.refreshToken.delete({ where: { tokenHash: hashToken(refreshToken) } });
+    const tokens = await issueTokens({ id: user.id, email: user.email, name: user.name, role: user.role as 'STUDENT' | 'INSTRUCTOR' | 'ADMIN' });
+    reply.setCookie('refresh_token', tokens.refreshToken, { httpOnly: true, sameSite: 'lax', secure: config.NODE_ENV === 'production', path: '/api/auth' });
+    return { accessToken: tokens.accessToken };
+  } catch {
+    return sendError(reply, 401, 'AUTH_INVALID', 'The refresh session is invalid or expired.');
+  }
+});
+
+app.post('/api/auth/logout', async (request, reply) => {
+  const refreshToken = request.cookies.refresh_token;
+  if (refreshToken) await prisma.refreshToken.deleteMany({ where: { tokenHash: hashToken(refreshToken) } });
+  reply.clearCookie('refresh_token', { path: '/api/auth' });
+  return { ok: true };
+});
+
+app.get('/api/me', async (request, reply) => {
+  const user = await authenticate(request, reply);
+  if (!user) return;
+  return { user };
+});
+
+app.get('/api/courses', async (request) => {
+  const query = z.object({ search: z.string().optional(), level: z.string().optional(), page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(12) }).parse(request.query);
+  const where = { status: 'PUBLISHED' as const, ...(query.level ? { level: query.level } : {}), ...(query.search ? { OR: [{ title: { contains: query.search, mode: 'insensitive' as const } }, { description: { contains: query.search, mode: 'insensitive' as const } }] } : {}) };
+  const [items, total] = await prisma.$transaction([
+    prisma.course.findMany({ where, include: { tags: { include: { tag: true } }, modules: { include: { lessons: true }, orderBy: { position: 'asc' } }, _count: { select: { enrollments: true } } }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: { createdAt: 'desc' } }),
+    prisma.course.count({ where })
+  ]);
+  return { items, page: query.page, limit: query.limit, total };
+});
+
+app.get('/api/challenges/featured', async (_request, reply) => {
+  const challenge = await prisma.challenge.findFirst({
+    where: { lesson: { module: { course: { status: 'PUBLISHED' } } } },
+    orderBy: { lesson: { module: { course: { createdAt: 'asc' } } } },
+    include: { lesson: { include: { module: { include: { course: true } } } } }
+  });
+  if (!challenge) return sendError(reply, 404, 'CHALLENGE_NOT_FOUND', 'No practice challenge is published yet.');
+  return { challenge };
+});
+
+app.get('/api/courses/:courseId/lessons/:lessonId', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const { courseId, lessonId } = z.object({ courseId: z.string(), lessonId: z.string() }).parse(request.params);
+  const enrollment = await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId } }, include: { course: true } });
+  if (!enrollment || enrollment.course.status !== 'PUBLISHED') return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course to access its lessons.');
+  const lesson = await prisma.lesson.findFirst({
+    where: { id: lessonId, module: { courseId, course: { status: 'PUBLISHED' } } },
+    include: { challenge: true, quiz: { include: { questions: { orderBy: { position: 'asc' } } } } }
+  });
+  if (!lesson) return sendError(reply, 404, 'LESSON_NOT_FOUND', 'That lesson does not exist in this course.');
+  return { lesson: { ...lesson, quiz: lesson.quiz ? { ...lesson.quiz, questions: lesson.quiz.questions.map(({ answer: _answer, ...question }) => ({ ...question, options: parseJsonValue<string[]>(question.options, []) })) } : null } };
+});
+
+app.post('/api/courses/:courseId/enroll', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const params = z.object({ courseId: z.string() }).parse(request.params);
+  const course = await prisma.course.findFirst({ where: { id: params.courseId, status: 'PUBLISHED' } });
+  if (!course) return sendError(reply, 404, 'COURSE_NOT_FOUND', 'That course is not available.');
+  const enrollment = await prisma.enrollment.upsert({ where: { userId_courseId: { userId: user.id, courseId: course.id } }, create: { userId: user.id, courseId: course.id }, update: {} });
+  await prisma.activity.create({ data: { userId: user.id, type: 'COURSE_ENROLLED', metadata: jsonForDatabase({ courseId: course.id }) } });
+  return reply.code(201).send({ enrollment });
+});
+
+app.get('/api/dashboard', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const [enrollments, completions, attempts, runs] = await Promise.all([
+    prisma.enrollment.findMany({ where: { userId: user.id }, include: { course: { include: { modules: { include: { lessons: true } } } } } }),
+    prisma.lessonCompletion.count({ where: { userId: user.id } }),
+    prisma.quizAttempt.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 5 }),
+    prisma.codeRun.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 5 })
+  ]);
+  const lessonTotal = enrollments.reduce((sum, item) => sum + item.course.modules.reduce((moduleSum, module) => moduleSum + module.lessons.length, 0), 0);
+  return { user, stats: { enrolledCourses: enrollments.length, completedLessons: completions, lessonTotal, completionPercent: lessonTotal ? Math.round((completions / lessonTotal) * 100) : 0 }, recentQuizAttempts: attempts, recentCodeRuns: runs };
+});
+
+app.get('/api/progress', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const [completions, activities] = await Promise.all([
+    prisma.lessonCompletion.findMany({ where: { userId: user.id }, include: { lesson: { include: { module: { include: { course: true } } } } }, orderBy: { completedAt: 'desc' } }),
+    prisma.activity.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 20 })
+  ]);
+  const byCourse = new Map<string, { courseId: string; title: string; completedLessons: number }>();
+  for (const completion of completions) {
+    const course = completion.lesson.module.course;
+    const current = byCourse.get(course.id) ?? { courseId: course.id, title: course.title, completedLessons: 0 };
+    current.completedLessons += 1;
+    byCourse.set(course.id, current);
+  }
+  return { courses: [...byCourse.values()], recentActivity: activities };
+});
+
+app.post('/api/lessons/:lessonId/complete', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const { lessonId } = z.object({ lessonId: z.string() }).parse(request.params);
+  const lesson = await prisma.lesson.findUnique({ where: { id: lessonId }, include: { module: { include: { course: true } } } });
+  if (!lesson) return sendError(reply, 404, 'LESSON_NOT_FOUND', 'That lesson does not exist.');
+  const enrollment = await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: lesson.module.courseId } } });
+  if (!enrollment || lesson.module.course.status !== 'PUBLISHED') return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before completing its lessons.');
+  const completion = await prisma.lessonCompletion.upsert({ where: { userId_lessonId: { userId: user.id, lessonId } }, create: { userId: user.id, lessonId }, update: {} });
+  await prisma.activity.create({ data: { userId: user.id, type: 'LESSON_COMPLETED', metadata: jsonForDatabase({ lessonId }) } });
+  return { completion };
+});
+
+app.post('/api/quizzes/:quizId/attempts', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const { quizId } = z.object({ quizId: z.string() }).parse(request.params);
+  const parsed = quizSchema.safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Answers must be supplied as a question-to-answer map.');
+  const quiz = await prisma.quiz.findUnique({ where: { id: quizId }, include: { questions: true } });
+  if (!quiz) return sendError(reply, 404, 'QUIZ_NOT_FOUND', 'That quiz does not exist.');
+  const quizContext = await prisma.quiz.findUnique({ where: { id: quizId }, include: { lesson: { include: { module: { include: { course: true } } } } } });
+  if (!quizContext || quizContext.lesson.module.course.status !== 'PUBLISHED' || !(await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: quizContext.lesson.module.courseId } } }))) {
+    return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before submitting a quiz.');
+  }
+  const score = quiz.questions.reduce((total, question) => total + (parsed.data.answers[question.id] === question.answer ? 1 : 0), 0);
+  const attempt = await prisma.quizAttempt.create({ data: { userId: user.id, quizId, score, total: quiz.questions.length, answers: jsonForDatabase(parsed.data.answers) } });
+  return reply.code(201).send({ attempt, feedback: score === quiz.questions.length ? 'Perfect run. You can move on.' : `${score}/${quiz.questions.length} correct. Review the lesson and try again.` });
+});
+
+app.get('/api/quizzes/:quizId', async (request, reply) => {
+  const { quizId } = z.object({ quizId: z.string() }).parse(request.params);
+  const quiz = await prisma.quiz.findUnique({ where: { id: quizId }, include: { questions: { orderBy: { position: 'asc' } } } });
+  if (!quiz) return sendError(reply, 404, 'QUIZ_NOT_FOUND', 'That quiz does not exist.');
+  return { quiz: { ...quiz, questions: quiz.questions.map(({ answer: _answer, ...question }) => ({ ...question, options: parseJsonValue<string[]>(question.options, []) })) } };
+});
+
+app.get('/api/quizzes/featured', async (_request, reply) => {
+  const quiz = await prisma.quiz.findFirst({
+    where: { lesson: { module: { course: { status: 'PUBLISHED' } } } },
+    orderBy: { lesson: { module: { course: { createdAt: 'asc' } } } }
+  });
+  if (!quiz) return sendError(reply, 404, 'QUIZ_NOT_FOUND', 'No published quiz is available yet.');
+  return { quizId: quiz.id };
+});
+
+app.post('/api/challenges/:challengeId/runs', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  const { challengeId } = z.object({ challengeId: z.string() }).parse(request.params);
+  const parsed = runSchema.safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'A language and source string are required.');
+  const challenge = await prisma.challenge.findUnique({ where: { id: challengeId } });
+  if (!challenge) return sendError(reply, 404, 'CHALLENGE_NOT_FOUND', 'That challenge does not exist.');
+  const challengeContext = await prisma.challenge.findUnique({ where: { id: challengeId }, include: { lesson: { include: { module: { include: { course: true } } } } } });
+  if (!challengeContext || challengeContext.lesson.module.course.status !== 'PUBLISHED' || !(await prisma.enrollment.findUnique({ where: { userId_courseId: { userId: user.id, courseId: challengeContext.lesson.module.courseId } } }))) {
+    return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course before running its challenges.');
+  }
+  if (parsed.data.language !== challenge.language) return sendError(reply, 400, 'LANGUAGE_MISMATCH', 'Use the language configured for this challenge.');
+  const tests = parseJsonValue<{ label: string; expected: string }[]>(challenge.tests, []);
+  const result = runDeterministicChallenge(parsed.data.source, tests);
+  const codeRun = await prisma.codeRun.create({ data: { userId: user.id, challengeId, language: parsed.data.language, source: parsed.data.source, ...result } });
+  return reply.code(201).send({ codeRun, feedback: result.output });
+});
+
+app.get('/api/admin/overview', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  if (user.role !== 'ADMIN' && user.role !== 'INSTRUCTOR') return sendError(reply, 403, 'FORBIDDEN', 'Admin access is required.');
+  const [students, courses, enrollments, runs] = await Promise.all([prisma.user.count({ where: { role: 'STUDENT' } }), prisma.course.count(), prisma.enrollment.count(), prisma.codeRun.count()]);
+  return { students, courses, enrollments, codeRuns: runs };
+});
+
+app.get('/api/admin/students', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  if (user.role !== 'ADMIN') return sendError(reply, 403, 'FORBIDDEN', 'Admin access is required.');
+  const query = z.object({ search: z.string().optional(), page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(20) }).parse(request.query);
+  const where = { role: 'STUDENT' as const, ...(query.search ? { OR: [{ name: { contains: query.search, mode: 'insensitive' as const } }, { email: { contains: query.search, mode: 'insensitive' as const } }] } : {}) };
+  const [items, total] = await prisma.$transaction([
+    prisma.user.findMany({ where, select: { id: true, name: true, email: true, createdAt: true, _count: { select: { enrollments: true, completions: true, codeRuns: true } } }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: { createdAt: 'desc' } }),
+    prisma.user.count({ where })
+  ]);
+  return { items, page: query.page, limit: query.limit, total };
+});
+
+app.post('/api/admin/courses', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  if (user.role !== 'ADMIN' && user.role !== 'INSTRUCTOR') return sendError(reply, 403, 'FORBIDDEN', 'Instructor or admin access is required.');
+  const parsed = courseSchema.safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Course details are invalid.', parsed.error.flatten());
+  const existing = await prisma.course.findUnique({ where: { slug: parsed.data.slug } });
+  if (existing) return sendError(reply, 409, 'SLUG_IN_USE', 'Choose a unique course slug.');
+  const course = await prisma.course.create({ data: parsed.data });
+  return reply.code(201).send({ course });
+});
+
+app.patch('/api/admin/courses/:courseId', async (request, reply) => {
+  const user = await authenticate(request, reply); if (!user) return;
+  if (user.role !== 'ADMIN' && user.role !== 'INSTRUCTOR') return sendError(reply, 403, 'FORBIDDEN', 'Instructor or admin access is required.');
+  const { courseId } = z.object({ courseId: z.string() }).parse(request.params);
+  const parsed = z.object({ title: z.string().trim().min(3).max(120).optional(), description: z.string().trim().min(20).max(1000).optional(), level: z.string().trim().min(2).max(30).optional(), accent: z.string().trim().min(2).max(30).optional(), status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).optional() }).safeParse(request.body);
+  if (!parsed.success) return sendError(reply, 400, 'VALIDATION_ERROR', 'Course updates are invalid.', parsed.error.flatten());
+  const existing = await prisma.course.findUnique({ where: { id: courseId } });
+  if (!existing) return sendError(reply, 404, 'COURSE_NOT_FOUND', 'That course does not exist.');
+  const course = await prisma.course.update({ where: { id: courseId }, data: parsed.data });
+  return { course };
+});
+
+app.setErrorHandler((error, request, reply) => {
+  request.log.error(error);
+  if (error instanceof z.ZodError) return sendError(reply, 400, 'VALIDATION_ERROR', 'The request could not be validated.', error.flatten());
+  return sendError(reply, 500, 'INTERNAL_ERROR', 'Something went wrong while processing the request.');
+});
+
+const start = async () => {
+  try {
+    await app.listen({ port: config.PORT, host: config.HOST });
+  } catch (error) {
+    app.log.error(error);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
+};
+
+const entryPoint = process.argv[1] ? pathToFileURL(process.argv[1]).href : '';
+if (import.meta.url === entryPoint && process.env.NODE_ENV !== 'test') await start();
+
+export { app };

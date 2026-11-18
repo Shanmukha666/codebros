@@ -1,0 +1,555 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#ffdad6","on-tertiary-fixed":"#002113","secondary-container":"#8a4cfc","on-tertiary-fixed-variant":"#005236","surface-container-high":"#e2e7ff","tertiary":"#005338","on-background":"#131b2e","surface-container":"#eaedff","on-error-container":"#93000a","surface":"#faf8ff","primary-container":"#4f46e5","on-primary-fixed-variant":"#3323cc","background":"#faf8ff","on-tertiary":"#ffffff","surface-tint":"#4d44e3","on-surface":"#131b2e","error":"#ba1a1a","secondary":"#712ae2","outline":"#777587","surface-container-low":"#f2f3ff","secondary-fixed-dim":"#d2bbff","on-tertiary-container":"#67f4b7","tertiary-container":"#006e4b","surface-variant":"#dae2fd","surface-container-highest":"#dae2fd","primary-fixed":"#e2dfff","on-primary-container":"#dad7ff","on-primary":"#ffffff","on-error":"#ffffff","on-secondary":"#ffffff","inverse-on-surface":"#eef0ff","tertiary-fixed":"#6ffbbe","inverse-surface":"#283044","surface-container-lowest":"#ffffff","on-primary-fixed":"#0f0069","tertiary-fixed-dim":"#4edea3","secondary-fixed":"#eaddff","on-surface-variant":"#464555","outline-variant":"#c7c4d8","primary-fixed-dim":"#c3c0ff","on-secondary-fixed":"#25005a","on-secondary-fixed-variant":"#5a00c6","inverse-primary":"#c3c0ff","surface-dim":"#d2d9f4","primary":"#3525cd","surface-bright":"#faf8ff","on-secondary-container":"#fffbff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-md":"1rem","gutter-mobile":"1rem","space-2xl":"3rem",margin:"2rem","space-xl":"2rem","space-lg":"1.5rem","margin-mobile":"1rem",gutter:"1.5rem","space-2xs":"0.25rem","space-xs":"0.5rem","space-sm":"0.75rem"},fontFamily:{"headline-xl-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"display-md":["Plus Jakarta Sans"],"label-sm":["Inter"],"headline-xl":["Plus Jakarta Sans"],"code-md":["JetBrains Mono"],"body-lg":["Inter"],"display-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Inter"]},fontSize:{"headline-xl-mobile":["1.75rem",{lineHeight:"1.25",letterSpacing:"-0.015em",fontWeight:"700"}],"body-sm":["0.875rem",{lineHeight:"1.45",letterSpacing:"0.005em",fontWeight:"400"}],"body-md":["1rem",{lineHeight:"1.5",letterSpacing:"0em",fontWeight:"400"}],"display-md":["2.75rem",{lineHeight:"1.15",letterSpacing:"-0.025em",fontWeight:"700"}],"label-sm":["0.75rem",{lineHeight:"1.2",letterSpacing:"0.02em",fontWeight:"600"}],"headline-xl":["2.25rem",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"700"}],"code-md":["0.875rem",{lineHeight:"1.6",letterSpacing:"0em",fontWeight:"500"}],"body-lg":["1.125rem",{lineHeight:"1.6",letterSpacing:"-0.01em",fontWeight:"400"}],"display-lg":["3.5rem",{lineHeight:"1.1",letterSpacing:"-0.03em",fontWeight:"800"}],"headline-sm":["1.125rem",{lineHeight:"1.4",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-md":["1.375rem",{lineHeight:"1.35",letterSpacing:"-0.01em",fontWeight:"600"}],"code-sm":["0.75rem",{lineHeight:"1.5",letterSpacing:"0em",fontWeight:"500"}],"headline-lg":["1.75rem",{lineHeight:"1.3",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["0.875rem",{lineHeight:"1.25",letterSpacing:"0.01em",fontWeight:"600"}]}}}}</script><link rel="stylesheet" href="../shared/nocturne.css"/><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #4f46e5
+- Font: plusJakartaSans
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XyrDu5t5TtCfEbhdNzVL1JK9xIqbqjOAVMWVdAWpE-XZ2Y8MoCb2F2HWoIEaTk1Vaw43kimA_0T9IL2kQBwFDprS-Ao7WnFpjbcw-dz5NX5x1WxXqBQtrABtoqN7jDeXTTHK9HEWUAd_2XPYso2qPESV5yJ_vK3MvM1AsKGjamZbj3Q1QHte2qxRWjJhhyoQykg01RqSWV6lX16tcW-BzrmLoU2s38FwI6sDAs64hGW4h9UOmtZToK_uF0"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">CodeBros</span><span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Education OS</span></div></div><span class="px-space-xs py-space-2xs bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm rounded-lg">ADMIN CONSOLE</span></div><div class="px-space-md py-space-xs"><span class="px-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline">Core Management</span></div><nav class="flex flex-col gap-space-2xs px-space-md flex-1" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-all bg-primary-container text-on-primary font-label-md rounded-lg shadow-sm" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="students" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Students</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="courses-and-builder" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Courses & Builder</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="coding-problems" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span><span>Coding Problems</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="quizzes" href="#"><span class="material-symbols-outlined text-[20px]">check_box</span><span>Quizzes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports-and-analytics" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports & Analytics</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-md bg-surface-container-low"><div class="flex items-center gap-space-sm mb-space-sm p-space-xs rounded-lg bg-surface-container-lowest"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Xc2iY0J6FgpSYbDn1tX3SRTzPBn-sV-7984WHAZ-NeiI0XlWaddaOpwTNLO0d_sUTpCDrKnQfzJBRjKrExclMZrQpljY-ONTWaiqhvp0-Tnb46mAHS2Ia-o5t3fIMS5NudXgRuyLvqUzqV-HHPVt8s8DvypY7bhJcd9NyyKUMVil3QGr1835LV4Z6gt4oj8fgQYG9FA1iExknJqZxWW9KPoooHBUohGahlMxyr-Nk2yf_dHZu9iiL2NUV2"/><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-surface truncate">Dr. Sarah Vance</span><span class="font-label-sm text-label-sm text-outline truncate">Platform Lead</span></div></div><a class="flex items-center justify-between px-space-xs py-space-2xs font-label-sm text-label-sm text-primary hover:text-on-surface transition-colors" href="#"><span class="flex items-center gap-space-2xs"><span class="material-symbols-outlined text-[16px]">school</span>Back to Student View</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-lg flex-1 max-w-2xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search students, course IDs, challenges, submissions... [Cmd+K]" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant">System 99.98% Healthy â€¢ 1.4k Active Pods</span></div><button class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button><button class="flex items-center gap-space-2xs px-space-md py-2 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-sm hover:opacity-95 transition-opacity" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span>Quick Create</span></button><div class="pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Xc2iY0J6FgpSYbDn1tX3SRTzPBn-sV-7984WHAZ-NeiI0XlWaddaOpwTNLO0d_sUTpCDrKnQfzJBRjKrExclMZrQpljY-ONTWaiqhvp0-Tnb46mAHS2Ia-o5t3fIMS5NudXgRuyLvqUzqV-HHPVt8s8DvypY7bhJcd9NyyKUMVil3QGr1835LV4Z6gt4oj8fgQYG9FA1iExknJqZxWW9KPoooHBUohGahlMxyr-Nk2yf_dHZu9iiL2NUV2"/></div></div></header><main class="w-full pt-16 bg-surface px-space-xl py-space-xl"><div class="flex flex-col w-full gap-space-xl">
+<!-- Top Banner / Header Bar -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md pb-space-xs">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm uppercase tracking-wider text-primary font-semibold">Real-Time Control Plane</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<div class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded-full bg-tertiary-container/15 text-tertiary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span>All 12 Regions Operational</span>
+</div>
+</div>
+<h1 class="font-display-md text-display-md text-on-surface tracking-tight">Platform Overview & Analytics</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+        Real-time telemetry across student cohorts, active IDE compiler runtimes, curriculum engagement, and course completion velocity.
+      </p>
+</div>
+<!-- Controls -->
+<div class="flex flex-wrap items-center gap-space-sm self-start xl:self-center">
+<!-- Date Range Pills -->
+<div class="inline-flex p-1 rounded-lg bg-surface-container-low shadow-sm">
+<button class="px-space-sm py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors rounded" type="button">7D</button>
+<button class="px-space-sm py-1.5 font-label-sm text-label-sm bg-surface-container-lowest text-primary shadow-sm font-semibold rounded" type="button">30D</button>
+<button class="px-space-sm py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors rounded" type="button">Quarterly</button>
+<button class="px-space-sm py-1.5 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors rounded" type="button">Custom</button>
+</div>
+<!-- Export Action -->
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md rounded-lg shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">download</span>
+<span>Export Metrics</span>
+</button>
+</div>
+</div>
+<!-- KPI Row: 4 Metric Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric 1: Total Enrolled -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm transition-transform hover:-translate-y-0.5">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Total Students</span>
+<span class="font-display-md text-display-md text-on-surface mt-space-2xs leading-none">48,290</span>
+</div>
+<div class="p-2.5 rounded-lg bg-primary-fixed/60 text-primary">
+<span class="material-symbols-outlined text-[22px]">groups</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center gap-space-xs font-label-sm text-label-sm">
+<span class="inline-flex items-center font-semibold text-tertiary bg-tertiary-container/15 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+          +14.2%
+        </span>
+<span class="text-outline">vs past 30 days</span>
+</div>
+</div>
+<!-- Metric 2: Daily Active Learners -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm transition-transform hover:-translate-y-0.5">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-secondary to-secondary-container"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Active Learners</span>
+<span class="font-display-md text-display-md text-on-surface mt-space-2xs leading-none">12,415</span>
+</div>
+<div class="p-2.5 rounded-lg bg-secondary-fixed/50 text-secondary">
+<span class="material-symbols-outlined text-[22px]">bolt</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm">
+<span class="inline-flex items-center font-semibold text-tertiary bg-tertiary-container/15 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+            +8.6%
+          </span>
+<span class="text-outline">this week</span>
+</div>
+<!-- Sparkline -->
+<svg class="w-16 h-6 text-primary" fill="none" stroke="currentColor" viewbox="0 0 64 24">
+<path d="M1 18 L12 14 L24 16 L36 9 L48 11 L63 3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Metric 3: IDE Compilations -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm transition-transform hover:-translate-y-0.5">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-primary-container"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">IDE Compilations</span>
+<span class="font-display-md text-display-md text-on-surface mt-space-2xs leading-none">184,920</span>
+</div>
+<div class="p-2.5 rounded-lg bg-primary-fixed/60 text-primary">
+<span class="material-symbols-outlined text-[22px]">terminal</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center gap-space-xs font-label-sm text-label-sm">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-code-sm text-code-sm">
+          42ms
+        </span>
+<span class="text-outline">avg sandbox execution</span>
+</div>
+</div>
+<!-- Metric 4: Completion Rate -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm transition-transform hover:-translate-y-0.5">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-tertiary to-tertiary-container"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Course Completion</span>
+<span class="font-display-md text-display-md text-on-surface mt-space-2xs leading-none">76.4%</span>
+</div>
+<div class="p-2.5 rounded-lg bg-tertiary-fixed/60 text-tertiary">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center gap-space-xs font-label-sm text-label-sm">
+<span class="inline-flex items-center font-semibold text-tertiary bg-tertiary-container/15 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[14px]">add</span>
+          3.1%
+        </span>
+<span class="text-outline">cohort velocity gain</span>
+</div>
+</div>
+</div>
+<!-- Main Asymmetric Dashboard Grid: Left 65%, Right 35% -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN (8 cols of 12) -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Chart Panel 1: Student Growth & DAU -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-md text-headline-md text-on-surface">Student Growth & Daily Active Coders</h2>
+<span class="px-space-xs py-0.5 bg-surface-container-high rounded text-on-surface-variant font-code-sm text-code-sm">v3.4 Telemetry</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-0.5">Aggregated hourly active code sessions versus cohort enrollments</p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface">
+<span class="w-3 h-3 rounded-sm bg-primary"></span>
+<span>Active Coders</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface">
+<span class="w-3 h-3 rounded-sm bg-secondary-fixed-dim"></span>
+<span>New Signups</span>
+</div>
+</div>
+</div>
+<!-- SVG High-Definition Area / Bar Visualization -->
+<div class="w-full h-64 relative mt-space-xs">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 760 220">
+<defs>
+<lineargradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#4f46e5" stop-opacity="0.32"></stop>
+<stop offset="100%" stop-color="#4f46e5" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="secondaryBar" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#d2bbff" stop-opacity="0.9"></stop>
+<stop offset="100%" stop-color="#8a4cfc" stop-opacity="0.4"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Grid Lines -->
+<line stroke="#eaedff" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="760" y1="20" y2="20"></line>
+<line stroke="#eaedff" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="760" y1="70" y2="70"></line>
+<line stroke="#eaedff" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="760" y1="120" y2="120"></line>
+<line stroke="#eaedff" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="760" y1="170" y2="170"></line>
+<line stroke="#eaedff" stroke-width="1" x1="0" x2="760" y1="210" y2="210"></line>
+<!-- Weekly Enrollment Bars in Background -->
+<rect fill="url(#secondaryBar)" height="70" rx="3" width="18" x="36" y="140"></rect>
+<rect fill="url(#secondaryBar)" height="100" rx="3" width="18" x="142" y="110"></rect>
+<rect fill="url(#secondaryBar)" height="115" rx="3" width="18" x="248" y="95"></rect>
+<rect fill="url(#secondaryBar)" height="130" rx="3" width="18" x="354" y="80"></rect>
+<rect fill="url(#secondaryBar)" height="150" rx="3" width="18" x="460" y="60"></rect>
+<rect fill="url(#secondaryBar)" height="165" rx="3" width="18" x="566" y="45"></rect>
+<rect fill="url(#secondaryBar)" height="180" rx="3" width="18" x="672" y="30"></rect>
+<!-- Active Coders Area Fill -->
+<polygon fill="url(#areaGradient)" points="45,150 151,120 257,135 363,75 469,82 575,40 681,28 681,210 45,210"></polygon>
+<!-- Active Coders Metric Stroke -->
+<polyline fill="none" points="45,150 151,120 257,135 363,75 469,82 575,40 681,28" stroke="#4f46e5" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+<!-- Data Point Nodes -->
+<circle cx="45" cy="150" fill="#faf8ff" r="4.5" stroke="#3525cd" stroke-width="2.5"></circle>
+<circle cx="151" cy="120" fill="#faf8ff" r="4.5" stroke="#3525cd" stroke-width="2.5"></circle>
+<circle cx="257" cy="135" fill="#faf8ff" r="4.5" stroke="#3525cd" stroke-width="2.5"></circle>
+<circle cx="363" cy="75" fill="#faf8ff" r="4.5" stroke="#3525cd" stroke-width="2.5"></circle>
+<circle cx="469" cy="82" fill="#faf8ff" r="4.5" stroke="#3525cd" stroke-width="2.5"></circle>
+<circle cx="575" cy="40" fill="#faf8ff" r="4.5" stroke="#3525cd" stroke-width="2.5"></circle>
+<circle cx="681" cy="28" fill="#3525cd" r="5" stroke="#ffffff" stroke-width="2"></circle>
+</svg>
+</div>
+<!-- Chart Timeline X-Axis -->
+<div class="flex justify-between items-center px-4 pt-space-xs font-code-sm text-code-sm text-outline">
+<span>Week 1 (Oct 01)</span>
+<span>Week 2 (Oct 08)</span>
+<span>Week 3 (Oct 15)</span>
+<span>Week 4 (Oct 22)</span>
+<span>Week 5 (Oct 29)</span>
+<span>Week 6 (Nov 05)</span>
+<span class="text-primary font-semibold">Today (Live)</span>
+</div>
+</div>
+<!-- Chart Panel 2: Compiler & IDE Runtime Workload -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Compiler & Sandbox Workload</h2>
+<p class="font-body-sm text-body-sm text-outline">Language share across 184,920 execution runs today</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/15 text-tertiary font-code-sm text-code-sm font-semibold">
+              99.98% Success
+            </span>
+<span class="px-space-xs py-0.5 rounded bg-error-container/40 text-on-error-container font-code-sm text-code-sm font-semibold">
+              0.02% OOM Limit
+            </span>
+</div>
+</div>
+<!-- Stacked Progress Visualizer -->
+<div class="w-full h-3.5 rounded-full overflow-hidden flex bg-surface-container-high">
+<div class="h-full bg-primary" style="width: 48%" title="Python: 48%"></div>
+<div class="h-full bg-secondary" style="width: 28%" title="JavaScript / TS: 28%"></div>
+<div class="h-full bg-secondary-container" style="width: 14%" title="Java: 14%"></div>
+<div class="h-full bg-tertiary" style="width: 10%" title="C++: 10%"></div>
+</div>
+<!-- Language Breakdown Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm mt-space-md">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                Python 3.12
+              </span>
+<span class="font-code-sm text-code-sm text-primary font-bold">48%</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline mt-1">88,761 tasks</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+                Node / JS
+              </span>
+<span class="font-code-sm text-code-sm text-secondary font-bold">28%</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline mt-1">51,777 tasks</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+                Java 21
+              </span>
+<span class="font-code-sm text-code-sm text-secondary-container font-bold">14%</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline mt-1">25,888 tasks</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+                C++20 (GCC)
+              </span>
+<span class="font-code-sm text-code-sm text-tertiary font-bold">10%</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline mt-1">18,494 tasks</span>
+</div>
+</div>
+</div>
+<!-- Table Panel: Top Performing Courses by Retention -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Top Performing Tracks by Retention</h2>
+<p class="font-body-sm text-body-sm text-outline">Cohort graduation velocity and interactive exercise pass-rates</p>
+</div>
+<button class="font-label-sm text-label-sm text-primary hover:underline font-semibold flex items-center gap-1" type="button">
+<span>View All Tracks</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto mt-space-xs">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-outline font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-2.5 px-space-md rounded-l-lg">Course Title</th>
+<th class="py-2.5 px-space-md">Enrolled</th>
+<th class="py-2.5 px-space-md">Retention Velocity</th>
+<th class="py-2.5 px-space-md">Avg Rating</th>
+<th class="py-2.5 px-space-md rounded-r-lg text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-none">
+<!-- Course 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary-fixed flex items-center justify-center text-primary font-bold font-headline-sm">
+                      Py
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Python Fundamentals & DS</span>
+<span class="font-body-sm text-body-sm text-outline truncate">CS-101 â€¢ 32 Modules</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md font-label-md text-label-md text-on-surface">14,240</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-24 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 92%"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-primary">92%</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1 text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-amber-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.94</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Course 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary font-bold font-headline-sm">
+                      JS
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Web Dev Mastery (React & Node)</span>
+<span class="font-body-sm text-body-sm text-outline truncate">WD-204 â€¢ 48 Modules</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md font-label-md text-label-md text-on-surface">9,812</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-24 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 88%"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-secondary">88%</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1 text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-amber-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.87</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Course 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary-fixed-dim/40 flex items-center justify-center text-primary font-bold font-headline-sm">
+                      Jv
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Advanced Data Structures in Java</span>
+<span class="font-body-sm text-body-sm text-outline truncate">CS-302 â€¢ 26 Modules</span>
+</div>
+</div>
+</td>
+<td class="py-space-sm px-space-md font-label-md text-label-md text-on-surface">6,520</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-24 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 74%"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-primary-container">74%</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md">
+<div class="flex items-center gap-1 text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-amber-500" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.79</span>
+</div>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN (4 cols of 12) -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- Quick Admin Actions -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Quick Admin Actions</h2>
+<p class="font-body-sm text-body-sm text-outline mb-space-sm">Shortcut operational tasks across cohorts</p>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="flex flex-col items-center justify-center p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors gap-1 text-center" type="button">
+<span class="material-symbols-outlined text-[22px] text-primary">person_add</span>
+<span class="font-label-sm text-label-sm font-semibold">Add Student</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors gap-1 text-center" type="button">
+<span class="material-symbols-outlined text-[22px] text-secondary">code_blocks</span>
+<span class="font-label-sm text-label-sm font-semibold">New Challenge</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors gap-1 text-center" type="button">
+<span class="material-symbols-outlined text-[22px] text-tertiary">campaign</span>
+<span class="font-label-sm text-label-sm font-semibold">Broadcast</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors gap-1 text-center" type="button">
+<span class="material-symbols-outlined text-[22px] text-error">bug_report</span>
+<span class="font-label-sm text-label-sm font-semibold">Audit Logs</span>
+</button>
+</div>
+</div>
+<!-- Live Platform Alerts & Incidents -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-[20px] text-primary">radar</span>
+<span>Live System Telemetry</span>
+</h2>
+<span class="font-code-sm text-code-sm text-tertiary font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> Live
+          </span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Alert 1 -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-tertiary-container/10">
+<span class="material-symbols-outlined text-[20px] text-tertiary mt-0.5">dns</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Scale-Out Complete</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">24 sandbox workers initialized in <code class="font-code-sm text-code-sm bg-surface-container-high px-1 rounded">us-east</code></p>
+<span class="font-code-sm text-code-sm text-outline mt-1">2 mins ago</span>
+</div>
+</div>
+<!-- Alert 2 -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-primary-fixed/30">
+<span class="material-symbols-outlined text-[20px] text-primary mt-0.5">speed</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Quiz Module 4 Surge</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">140 concurrent submissions queued and validated</p>
+<span class="font-code-sm text-code-sm text-outline mt-1">18 mins ago</span>
+</div>
+</div>
+<!-- Alert 3 -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-[20px] text-outline mt-0.5">task_alt</span>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Stalled Queue Cleared</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">All pending test containers terminated with 0 drops</p>
+<span class="font-code-sm text-code-sm text-outline mt-1">1 hour ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Cohort Registrations -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Recent Signups</h2>
+<p class="font-body-sm text-body-sm text-outline">Real-time incoming student registrations</p>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]">person_pin</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- Student 1 -->
+<div class="flex items-center gap-space-sm p-space-2xs rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0">
+              MB
+            </div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Marcus Brody</span>
+<span class="font-code-sm text-code-sm text-outline">4m ago</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">marcus@mit.edu</span>
+<span class="font-code-sm text-code-sm text-primary font-medium">Python Fundamentals</span>
+</div>
+</div>
+<!-- Student 2 -->
+<div class="flex items-center gap-space-sm p-space-2xs rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0">
+              AL
+            </div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Aisha Lin</span>
+<span class="font-code-sm text-code-sm text-outline">12m ago</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">aisha.tech@gmail.com</span>
+<span class="font-code-sm text-secondary font-medium">Web Dev Mastery</span>
+</div>
+</div>
+<!-- Student 3 -->
+<div class="flex items-center gap-space-sm p-space-2xs rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0">
+              DK
+            </div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Devon Kohl</span>
+<span class="font-code-sm text-code-sm text-outline">27m ago</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">dkohl@stanford.edu</span>
+<span class="font-code-sm text-tertiary font-medium">DS in Java</span>
+</div>
+</div>
+<!-- Student 4 -->
+<div class="flex items-center gap-space-sm p-space-2xs rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0">
+              SR
+            </div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Sofia Reyes</span>
+<span class="font-code-sm text-code-sm text-outline">41m ago</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">s.reyes@berkeley.edu</span>
+<span class="font-code-sm text-primary font-medium">Python Fundamentals</span>
+</div>
+</div>
+<!-- Student 5 -->
+<div class="flex items-center gap-space-sm p-space-2xs rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full bg-outline text-on-surface-variant flex items-center justify-center font-label-sm text-label-sm font-bold flex-shrink-0">
+              TP
+            </div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">Tariq Patel</span>
+<span class="font-code-sm text-code-sm text-outline">1h ago</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">tariq@cmu.edu</span>
+<span class="font-code-sm text-secondary font-medium">Web Dev Mastery</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div><script src="../shared/codebros.js" defer></script></body></html>

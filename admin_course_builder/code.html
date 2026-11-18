@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#ffdad6","on-tertiary-fixed":"#002113","secondary-container":"#8a4cfc","on-tertiary-fixed-variant":"#005236","surface-container-high":"#e2e7ff","tertiary":"#005338","on-background":"#131b2e","surface-container":"#eaedff","on-error-container":"#93000a","surface":"#faf8ff","primary-container":"#4f46e5","on-primary-fixed-variant":"#3323cc","background":"#faf8ff","on-tertiary":"#ffffff","surface-tint":"#4d44e3","on-surface":"#131b2e","error":"#ba1a1a","secondary":"#712ae2","outline":"#777587","surface-container-low":"#f2f3ff","secondary-fixed-dim":"#d2bbff","on-tertiary-container":"#67f4b7","tertiary-container":"#006e4b","surface-variant":"#dae2fd","surface-container-highest":"#dae2fd","primary-fixed":"#e2dfff","on-primary-container":"#dad7ff","on-primary":"#ffffff","on-error":"#ffffff","on-secondary":"#ffffff","inverse-on-surface":"#eef0ff","tertiary-fixed":"#6ffbbe","inverse-surface":"#283044","surface-container-lowest":"#ffffff","on-primary-fixed":"#0f0069","tertiary-fixed-dim":"#4edea3","secondary-fixed":"#eaddff","on-surface-variant":"#464555","outline-variant":"#c7c4d8","primary-fixed-dim":"#c3c0ff","on-secondary-fixed":"#25005a","on-secondary-fixed-variant":"#5a00c6","inverse-primary":"#c3c0ff","surface-dim":"#d2d9f4","primary":"#3525cd","surface-bright":"#faf8ff","on-secondary-container":"#fffbff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-md":"1rem","gutter-mobile":"1rem","space-2xl":"3rem",margin:"2rem","space-xl":"2rem","space-lg":"1.5rem","margin-mobile":"1rem",gutter:"1.5rem","space-2xs":"0.25rem","space-xs":"0.5rem","space-sm":"0.75rem"},fontFamily:{"headline-xl-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"display-md":["Plus Jakarta Sans"],"label-sm":["Inter"],"headline-xl":["Plus Jakarta Sans"],"code-md":["JetBrains Mono"],"body-lg":["Inter"],"display-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Inter"]},fontSize:{"headline-xl-mobile":["1.75rem",{lineHeight:"1.25",letterSpacing:"-0.015em",fontWeight:"700"}],"body-sm":["0.875rem",{lineHeight:"1.45",letterSpacing:"0.005em",fontWeight:"400"}],"body-md":["1rem",{lineHeight:"1.5",letterSpacing:"0em",fontWeight:"400"}],"display-md":["2.75rem",{lineHeight:"1.15",letterSpacing:"-0.025em",fontWeight:"700"}],"label-sm":["0.75rem",{lineHeight:"1.2",letterSpacing:"0.02em",fontWeight:"600"}],"headline-xl":["2.25rem",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"700"}],"code-md":["0.875rem",{lineHeight:"1.6",letterSpacing:"0em",fontWeight:"500"}],"body-lg":["1.125rem",{lineHeight:"1.6",letterSpacing:"-0.01em",fontWeight:"400"}],"display-lg":["3.5rem",{lineHeight:"1.1",letterSpacing:"-0.03em",fontWeight:"800"}],"headline-sm":["1.125rem",{lineHeight:"1.4",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-md":["1.375rem",{lineHeight:"1.35",letterSpacing:"-0.01em",fontWeight:"600"}],"code-sm":["0.75rem",{lineHeight:"1.5",letterSpacing:"0em",fontWeight:"500"}],"headline-lg":["1.75rem",{lineHeight:"1.3",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["0.875rem",{lineHeight:"1.25",letterSpacing:"0.01em",fontWeight:"600"}]}}}}</script><link rel="stylesheet" href="../shared/nocturne.css"/><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Brand logo. - Primary color: #4f46e5
+- Font: plusJakartaSans
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XyrDu5t5TtCfEbhdNzVL1JK9xIqbqjOAVMWVdAWpE-XZ2Y8MoCb2F2HWoIEaTk1Vaw43kimA_0T9IL2kQBwFDprS-Ao7WnFpjbcw-dz5NX5x1WxXqBQtrABtoqN7jDeXTTHK9HEWUAd_2XPYso2qPESV5yJ_vK3MvM1AsKGjamZbj3Q1QHte2qxRWjJhhyoQykg01RqSWV6lX16tcW-BzrmLoU2s38FwI6sDAs64hGW4h9UOmtZToK_uF0"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">CodeBros</span><span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Education OS</span></div></div><span class="px-space-xs py-space-2xs bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm rounded-lg">ADMIN CONSOLE</span></div><div class="px-space-md py-space-xs"><span class="px-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline">Core Management</span></div><nav class="flex flex-col gap-space-2xs px-space-md flex-1" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg shadow-sm"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="students" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Students</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="courses-and-builder" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Courses & Builder</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="coding-problems" href="#"><span class="material-symbols-outlined text-[20px]">terminal</span><span>Coding Problems</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="quizzes" href="#"><span class="material-symbols-outlined text-[20px]">check_box</span><span>Quizzes</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reports-and-analytics" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span>Reports & Analytics</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Settings</span></a></nav></div><div class="p-space-md bg-surface-container-low"><div class="flex items-center gap-space-sm mb-space-sm p-space-xs rounded-lg bg-surface-container-lowest"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Xc2iY0J6FgpSYbDn1tX3SRTzPBn-sV-7984WHAZ-NeiI0XlWaddaOpwTNLO0d_sUTpCDrKnQfzJBRjKrExclMZrQpljY-ONTWaiqhvp0-Tnb46mAHS2Ia-o5t3fIMS5NudXgRuyLvqUzqV-HHPVt8s8DvypY7bhJcd9NyyKUMVil3QGr1835LV4Z6gt4oj8fgQYG9FA1iExknJqZxWW9KPoooHBUohGahlMxyr-Nk2yf_dHZu9iiL2NUV2"/><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-surface truncate">Dr. Sarah Vance</span><span class="font-label-sm text-label-sm text-outline truncate">Platform Lead</span></div></div><a class="flex items-center justify-between px-space-xs py-space-2xs font-label-sm text-label-sm text-primary hover:text-on-surface transition-colors" href="#"><span class="flex items-center gap-space-2xs"><span class="material-symbols-outlined text-[16px]">school</span>Back to Student View</span><span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-lg flex-1 max-w-2xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span><input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search students, course IDs, challenges, submissions... [Cmd+K]" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant">System 99.98% Healthy â€¢ 1.4k Active Pods</span></div><button class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button><button class="flex items-center gap-space-2xs px-space-md py-2 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-sm hover:opacity-95 transition-opacity" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span>Quick Create</span></button><div class="pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Xc2iY0J6FgpSYbDn1tX3SRTzPBn-sV-7984WHAZ-NeiI0XlWaddaOpwTNLO0d_sUTpCDrKnQfzJBRjKrExclMZrQpljY-ONTWaiqhvp0-Tnb46mAHS2Ia-o5t3fIMS5NudXgRuyLvqUzqV-HHPVt8s8DvypY7bhJcd9NyyKUMVil3QGr1835LV4Z6gt4oj8fgQYG9FA1iExknJqZxWW9KPoooHBUohGahlMxyr-Nk2yf_dHZu9iiL2NUV2"/></div></div></header><main class="w-full pt-16 bg-surface px-space-xl py-space-xl"><div class="flex flex-col w-full gap-space-lg">
+<!-- TOP HEADER & PUBLISHING CONTROLS -->
+<section class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col gap-space-2xs min-w-0">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-label-sm text-label-sm text-outline flex-wrap">
+<a class="hover:text-primary transition-colors" href="#">Courses</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Curriculum Authoring</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold truncate">Python Fundamentals (Draft v2.4)</span>
+</nav>
+<div class="flex items-center gap-space-sm flex-wrap mt-space-2xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Course Curriculum & Lesson Builder</h1>
+<span class="inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+          Draft â€¢ Auto-saved 2m ago
+        </span>
+</div>
+</div>
+<!-- Top Action Ribbon -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<button class="flex items-center gap-space-2xs px-space-md py-2 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+<span>Preview as Student</span>
+</button>
+<button class="px-space-md py-2 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors font-label-md text-label-md" type="button">
+        Discard
+      </button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container-high text-primary hover:bg-primary-fixed transition-colors font-label-md text-label-md" type="button">
+        Save Draft
+      </button>
+<button class="flex items-center gap-space-2xs px-space-lg py-2 rounded-lg bg-primary-container text-on-primary hover:bg-primary transition-colors font-label-md text-label-md shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+<span>Publish Course</span>
+</button>
+</div>
+</section>
+<!-- COURSE OVERVIEW & METADATA RIBBON -->
+<section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col lg:flex-row gap-space-lg items-start">
+<!-- Media Thumbnail -->
+<div class="relative group w-full sm:w-56 h-36 rounded-lg overflow-hidden bg-surface-container-high flex-shrink-0 shadow-sm">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="An isometric studio photograph of a sleek developer workstation displaying bright terminal code snippets, Python algorithmic graphs, glowing electric indigo and deep violet ambient lighting, minimalist edtech desk aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqAdEe2-1JwoHG80xaP0UxAya5_KoecrAA-cL5zeOBUzPg4VIcZD_mUYyYjAs0AMsO-_ruoawuZQ3JFi7VHcjf5zjBncvDD5kArJmT8nChx_6nVpOBcwbotG5h_AM9OiLHoLSjoyw0jK0BogrD1bMM0TRO7gF5KIi6u5MWib9fPOQUu2TSIEKtYQy02Y9FiYAU-rIneAbPGlbkMfmb9fCUNXcEBaw1f5QVQJsYyK98Fz0YF5XiT_e10Q"/>
+<div class="absolute inset-0 bg-inverse-surface/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-space-xs">
+<button class="flex items-center gap-space-2xs px-space-sm py-space-xs bg-surface-container-lowest text-on-surface rounded-lg font-label-sm text-label-sm shadow-md hover:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span>
+            Replace Media
+          </button>
+</div>
+</div>
+<!-- Metadata Grid -->
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md w-full">
+<div class="flex flex-col gap-space-2xs md:col-span-2">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Course Title</label>
+<div class="flex items-center bg-surface-container-low rounded-lg px-space-md py-2 focus-within:ring-2 focus-within:ring-primary-container">
+<input class="w-full bg-transparent font-headline-sm text-headline-sm text-on-surface focus:outline-none" type="text" value="Python Fundamentals for Beginners"/>
+<span class="material-symbols-outlined text-outline text-[18px]">edit</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Track Category</label>
+<div class="flex items-center bg-surface-container-low rounded-lg px-space-md py-2">
+<span class="material-symbols-outlined text-outline text-[18px] mr-space-xs">category</span>
+<select class="w-full bg-transparent font-body-sm text-body-sm text-on-surface focus:outline-none cursor-pointer">
+<option selected="">Core Programming & Data Science</option>
+<option>Full-Stack Web Development</option>
+<option>Systems & Architecture</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Difficulty Level</label>
+<div class="flex items-center justify-between bg-surface-container-low rounded-lg px-space-md py-2">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-label-md text-label-md text-on-surface">Beginner</span>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-code-sm text-code-sm">Level 1</span>
+</div>
+</div>
+<!-- Metric Badges Row -->
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Est. Duration</label>
+<div class="flex items-center gap-space-xs bg-surface-container-low rounded-lg px-space-md py-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">schedule</span>
+<span class="font-label-md text-label-md text-on-surface">18 Hours Total</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Curriculum Scope</label>
+<div class="flex items-center gap-space-xs bg-surface-container-low rounded-lg px-space-md py-2">
+<span class="material-symbols-outlined text-primary text-[18px]">layers</span>
+<span class="font-label-md text-label-md text-on-surface">28 Lessons (4 Modules)</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Prerequisites</label>
+<div class="flex items-center gap-space-xs bg-surface-container-low rounded-lg px-space-md py-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">verified</span>
+<span class="font-label-md text-label-md text-on-surface">None â€¢ Absolute Zero</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Course Health</label>
+<div class="flex items-center justify-between bg-surface-container-low rounded-lg px-space-md py-2">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm font-bold text-tertiary">94%</span>
+<span class="font-body-sm text-body-sm text-outline">Ready</span>
+</div>
+<div class="w-16 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 94%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TWO-COLUMN CURRICULUM BUILDER WORKSPACE -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: MODULES & LESSON HIERARCHY TREE (40% -> 5 cols) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">account_tree</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Syllabus Structure</h2>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm">
+          4 Modules
+        </span>
+</div>
+<!-- Module 1 (Collapsed/Completed) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md transition-all hover:shadow-md">
+<div class="flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-outline cursor-grab text-[18px]">drag_indicator</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-outline">MOD 01</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-tertiary">4 of 4 Ready</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface truncate">Introduction to Python Syntax</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-outline text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Module 2 (Collapsed/Completed) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md transition-all hover:shadow-md">
+<div class="flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-outline cursor-grab text-[18px]">drag_indicator</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-outline">MOD 02</span>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-label-sm text-label-sm text-tertiary">6 of 6 Ready</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface truncate">Control Flow & Conditionals</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-outline text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Module 3 (ACTIVE / EXPANDED) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-md p-space-md flex flex-col gap-space-sm bg-gradient-to-br from-surface-container-lowest via-surface-container-low/40 to-surface-container-lowest">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary cursor-grab text-[18px]">drag_indicator</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-primary font-bold">MOD 03 â€¢ EDITING</span>
+<span class="px-1.5 py-0.2 bg-secondary-fixed text-on-secondary-fixed rounded text-label-sm font-label-sm">5 Lessons</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface truncate">Functions & Modular Code</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-1 rounded hover:bg-surface-container-high text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<span class="material-symbols-outlined text-primary text-[20px]">expand_less</span>
+</div>
+</div>
+<!-- Lessons sub-tree -->
+<div class="flex flex-col gap-space-xs pl-space-md">
+<!-- Lesson 3.1 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-outline text-[16px]">drag_indicator</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">play_circle</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">3.1 Defining Functions with Parameters</span>
+<span class="font-code-sm text-code-sm text-outline">Video & Reading â€¢ 12 mins</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+</div>
+<!-- Lesson 3.2 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-outline text-[16px]">drag_indicator</span>
+<span class="material-symbols-outlined text-primary text-[18px]">terminal</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">3.2 Return Values & Scope</span>
+<span class="font-code-sm text-code-sm text-outline">Interactive Sandbox â€¢ 18 mins</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+</div>
+<!-- Lesson 3.3 (SELECTED / ACTIVE) -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-primary-container text-on-primary shadow-sm cursor-pointer">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-on-primary/70 text-[16px]">drag_indicator</span>
+<span class="material-symbols-outlined text-tertiary-fixed text-[20px]">code</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-primary font-bold truncate">3.3 Coding Challenge: Calculate Bill</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-primary-container">IDE Challenge â€¢ 3 Test Cases â€¢ Active</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-primary text-[20px]">edit_note</span>
+</div>
+<!-- Lesson 3.4 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-outline text-[16px]">drag_indicator</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">quiz</span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">3.4 Module 3 Mastery Quiz</span>
+<span class="font-code-sm text-code-sm text-outline">5 Questions â€¢ Pass score 80%</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">pending</span>
+</div>
+<!-- Quick Add in Module -->
+<button class="flex items-center justify-center gap-space-2xs py-2 rounded-lg bg-surface-container-high text-primary hover:bg-primary-fixed transition-colors font-label-sm text-label-sm mt-space-2xs" type="button">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+            Add Lesson to Module 3
+          </button>
+</div>
+</div>
+<!-- Module 4 (Collapsed) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md transition-all hover:shadow-md">
+<div class="flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-outline cursor-grab text-[18px]">drag_indicator</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-outline">MOD 04</span>
+<span class="font-label-sm text-label-sm text-outline">8 lessons drafted</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface truncate">Lists, Dictionaries & Tuples</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-outline text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<button class="flex items-center justify-center gap-space-2xs px-space-md py-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-label-md text-label-md shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">playlist_add</span>
+<span>+ Add Lesson</span>
+</button>
+<button class="flex items-center justify-center gap-space-2xs px-space-md py-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low text-on-surface font-label-md text-label-md shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px] text-secondary">folder_open</span>
+<span>+ Add Module</span>
+</button>
+</div>
+<!-- Quick Tips Card -->
+<div class="bg-surface-container-high p-space-md rounded-xl flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0">lightbulb</span>
+<div class="flex flex-col gap-space-2xs text-on-surface">
+<span class="font-label-md text-label-md font-semibold">Pedagogical Insight</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Coding challenges directly following 1-2 concept videos achieve an 83% completion milestone vs. standalone theory.</p>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: LESSON EDITOR & CHALLENGE CONFIGURATOR (60% -> 7 cols) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Editor Header & Tabs -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="px-space-xs py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-code-sm text-code-sm uppercase">Lesson 3.3</span>
+<span class="font-headline-md text-headline-md text-on-surface truncate">Coding Challenge Configurator</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">cloud_done</span>
+<span class="font-code-sm text-code-sm text-tertiary">Real-time sync</span>
+</div>
+</div>
+<!-- Tab Bar -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-space-2xs bg-surface-container-low p-space-2xs rounded-lg">
+<button class="px-space-md py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" type="button">
+            Content & Narrative
+          </button>
+<button class="px-space-md py-2 rounded-md bg-surface-container-lowest font-label-md text-label-md text-primary shadow-sm whitespace-nowrap flex items-center gap-space-2xs" type="button">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+            IDE Sandbox & Starter Code
+          </button>
+<button class="px-space-md py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-space-2xs" type="button">
+<span>Test Cases</span>
+<span class="px-1.5 py-0.2 bg-surface-container-high text-on-surface font-code-sm text-code-sm rounded-full">3</span>
+</button>
+<button class="px-space-md py-2 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" type="button">
+            Hints & Solutions
+          </button>
+</div>
+<!-- Problem Definition Inputs -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-xs">
+<div class="md:col-span-2 flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Problem Headline</label>
+<input class="px-space-md py-2 bg-surface-container-low rounded-lg font-headline-sm text-headline-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container" type="text" value="Calculate Total Bill with Tax and Tip"/>
+</div>
+<div class="flex flex-col gap-space-2xs">
+<label class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Reward & XP</label>
+<div class="flex items-center justify-between px-space-md py-2 bg-surface-container-low rounded-lg">
+<span class="font-label-md text-label-md text-on-surface">Beginner</span>
+<span class="font-code-sm text-code-sm font-bold text-secondary">+100 XP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- STARTER CODE EDITOR WINDOW (Dark IDE Theme) -->
+<div class="bg-inverse-surface rounded-xl shadow-lg overflow-hidden flex flex-col">
+<!-- Editor Header Bar -->
+<div class="bg-inverse-surface flex items-center justify-between px-space-md py-space-xs border-b border-surface-container-highest/10">
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-error inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-[#f59e0b] inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim inline-block"></span>
+</div>
+<div class="flex items-center gap-space-2xs px-space-sm py-1 bg-surface-container-lowest/10 rounded font-code-sm text-code-sm text-inverse-on-surface">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed">data_object</span>
+<span>solution.py</span>
+</div>
+<span class="font-code-sm text-code-sm text-surface-dim hidden sm:inline">Python 3.11</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-1 rounded text-surface-dim hover:text-inverse-on-surface hover:bg-surface-container-lowest/10 transition-colors" title="Format Code" type="button">
+<span class="material-symbols-outlined text-[18px]">format_align_left</span>
+</button>
+<button class="p-1 rounded text-surface-dim hover:text-inverse-on-surface hover:bg-surface-container-lowest/10 transition-colors" title="Reset Boilerplate" type="button">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+</button>
+<button class="flex items-center gap-space-2xs px-space-sm py-1 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm hover:opacity-90 transition-opacity" type="button">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+              Run Tests
+            </button>
+</div>
+</div>
+<!-- Code Editing Surface with Line Numbers -->
+<div class="p-space-md font-code-md text-code-md flex leading-relaxed overflow-x-auto text-inverse-on-surface">
+<!-- Line Numbers -->
+<div class="flex flex-col text-outline select-none pr-space-md text-right min-w-[2.5rem]">
+<span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+</div>
+<!-- Syntax Highlighted Code Mock -->
+<div class="flex flex-col flex-1 pl-space-xs whitespace-pre">
+<div><span class="text-secondary-fixed">def</span> <span class="text-tertiary-fixed">calculate_bill</span>(<span class="text-surface-bright">subtotal</span>, <span class="text-surface-bright">tax_rate</span>=<span class="text-primary-fixed">0.08</span>, <span class="text-surface-bright">tip</span>=<span class="text-primary-fixed">0.15</span>):</div>
+<div> <span class="text-outline italic"># Write your solution below to return total bill rounded to 2 decimals</span></div>
+<div> <span class="text-outline italic"># Formula: subtotal + (subtotal * tax_rate) + (subtotal * tip)</span></div>
+<div> <span class="text-secondary-fixed">total</span> = <span class="text-surface-bright">subtotal</span> * (<span class="text-primary-fixed">1</span> + <span class="text-surface-bright">tax_rate</span> + <span class="text-surface-bright">tip</span>)</div>
+<div> <span class="text-secondary-fixed">return</span> <span class="text-tertiary-fixed">round</span>(<span class="text-secondary-fixed">total</span>, <span class="text-primary-fixed">2</span>)</div>
+<div class="flex items-center"><span class="text-outline"> </span><span class="w-2 h-4 bg-tertiary-fixed animate-pulse inline-block ml-0.5"></span></div>
+</div>
+</div>
+<!-- Editor Bottom Status -->
+<div class="px-space-md py-space-xs bg-inverse-surface/80 flex items-center justify-between text-surface-dim font-code-sm text-code-sm border-t border-surface-container-highest/10">
+<span>UTF-8 â€¢ Spaces: 4 â€¢ Starter boilerplate locked for students</span>
+<span class="text-tertiary-fixed font-semibold">Syntax Valid</span>
+</div>
+</div>
+<!-- TEST CASE SUITE BUILDER -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">checklist</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Unit Test Assertions</h3>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-code-sm">
+              3 Defined
+            </span>
+</div>
+<button class="flex items-center gap-space-2xs px-space-sm py-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-primary-fixed transition-colors font-label-sm text-label-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+            Add Automated Unit Test
+          </button>
+</div>
+<!-- Test Case 1 (Public) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs transition-all hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Test Case 1</span>
+<span class="px-space-xs py-0.5 bg-surface-container text-on-surface-variant rounded text-label-sm font-label-sm">Public</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-tertiary font-bold">Execution: 42ms</span>
+<button class="p-1 rounded text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-space-2xs">
+<div class="flex flex-col gap-space-2xs bg-surface-container-lowest p-space-sm rounded-lg">
+<span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Input Arguments</span>
+<code class="font-code-sm text-code-sm text-on-surface">calculate_bill(100, 0.08, 0.15)</code>
+</div>
+<div class="flex flex-col gap-space-2xs bg-surface-container-lowest p-space-sm rounded-lg">
+<span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Expected Return</span>
+<code class="font-code-sm text-code-sm text-tertiary font-bold">123.00</code>
+</div>
+</div>
+</div>
+<!-- Test Case 2 (Public) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs transition-all hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Test Case 2</span>
+<span class="px-space-xs py-0.5 bg-surface-container text-on-surface-variant rounded text-label-sm font-label-sm">Public</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-tertiary font-bold">Execution: 38ms</span>
+<button class="p-1 rounded text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-space-2xs">
+<div class="flex flex-col gap-space-2xs bg-surface-container-lowest p-space-sm rounded-lg">
+<span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Input Arguments</span>
+<code class="font-code-sm text-code-sm text-on-surface">calculate_bill(50, 0.05, 0.20)</code>
+</div>
+<div class="flex flex-col gap-space-2xs bg-surface-container-lowest p-space-sm rounded-lg">
+<span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Expected Return</span>
+<code class="font-code-sm text-code-sm text-tertiary font-bold">62.50</code>
+</div>
+</div>
+</div>
+<!-- Test Case 3 (Hidden / Edge Case) -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-xs transition-all hover:shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">visibility_off</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Test Case 3 (Zero Subtotal Edge Case)</span>
+<span class="px-space-xs py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded text-label-sm font-label-sm font-semibold">Hidden Test</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-code-sm text-code-sm text-outline">Grading only</span>
+<button class="p-1 rounded text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-space-2xs">
+<div class="flex flex-col gap-space-2xs bg-surface-container-lowest p-space-sm rounded-lg">
+<span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Input Arguments</span>
+<code class="font-code-sm text-code-sm text-on-surface">calculate_bill(0, 0.08, 0.15)</code>
+</div>
+<div class="flex flex-col gap-space-2xs bg-surface-container-lowest p-space-sm rounded-lg">
+<span class="font-code-sm text-code-sm text-outline uppercase tracking-wider">Expected Return</span>
+<code class="font-code-sm text-code-sm text-on-surface font-bold">0.00</code>
+</div>
+</div>
+</div>
+</div>
+<!-- EXECUTION CONSTRAINTS & RUNTIME POD CONFIG -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm w-full sm:w-auto">
+<div class="p-2.5 rounded-lg bg-surface-container-high text-primary">
+<span class="material-symbols-outlined text-[24px]">tune</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Execution Constraints</span>
+<span class="font-body-sm text-body-sm text-outline">Dockerized sandbox container runtime limits</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md w-full sm:w-auto justify-between sm:justify-end">
+<div class="flex items-center gap-space-2xs bg-surface-container-low px-space-md py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-outline text-[18px]">timer</span>
+<span class="font-code-sm text-code-sm text-on-surface">Time: <strong class="text-primary font-bold">2000ms</strong></span>
+</div>
+<div class="flex items-center gap-space-2xs bg-surface-container-low px-space-md py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-outline text-[18px]">memory</span>
+<span class="font-code-sm text-code-sm text-on-surface">Memory: <strong class="text-secondary font-bold">256MB</strong></span>
+</div>
+<button class="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Advanced Pod Settings" type="button">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive feedback for sandbox run & save simulation
+  document.addEventListener('DOMContentLoaded', () => {
+    const runBtn = document.querySelector('button:has(.material-symbols-outlined)');
+    if (runBtn) {
+      runBtn.addEventListener('click', () => {
+        // Subtle micro-interaction feedback
+        const originalText = runBtn.innerHTML;
+        runBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span> Testing...';
+        setTimeout(() => {
+          runBtn.innerHTML = originalText;
+        }, 800);
+      });
+    }
+  });
+</script></main></div><script src="../shared/codebros.js" defer></script></body></html>

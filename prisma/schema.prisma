@@ -1,0 +1,196 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AttemptStatus {
+  PASSED
+  FAILED
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  passwordHash String
+  name         String
+  role         Role         @default(STUDENT)
+  avatarUrl    String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  enrollments  Enrollment[]
+  completions  LessonCompletion[]
+  quizAttempts QuizAttempt[]
+  codeRuns     CodeRun[]
+  activities   Activity[]
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+
+model Course {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  title       String
+  description String
+  level       String
+  accent      String
+  status      CourseStatus @default(DRAFT)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  modules     Module[]
+  enrollments Enrollment[]
+  tags        CourseTag[]
+}
+
+model Module {
+  id       String   @id @default(cuid())
+  title    String
+  position Int
+  courseId String
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
+  @@unique([courseId, position])
+}
+
+model Lesson {
+  id           String       @id @default(cuid())
+  title        String
+  slug         String
+  position     Int
+  summary      String
+  content      String
+  moduleId     String
+  module       Module       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  challenge    Challenge?
+  quiz         Quiz?
+  completions  LessonCompletion[]
+  @@unique([moduleId, position])
+}
+
+model Challenge {
+  id          String   @id @default(cuid())
+  title       String
+  instructions String
+  language    String
+  starterCode String
+  tests       Json
+  lessonId    String   @unique
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  codeRuns    CodeRun[]
+}
+
+model Quiz {
+  id        String     @id @default(cuid())
+  title     String
+  lessonId  String     @unique
+  lesson    Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  questions Question[]
+  attempts  QuizAttempt[]
+}
+
+model Question {
+  id       String   @id @default(cuid())
+  prompt   String
+  options  Json
+  answer   String
+  position Int
+  quizId   String
+  quiz     Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  @@unique([userId, courseId])
+}
+
+model LessonCompletion {
+  id        String   @id @default(cuid())
+  userId    String
+  lessonId  String
+  completedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  @@unique([userId, lessonId])
+}
+
+model QuizAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  score     Int
+  total     Int
+  answers   Json
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  @@index([userId, createdAt])
+}
+
+model CodeRun {
+  id          String        @id @default(cuid())
+  userId      String
+  challengeId String
+  language    String
+  source      String
+  status      AttemptStatus
+  passed      Int
+  total       Int
+  output      String
+  createdAt   DateTime      @default(now())
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge     @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  @@index([userId, createdAt])
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  metadata  Json
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, createdAt])
+}
+
+model Tag {
+  id      String      @id @default(cuid())
+  name    String      @unique
+  courses CourseTag[]
+}
+
+model CourseTag {
+  courseId String
+  tagId    String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  tag      Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([courseId, tagId])
+}
