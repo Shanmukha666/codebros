@@ -40,6 +40,19 @@ npm run dev:sqlite
 
 This prepares `prisma/dev.db`, runs migrations, generates the demo client, seeds five courses, and starts the API on port 4000. It is intended for local judges and development only.
 
+## GitHub Pages frontend
+
+Every push to `main` deploys the static CodeBros screens through
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml). In the repository
+settings, enable **Pages** with **GitHub Actions** as the source. The frontend
+will then be available at:
+
+`https://shanmukha666.github.io/codebros/`
+
+GitHub Pages cannot run the Fastify API or Prisma database. Deploy the backend
+through Vercel as described below, then set the deployed API URL in browser
+storage under `codebros_api_url` when using the Pages frontend.
+
 ## Vercel deployment
 
 1. Add a PostgreSQL database through a Vercel marketplace integration.
