@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { canAccessPublishedCourse, canManageCourse, isTrustedOrigin } from '../src/access.js';
+import { canAccessPublishedCourse, canManageCourse, containsText, isTrustedOrigin } from '../src/access.js';
 import { passwordSchema } from '../src/validation.js';
 
 test('requires a strong registration password', () => {
@@ -26,4 +26,9 @@ test('requires the configured frontend origin for cookie endpoints in production
   assert.equal(isTrustedOrigin('https://evil.example.com', allowed, true), false);
   assert.equal(isTrustedOrigin(undefined, allowed, true), false);
   assert.equal(isTrustedOrigin(undefined, allowed, false), true);
+});
+
+test('searches case-insensitively on PostgreSQL without breaking SQLite', () => {
+  assert.deepEqual(containsText('java', false), { contains: 'java', mode: 'insensitive' });
+  assert.deepEqual(containsText('java', true), { contains: 'java' });
 });

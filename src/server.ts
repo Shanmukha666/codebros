@@ -9,7 +9,7 @@ import { authenticate, hashPassword, hashToken, issueTokens, verifyPasswordWithT
 import { config } from './config.js';
 import { prisma } from './db.js';
 import { sendError } from './errors.js';
-import { canAccessPublishedCourse, canManageCourse, isTrustedOrigin } from './access.js';
+import { canAccessPublishedCourse, canManageCourse, containsText, isTrustedOrigin } from './access.js';
 import { passwordSchema } from './validation.js';
 
 const app = Fastify({ logger: true, requestIdHeader: 'x-request-id', trustProxy: config.NODE_ENV === 'production' });
@@ -60,6 +60,8 @@ function requireTrustedOrigin(request: any, reply: any) {
   }
   return true;
 }
+
+const usesSqlite = config.DATABASE_URL.startsWith('file:');
 
 function parseJsonValue<T>(value: unknown, fallback: T): T {
   if (typeof value !== 'string') return value as T;
@@ -146,7 +148,7 @@ app.patch('/api/me', async (request, reply) => {
 
 app.get('/api/courses', async (request) => {
   const query = z.object({ search: z.string().optional(), level: z.string().optional(), page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(12) }).parse(request.query);
-  const where = { status: 'PUBLISHED' as const, ...(query.level ? { level: query.level } : {}), ...(query.search ? { OR: [{ title: { contains: query.search } }, { description: { contains: query.search } }] } : {}) };
+  const where = { status: 'PUBLISHED' as const, ...(query.level ? { level: query.level } : {}), ...(query.search ? { OR: [{ title: containsText(query.search, usesSqlite) }, { description: containsText(query.search, usesSqlite) }] } : {}) };
   const [items, total] = await prisma.$transaction([
     prisma.course.findMany({
       where,
@@ -182,7 +184,7 @@ app.get('/api/courses/:courseId/lessons/:lessonId', async (request, reply) => {
   if (!canAccessPublishedCourse(Boolean(enrollment), enrollment?.course.status ?? '')) return sendError(reply, 403, 'ENROLLMENT_REQUIRED', 'Enroll in this published course to access its lessons.');
   const lesson = await prisma.lesson.findFirst({
     where: { id: lessonId, module: { courseId, course: { status: 'PUBLISHED' } } },
-    include: { challenge: true, quiz: { include: { questions: { orderBy: { position: 'asc' } } } } }
+    include: { challenge: { select: { id: true, title: true, instructions: true, language: true, starterCode: true, lessonId: true } }, quiz: { include: { questions: { orderBy: { position: 'asc' } } } } }
   });
   if (!lesson) return sendError(reply, 404, 'LESSON_NOT_FOUND', 'That lesson does not exist in this course.');
   return { lesson: { ...lesson, quiz: lesson.quiz ? { ...lesson.quiz, questions: lesson.quiz.questions.map(({ answer: _answer, ...question }) => ({ ...question, options: parseJsonValue<string[]>(question.options, []) })) } : null } };
@@ -314,7 +316,7 @@ app.get('/api/admin/students', async (request, reply) => {
   const user = await authenticate(request, reply); if (!user) return;
   if (user.role !== 'ADMIN') return sendError(reply, 403, 'FORBIDDEN', 'Admin access is required.');
   const query = z.object({ search: z.string().optional(), page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(20) }).parse(request.query);
-  const where = { role: 'STUDENT' as const, ...(query.search ? { OR: [{ name: { contains: query.search } }, { email: { contains: query.search } }] } : {}) };
+  const where = { role: 'STUDENT' as const, ...(query.search ? { OR: [{ name: containsText(query.search, usesSqlite) }, { email: containsText(query.search, usesSqlite) }] } : {}) };
   const [items, total] = await prisma.$transaction([
     prisma.user.findMany({ where, select: { id: true, name: true, email: true, createdAt: true, _count: { select: { enrollments: true, completions: true, codeRuns: true } } }, skip: (query.page - 1) * query.limit, take: query.limit, orderBy: { createdAt: 'desc' } }),
     prisma.user.count({ where })

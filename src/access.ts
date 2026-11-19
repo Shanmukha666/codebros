@@ -12,3 +12,9 @@ export function isTrustedOrigin(origin: string | undefined, allowedOrigin: strin
   if (!production) return true;
   return origin === allowedOrigin;
 }
+
+// PostgreSQL's LIKE is case-sensitive, so it needs mode: 'insensitive'. SQLite's is already
+// case-insensitive for ASCII and its Prisma client rejects the `mode` argument.
+export function containsText(value: string, sqlite: boolean) {
+  return sqlite ? { contains: value } : { contains: value, mode: 'insensitive' as const };
+}
