@@ -21,6 +21,10 @@ CodeBros is an online coding studio for students: learn a concept, practice it, 
    npm run db:seed
    ```
 
+   The first `migrate dev` creates the PostgreSQL baseline under `prisma/migrations`.
+   Commit that folder, and deploy it with `npx prisma migrate deploy`. The SQLite
+   demo uses `prisma db push` and never writes to `prisma/migrations`.
+
 5. Start the API:
 
    ```powershell
@@ -108,6 +112,15 @@ python -m http.server 8080
 ```
 
 Then open `http://localhost:8080/codebros_sign_in/code.html`.
+
+## Cross-site deployment
+
+Refresh cookies are `SameSite=None; Secure` in production so a GitHub Pages frontend
+can call a Vercel API, and the API only accepts cookie-authenticated requests whose
+`Origin` equals `WEB_ORIGIN`. Browsers that block third-party cookies (Safari, and
+Chrome in some modes) will still drop that cookie. For reliable sessions, serve the
+frontend and API from the same site, for example `app.example.com` and
+`api.example.com`.
 
 ## Verification
 

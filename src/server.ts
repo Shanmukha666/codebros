@@ -1,5 +1,4 @@
 import Fastify from 'fastify';
-import { randomBytes } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
@@ -10,7 +9,7 @@ import { authenticate, hashPassword, hashToken, issueTokens, verifyPasswordWithT
 import { config } from './config.js';
 import { prisma } from './db.js';
 import { sendError } from './errors.js';
-import { canAccessPublishedCourse, canManageCourse } from './access.js';
+import { canAccessPublishedCourse, canManageCourse, isTrustedOrigin } from './access.js';
 import { passwordSchema } from './validation.js';
 
 const app = Fastify({ logger: true, requestIdHeader: 'x-request-id', trustProxy: config.NODE_ENV === 'production' });
@@ -43,19 +42,20 @@ const courseSchema = z.object({
   status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).default('DRAFT')
 });
 
-function setAuthCookies(reply: any, refreshToken: string) {
-  const csrfToken = randomBytes(32).toString('hex');
+function refreshCookieOptions() {
   const production = config.NODE_ENV === 'production';
-  const cookieOptions = { httpOnly: true, sameSite: production ? 'none' as const : 'lax' as const, secure: production, path: '/api/auth' };
-  reply.setCookie('refresh_token', refreshToken, cookieOptions);
-  reply.setCookie('csrf_token', csrfToken, { ...cookieOptions, httpOnly: false, path: '/' });
+  return { httpOnly: true, sameSite: production ? 'none' as const : 'lax' as const, secure: production, path: '/api/auth' };
 }
 
-function requireCsrf(request: any, reply: any) {
-  const cookieToken = request.cookies.csrf_token;
-  const headerToken = request.headers['x-csrf-token'];
-  if (!cookieToken || typeof headerToken !== 'string' || cookieToken !== headerToken) {
-    sendError(reply, 403, 'CSRF_INVALID', 'A valid CSRF token is required.');
+function setAuthCookies(reply: any, refreshToken: string) {
+  reply.setCookie('refresh_token', refreshToken, refreshCookieOptions());
+}
+
+// Browsers send Origin on cross-origin POST requests. Production cookie endpoints
+// require it to match the configured frontend instead of relying on a readable cookie.
+function requireTrustedOrigin(request: any, reply: any) {
+  if (!isTrustedOrigin(request.headers.origin, config.WEB_ORIGIN, config.NODE_ENV === 'production')) {
+    sendError(reply, 403, 'ORIGIN_NOT_ALLOWED', 'This request did not come from an allowed origin.');
     return false;
   }
   return true;
@@ -103,7 +103,7 @@ app.post('/api/auth/login', { config: { rateLimit: { max: 10, timeWindow: '1 min
 });
 
 app.post('/api/auth/refresh', async (request, reply) => {
-  if (!requireCsrf(request, reply)) return;
+  if (!requireTrustedOrigin(request, reply)) return;
   const refreshToken = request.cookies.refresh_token;
   if (!refreshToken) return sendError(reply, 401, 'AUTH_REQUIRED', 'A refresh session is required.');
   try {
@@ -119,11 +119,10 @@ app.post('/api/auth/refresh', async (request, reply) => {
 });
 
 app.post('/api/auth/logout', async (request, reply) => {
-  if (!requireCsrf(request, reply)) return;
+  if (!requireTrustedOrigin(request, reply)) return;
   const refreshToken = request.cookies.refresh_token;
   if (refreshToken) await prisma.refreshToken.deleteMany({ where: { tokenHash: hashToken(refreshToken) } });
-  reply.clearCookie('refresh_token', { path: '/api/auth' });
-  reply.clearCookie('csrf_token', { path: '/' });
+  reply.clearCookie('refresh_token', refreshCookieOptions());
   return { ok: true };
 });
 

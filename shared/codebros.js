@@ -38,23 +38,16 @@
     }[character]));
   }
 
-  function csrfToken() {
-    const cookie = document.cookie.split("; ").find((item) => item.startsWith("csrf_token="));
-    return cookie ? decodeURIComponent(cookie.slice("csrf_token=".length)) : "";
-  }
-
   async function request(path, options) {
     const config = Object.assign({ credentials: "include", headers: {} }, options || {});
     config.headers = Object.assign({ "Content-Type": "application/json" }, config.headers);
-    if (path === "/auth/logout") config.headers["X-CSRF-Token"] = csrfToken();
     const token = accessToken;
     if (token) config.headers.Authorization = "Bearer " + token;
     let response = await fetch(API_BASE + path, config);
     if (response.status === 401 && path !== "/auth/refresh") {
       const refresh = await fetch(API_BASE + "/auth/refresh", {
         method: "POST",
-        credentials: "include",
-        headers: { "X-CSRF-Token": csrfToken() }
+        credentials: "include"
       });
       if (refresh.ok) {
         const refreshed = await refresh.json();

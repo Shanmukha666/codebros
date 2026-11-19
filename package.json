@@ -7,14 +7,15 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/src/server.js",
+    "check:migrations": "node scripts/check-migrations.mjs",
     "test": "tsx --test tests/health.test.ts tests/runner.test.ts tests/security.test.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:sqlite:prepare": "node scripts/prepare-sqlite.mjs",
-    "db:sqlite:migrate": "npm run db:sqlite:prepare && cross-env DATABASE_URL=file:./prisma/dev.db prisma migrate dev --schema prisma/schema.sqlite.prisma --name init",
+    "db:sqlite:push": "npm run db:sqlite:prepare && cross-env DATABASE_URL=file:./prisma/dev.db prisma db push --schema prisma/schema.sqlite.prisma --skip-generate",
     "db:sqlite:seed": "npm run db:sqlite:prepare && cross-env DATABASE_URL=file:./prisma/dev.db prisma generate --schema prisma/schema.sqlite.prisma && cross-env DATABASE_URL=file:./prisma/dev.db prisma db seed --schema prisma/schema.sqlite.prisma",
-    "dev:sqlite": "npm run db:sqlite:prepare && prisma generate --schema prisma/schema.sqlite.prisma && cross-env DATABASE_URL=file:./prisma/dev.db prisma migrate dev --schema prisma/schema.sqlite.prisma --name init --skip-seed && cross-env DATABASE_URL=file:./prisma/dev.db prisma db seed --schema prisma/schema.sqlite.prisma && cross-env DATABASE_URL=file:./prisma/dev.db NODE_ENV=development tsx watch src/server.ts"
+    "dev:sqlite": "npm run db:sqlite:prepare && prisma generate --schema prisma/schema.sqlite.prisma && cross-env DATABASE_URL=file:./prisma/dev.db prisma db push --schema prisma/schema.sqlite.prisma --skip-generate && cross-env DATABASE_URL=file:./prisma/dev.db prisma db seed --schema prisma/schema.sqlite.prisma && cross-env DATABASE_URL=file:./prisma/dev.db NODE_ENV=development tsx watch src/server.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.5",
