@@ -8,6 +8,7 @@ const configSchema = z.object({
   WEB_ORIGIN: z.string().url().default('http://localhost:3000'),
   ACCESS_TOKEN_SECRET: z.string().min(32).optional(),
   REFRESH_TOKEN_SECRET: z.string().min(32).optional(),
+  TRUST_PROXY: z.enum(['true', 'false']).optional(),
   NODE_ENV: z.enum(['development', 'test', 'production']).default(process.env.VERCEL ? 'production' : 'development')
 });
 
@@ -18,6 +19,7 @@ const parsed = configSchema.parse({
   WEB_ORIGIN: process.env.WEB_ORIGIN,
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
+  TRUST_PROXY: process.env.TRUST_PROXY,
   NODE_ENV: process.env.NODE_ENV
 });
 
@@ -39,8 +41,11 @@ if (parsed.NODE_ENV === 'production') {
   }
 }
 
+const trustProxy = parsed.TRUST_PROXY ? parsed.TRUST_PROXY === 'true' : Boolean(process.env.VERCEL);
+
 export const config = {
   ...parsed,
+  trustProxy,
   ACCESS_TOKEN_SECRET: parsed.ACCESS_TOKEN_SECRET ?? developmentAccessSecret,
   REFRESH_TOKEN_SECRET: parsed.REFRESH_TOKEN_SECRET ?? developmentRefreshSecret
 };

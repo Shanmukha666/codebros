@@ -18,3 +18,11 @@ export function isTrustedOrigin(origin: string | undefined, allowedOrigin: strin
 export function containsText(value: string, sqlite: boolean) {
   return sqlite ? { contains: value } : { contains: value, mode: 'insensitive' as const };
 }
+
+const localOrigin = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+export function isAllowedCorsOrigin(origin: string | undefined, allowedOrigin: string, production: boolean) {
+  if (!origin) return true;
+  if (origin === allowedOrigin) return true;
+  return !production && localOrigin.test(origin);
+}

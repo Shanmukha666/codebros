@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/src/server.js",
     "check:migrations": "node scripts/check-migrations.mjs",
-    "test": "tsx --test tests/health.test.ts tests/runner.test.ts tests/security.test.ts",
+    "test": "tsx --test tests/health.test.ts tests/runner.test.ts tests/security.test.ts tests/csp.test.mjs tests/api.test.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@types/node": "^22.10.5",
     "cross-env": "^7.0.3",
+    "parse5": "^7.3.0",
     "prisma": "^5.22.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"

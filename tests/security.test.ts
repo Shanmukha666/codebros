@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { canAccessPublishedCourse, canManageCourse, containsText, isTrustedOrigin } from '../src/access.js';
+import { canAccessPublishedCourse, canManageCourse, containsText, isAllowedCorsOrigin, isTrustedOrigin } from '../src/access.js';
 import { passwordSchema } from '../src/validation.js';
 
 test('requires a strong registration password', () => {
@@ -31,4 +31,13 @@ test('requires the configured frontend origin for cookie endpoints in production
 test('searches case-insensitively on PostgreSQL without breaking SQLite', () => {
   assert.deepEqual(containsText('java', false), { contains: 'java', mode: 'insensitive' });
   assert.deepEqual(containsText('java', true), { contains: 'java' });
+});
+
+test('CORS allows localhost only outside production', () => {
+  const allowed = 'https://app.example.com';
+  assert.equal(isAllowedCorsOrigin(allowed, allowed, true), true);
+  assert.equal(isAllowedCorsOrigin('http://localhost:3000', allowed, true), false);
+  assert.equal(isAllowedCorsOrigin('http://localhost:3000', allowed, false), true);
+  assert.equal(isAllowedCorsOrigin('https://evil.example.com', allowed, false), false);
+  assert.equal(isAllowedCorsOrigin(undefined, allowed, true), true);
 });

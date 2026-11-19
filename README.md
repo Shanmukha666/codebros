@@ -54,9 +54,12 @@ will then be available at:
 `https://shanmukha666.github.io/codebros/`
 
 GitHub Pages cannot run the Fastify API or Prisma database. Deploy the backend
-through Vercel as described below, then configure the trusted deployed API URL
-with `window.CODEBROS_API_URL` before loading `shared/codebros.js`. The frontend
-does not accept API URLs from browser storage.
+through Vercel as described below, then set the repository variable
+`CODEBROS_API_URL` (Settings > Secrets and variables > Actions > Variables) to the
+deployed API base, for example `https://codebros-api.vercel.app/api`. The Pages build
+injects it into every page and allows only that origin in `connect-src`; the frontend
+does not accept API URLs from browser storage. The value must use HTTPS and end in
+`/api`, otherwise the build fails.
 
 ## Vercel deployment
 
@@ -121,6 +124,14 @@ can call a Vercel API, and the API only accepts cookie-authenticated requests wh
 Chrome in some modes) will still drop that cookie. For reliable sessions, serve the
 frontend and API from the same site, for example `app.example.com` and
 `api.example.com`.
+
+## Security configuration
+
+- `TRUST_PROXY`: set `true` only behind a reverse proxy that overwrites `X-Forwarded-For`.
+  Vercel enables it automatically; other hosts default to no proxy trust.
+- CORS allows only `WEB_ORIGIN` in production. Development permits localhost and
+  `127.0.0.1` on any port.
+- Pages builds use SHA-256 CSP hashes for inline scripts and inline event handlers.
 
 ## Verification
 

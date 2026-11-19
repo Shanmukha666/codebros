@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { hardenPage } from "./csp.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "_site");
@@ -23,6 +24,10 @@ const frontendFolders = [
   "student_progress_analytics"
 ];
 
+if (!process.env.CODEBROS_API_URL) {
+  console.warn("CODEBROS_API_URL is not set: the frontend will call /api on its own origin.");
+}
+
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 
@@ -36,8 +41,7 @@ for (const folder of frontendFolders) {
   });
   const page = path.join(output, folder, "code.html");
   const html = await readFile(page, "utf8");
-  const csp = '<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; base-uri \'none\'; object-src \'none\'; frame-ancestors \'none\'; img-src \'self\' data:; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com; font-src \'self\' https://fonts.gstatic.com; script-src \'self\' \'unsafe-inline\'; connect-src \'self\' http://localhost:4000 https://*.vercel.app;">';
-  await writeFile(page, html.replace("</head>", `${csp}</head>`), "utf8");
+  await writeFile(page, hardenPage(html, process.env.CODEBROS_API_URL), "utf8");
 }
 
 await cp(path.join(root, "shared"), path.join(output, "shared"), { recursive: true });

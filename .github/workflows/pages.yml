@@ -30,6 +30,8 @@ jobs:
         run: npm run check:migrations && npm run build && npm test
       - name: Build static frontend
         run: node scripts/prepare-pages.mjs
+        env:
+          CODEBROS_API_URL: ${{ vars.CODEBROS_API_URL }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

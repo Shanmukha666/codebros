@@ -9,21 +9,15 @@ import { authenticate, hashPassword, hashToken, issueTokens, verifyPasswordWithT
 import { config } from './config.js';
 import { prisma } from './db.js';
 import { sendError } from './errors.js';
-import { canAccessPublishedCourse, canManageCourse, containsText, isTrustedOrigin } from './access.js';
+import { canAccessPublishedCourse, canManageCourse, containsText, isAllowedCorsOrigin, isTrustedOrigin } from './access.js';
 import { passwordSchema } from './validation.js';
 
-const app = Fastify({ logger: true, requestIdHeader: 'x-request-id', trustProxy: config.NODE_ENV === 'production' });
+const app = Fastify({ logger: true, requestIdHeader: 'x-request-id', trustProxy: config.trustProxy });
 
 await app.register(helmet);
 await app.register(cookie);
 await app.register(cors, {
-  origin: (origin, callback) => {
-    if (!origin || config.NODE_ENV !== 'production' || origin === config.WEB_ORIGIN) {
-      callback(null, true);
-      return;
-    }
-    callback(new Error('Origin is not allowed by the CodeBros API.'), false);
-  },
+  origin: (origin, callback) => callback(null, isAllowedCorsOrigin(origin, config.WEB_ORIGIN, config.NODE_ENV === 'production')),
   credentials: true
 });
 await app.register(rateLimit, { max: 100, timeWindow: '1 minute' });
@@ -347,6 +341,8 @@ app.patch('/api/admin/courses/:courseId', async (request, reply) => {
   const course = await prisma.course.update({ where: { id: courseId }, data: parsed.data });
   return { course };
 });
+
+app.setNotFoundHandler((_request, reply) => sendError(reply, 404, 'NOT_FOUND', 'The requested resource was not found.'));
 
 app.setErrorHandler((error, request, reply) => {
   request.log.error(error);
